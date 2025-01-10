@@ -1,0 +1,471 @@
+\documentclass[12pt]{article}
+
+\include{preamble}
+
+\newtoggle{professormode}
+\toggletrue{professormode} %STUDENTS: DELETE or COMMENT this line
+
+
+
+\title{MATH 343 / 643 Homework \#3}
+
+\author{Professor Adam Kapelner} %STUDENTS: write your name here
+
+\iftoggle{professormode}{
+\date{Due 11:59PM May 19, \the\year \\ \vspace{0.5cm} \small (this document last updated \currenttime~on \today)}
+}
+
+\renewcommand{\abstractname}{Instructions and Philosophy}
+
+\begin{document}
+\maketitle
+
+\iftoggle{professormode}{
+\begin{abstract}
+The path to success in this class is to do many problems. Unlike other courses, exclusively doing reading(s) will not help. Coming to lecture is akin to watching workout videos; thinking about and solving problems on your own is the actual ``working out.''  Feel free to \qu{work out} with others; \textbf{I want you to work on this in groups.}
+
+Reading is still \textit{required}. For this homework set, read as much as you can online about the topics we covered.
+
+The problems below are color coded: \ingreen{green} problems are considered \textit{easy} and marked \qu{[easy]}; \inorange{yellow} problems are considered \textit{intermediate} and marked \qu{[harder]}, \inred{red} problems are considered \textit{difficult} and marked \qu{[difficult]} and \inpurple{purple} problems are extra credit. The \textit{easy} problems are intended to be ``giveaways'' if you went to class. Do as much as you can of the others; I expect you to at least attempt the \textit{difficult} problems. 
+
+This homework is worth 100 points but the point distribution will not be determined until after the due date. See syllabus for the policy on late homework.
+
+Up to 7 points are given as a bonus if the homework is typed using \LaTeX. Links to instaling \LaTeX~and program for compiling \LaTeX~is found on the syllabus. You are encouraged to use \url{overleaf.com}. If you are handing in homework this way, read the comments in the code; there are two lines to comment out and you should replace my name with yours and write your section. The easiest way to use overleaf is to copy the raw text from hwxx.tex and preamble.tex into two new overleaf tex files with the same name. If you are asked to make drawings, you can take a picture of your handwritten drawing and insert them as figures or leave space using the \qu{$\backslash$vspace} command and draw them in after printing or attach them stapled.
+
+The document is available with spaces for you to write your answers. If not using \LaTeX, print this document and write in your answers. I do not accept homeworks which are \textit{not} on this printout. Keep this first page printed for your records.
+
+\end{abstract}
+
+\thispagestyle{empty}
+\vspace{1cm}
+NAME: \line(1,0){380}
+\clearpage
+}
+
+\problem{This question is about hazard rates and Cox proportion hazard models}
+
+
+\begin{enumerate}
+
+\easysubproblem{What is the definition of the hazard rate $h(t)$?}\spc{0}
+
+\easysubproblem{If $X \sim \stduniform$, derive the hazard rate $h(t)$.}\spc{2}
+
+\easysubproblem{Give an example of a real-world phenomenon $T$ whose $h(t)$ is a bathtub shape.}\spc{1}
+
+\easysubproblem{Prove that $S(t) = e^{-\displaystyle\int_0^t h(u) du}$.}\spc{6}
+
+\hardsubproblem{Explain why the assumption that $h(t) = h_0(t)e^{\beta_1 x_1 + \beta_2 x_2 + \ldots + \beta_p x_p}$ is called the \qu{proportional hazard model}.}\spc{4}
+
+\easysubproblem{Under the proportional hazard model, find the likelihood $\mathcal{L}(\bbeta, h_0; \X, \y)$.}\spc{3}
+
+\easysubproblem{Now let $h_i := h_0(y_i)$ and $H_i := \int_0^{y_i} h_0(u)du$. Find $\mathcal{L}(\bbeta, h_1, \ldots, h_n, H_1, \ldots, H_n; \X, \y)$.}\spc{3}
+
+
+\easysubproblem{Now assume (1) all $y_i$'s are uniquely-valued and (2) $H_i \approx h_1 + \ldots + h_i$ and find $\doublehat{h}_i^{MLE}$.}\spc{3.5}
+
+\easysubproblem{[MA] Find $\doublehat{\bbeta}^{MLE}$.}\spc{7}
+
+\end{enumerate}
+
+\problem{This question is about basic causality, structural equation models and their visual representation as directed acyclic graphs (DAGs).}
+
+\begin{enumerate}
+
+\easysubproblem{We run a OLS to fit $\hat{y} = b_0 + b_1 x$ and find there is a statistically significant rejection of $H_0: \beta_1 = 0$. If this test was decided correctly, what do we call the relationship between $x$ and $y$? (The answer is one word).}\spc{0}
+
+\easysubproblem{If this test was decided incorrectly, what do we call the relationship between $x$ and $y$? (The answer is two words).}\spc{0}
+
+\easysubproblem{Draw an example DAG where $x$ causes $y$.}\spc{0.5}
+
+\easysubproblem{Draw an example DAG where $x$ is correlated to $y$ but is not causal.}\spc{2}
+
+\easysubproblem{Draw an example DAG that can result in a spurious correlation of $x$ and $y$.}\spc{1}
+
+\easysubproblem{Draw an example DAG where $x$ causes $y$ but its effect is fully blocked by $z$.}\spc{0.5}
+
+\easysubproblem{Draw an example DAG where $x$ causes $y$ but its effect is partially blocked by $z$.}\spc{2}
+
+\easysubproblem{Draw an example DAG that results in a Berkson's paradox between $x$ and $y_1$. Denote the collider variable as $y_2$.}\spc{1}
+
+
+\easysubproblem{Draw an example DAG that results in a Simpson's paradox between $x$ and $y$. Denote the confounding variable as $u$.}\spc{2}
+
+
+\easysubproblem{In the previous Simpson's paradox DAG, provide an example structural equation for $y$ and provide an example structural equation for $x$.}\spc{2}
+
+\easysubproblem{Consider observed covariates $x_1, x_2, x_3$ and phenomenon $y$. Draw a realistic DAG for this setting.}\spc{7}
+
+
+
+\end{enumerate}
+
+
+\problem{This question is about causal and correlational interpretations for generalized linear models.}
+
+\begin{enumerate}
+
+\easysubproblem{We run the following model on the \texttt{diamonds} dataset where $y$ is the price of the diamond}
+
+\begin{verbatim}
+> diamonds = ggplot2::diamonds
+> diamonds$cut = factor(diamonds$cut, ordered = FALSE)
+> diamonds$color = factor(diamonds$color, ordered = FALSE)
+> diamonds$clarity = factor(diamonds$clarity, ordered = FALSE)
+> summary(lm(price ~ ., diamonds))
+
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   2184.477    408.197   5.352 8.76e-08 ***
+carat        11256.978     48.628 231.494  < 2e-16 ***
+cutGood        579.751     33.592  17.259  < 2e-16 ***
+cutVery Good   726.783     32.241  22.542  < 2e-16 ***
+cutPremium     762.144     32.228  23.649  < 2e-16 ***
+cutIdeal       832.912     33.407  24.932  < 2e-16 ***
+colorE        -209.118     17.893 -11.687  < 2e-16 ***
+colorF        -272.854     18.093 -15.081  < 2e-16 ***
+colorG        -482.039     17.716 -27.209  < 2e-16 ***
+colorH        -980.267     18.836 -52.043  < 2e-16 ***
+colorI       -1466.244     21.162 -69.286  < 2e-16 ***
+colorJ       -2369.398     26.131 -90.674  < 2e-16 ***
+claritySI2    2702.586     43.818  61.677  < 2e-16 ***
+claritySI1    3665.472     43.634  84.005  < 2e-16 ***
+clarityVS2    4267.224     43.853  97.306  < 2e-16 ***
+clarityVS1    4578.398     44.546 102.779  < 2e-16 ***
+clarityVVS2   4950.814     45.855 107.967  < 2e-16 ***
+clarityVVS1   5007.759     47.160 106.187  < 2e-16 ***
+clarityIF     5345.102     51.024 104.757  < 2e-16 ***
+depth          -63.806      4.535 -14.071  < 2e-16 ***
+table          -26.474      2.912  -9.092  < 2e-16 ***
+x            -1008.261     32.898 -30.648  < 2e-16 ***
+y                9.609     19.333   0.497    0.619    
+z              -50.119     33.486  -1.497    0.134    
+\end{verbatim}
+
+What is the interpretation of the $b$ for \texttt{carat} (the unit of this feature is \qu{carats})?\spc{3}
+
+\hardsubproblem{What is the interpretation of the $b$ for \texttt{colorH}?}\spc{4}
+
+\easysubproblem{We run the following model on the \texttt{Pima.tr2} dataset where $y$ is 1 if the subject had diabetes or 0 if not.}
+
+\vspace{-0.2cm}
+\begin{verbatim}
+> summary(glm(type ~ ., MASS::Pima.tr2, family = "binomial"))
+
+             Estimate Std. Error z value Pr(>|z|)    
+(Intercept) -9.773062   1.770386  -5.520 3.38e-08 ***
+npreg        0.103183   0.064694   1.595  0.11073    
+glu          0.032117   0.006787   4.732 2.22e-06 ***
+bp          -0.004768   0.018541  -0.257  0.79707    
+skin        -0.001917   0.022500  -0.085  0.93211    
+bmi          0.083624   0.042827   1.953  0.05087 .  
+ped          1.820410   0.665514   2.735  0.00623 ** 
+age          0.041184   0.022091   1.864  0.06228 .  
+\end{verbatim}
+
+What is the interpretation of the $b$ for \texttt{glu} (the unit of this feature is mg/dL)?\spc{3}
+
+
+\easysubproblem{We run the following model on the \texttt{phillippines} household dataset where $y$ is the number of people living in a household.}
+
+\vspace{-0.2cm}
+\begin{verbatim}
+> mod = glm(total ~ ., philippines_housing, family = "poisson")
+> summary(mod)
+
+                                    Estimate Std. Error z value Pr(>|z|)    
+(Intercept)                        1.4371630  0.0730093  19.685  < 2e-16 ***
+locationDavaoRegion               -0.0119160  0.0538557  -0.221  0.82489    
+locationIlocosRegion               0.0542539  0.0526903   1.030  0.30316    
+locationMetroManila                0.0718559  0.0472055   1.522  0.12796    
+locationVisayas                    0.1314435  0.0419543   3.133  0.00173 ** 
+age                               -0.0046366  0.0009408  -4.928 8.29e-07 ***
+roofPredominantly Strong Material  0.0396653  0.0435640   0.911  0.36256     
+\end{verbatim}
+
+What is the interpretation of the $b$ for \texttt{age} (the unit of this feature is years)?\spc{3}
+
+
+\easysubproblem{We run the following Weibull regression model on the \texttt{lung} dataset where $y$ is survival of the patient.}
+
+\vspace{-0.2cm}
+\begin{verbatim}
+> lung = na.omit(survival::lung)
+> lung$status = lung$status - 1 #needs to be 0=alive, 1=dead
+> surv_obj = Surv(lung$time, lung$status)
+> mod = survreg(surv_obj ~ inst + sex + ph.ecog + ph.karno + wt.loss, lung)
+> summary(mod)
+
+               Value Std. Error     z       p
+(Intercept)  7.13673    0.74732  9.55 < 2e-16
+inst         0.02042    0.00877  2.33  0.0199
+sex          0.39717    0.13852  2.87  0.0041
+ph.ecog     -0.69588    0.15463 -4.50 6.8e-06
+ph.karno    -0.01558    0.00749 -2.08  0.0376
+wt.loss      0.00977    0.00525  1.86  0.0626
+Log(scale)  -0.36704    0.07272 -5.05 4.5e-07
+\end{verbatim}
+
+What is the interpretation of the $b$ for \texttt{wt.loss} (the unit of this feature is lbs)?\spc{3}
+
+\easysubproblem{We now run the following Cox proportional hazard model on the \texttt{lung} dataset where $y$ is survival of the patient.}
+
+\vspace{-0.2cm}
+\begin{verbatim}
+> mod = coxph(surv_obj ~ inst + sex + ph.ecog + ph.karno + wt.loss, lung)
+> summary(mod)
+
+              coef exp(coef)  se(coef)      z Pr(>|z|)    
+inst     -0.030042  0.970404  0.012931 -2.323  0.02016 *  
+sex      -0.571959  0.564419  0.198865 -2.876  0.00403 ** 
+ph.ecog   0.993224  2.699926  0.232115  4.279 1.88e-05 ***
+ph.karno  0.021492  1.021725  0.011222  1.915  0.05547 .  
+wt.loss  -0.014800  0.985309  0.007664 -1.931  0.05348 .  
+\end{verbatim}
+
+What is the interpretation of the $b$ for \texttt{wt.loss} (the unit of this feature is lbs)?\spc{3}
+\end{enumerate}
+
+
+\problem{This problem is about controlling values of variables to allow for causal inference.}
+
+\begin{enumerate}
+
+\easysubproblem{Redraw the \qu{master decision tree} of what to do in every situation beginning with the root node of \qu{Can we assume a DAG?}}\spc{20}
+
+\easysubproblem{Explain why controlling / manipulating the values of $x$ allows for causal inference of $x$ on $y$.}\spc{3}
+
+\intermediatesubproblem{Explain why a typical observational study cannot allow for causal inference of $x$ on $y$.}\spc{3}
+
+\easysubproblem{Give an example case (different from the one we spoke about in class) where controlling / manipulating the values of $x$ is impossible.}\spc{2.5}
+
+\easysubproblem{Give an example case (different from the one we spoke about in class) where controlling / manipulating the values of $x$ is unethical.}\spc{2.5}
+
+\easysubproblem{Give an example case (different from the one we spoke about in class) where controlling / manipulating the values of $x$ is impractical / unaffordable.}\spc{2.5}
+
+
+\hardsubproblem{Assume in the \texttt{diamonds} dataset that the variable \texttt{cut} was manipulated by the experimenter prior to assessing the price $y$. This isn't absurd since raw diamonds can be cut differently but their color and clarity cannot be altered. Using the linear regression output from the previous problem, what is the interpretation of the $b$ for \texttt{cutIdeal}. The reference category for this variable is \texttt{Fair}.}\spc{4}
+
+\end{enumerate}
+
+
+\problem{This problem is about randomized controlled trials (RCTs). Let  $n$ denote the number of subjects, let $\w$ denote the variable of interest which you seek causal inference for its effect. Here we assume $\w$ is a binary allocation / assignment vector of the specific manipulation $w_i$ for each subject (thus the experiment has \qu{two arms} which is sometimes called a \qu{treatment-control experiment} or \qu{pill-placebo trial} or an \qu{AB test}. Let $\y$ denote the measurements of the phenomenon of interest for each subject and let $\x_{\cdot 1}, \ldots, \x_{\cdot p}$ denote the $p$ baseline covariate measurements for each subject.}
+
+\begin{enumerate}
+
+\easysubproblem{How many possible allocations are there in this experiment?}\spc{-0.5}
+
+\easysubproblem{What are the three advantages of randomizing $\w$? We spoke about two main advantages and one minor advantage.}\spc{4}
+
+\easysubproblem{In Fisher's Randomization test, what is the null hypothesis? Explain what this really means.}\spc{4}
+
+\easysubproblem{Explain step-by-step how to run Fisher's Randomization test.}\spc{5}
+
+Assume now that Let $\Y = \beta_0 \onevec_n + \beta_T \w + \berrorrv$ where $\errorrv_1, \ldots, \errorrv_n \iid$ mean zero and have homoskedastic variance $\sigsq$.
+
+\easysubproblem{What this the parameter of interest in causal inference? What is its name?}\spc{2}
+
+\easysubproblem{Assume we employ OLS to estimate $\beta_T$. We proved previously that OLS estimators of unbiased for any error distribution with mean zero. Find the $\mse{B_T}$.}\spc{6}
+
+\easysubproblem{Prove that the optimal $\w$ has equal allocation.}\spc{4}
+
+\easysubproblem{Explain how to run an experiment using the \textit{completely randomized design}.}\spc{2}
+
+Assume now that Let $\Y = \beta_0 \onevec_n + \beta_T \w + \beta_1 \x_{\cdot 1} + \ldots + \beta_p \x_{\cdot p} + \berrorrv$ where $\errorrv_1, \ldots, \errorrv_n \iid$ mean zero and have homoskedastic variance $\sigsq$.
+
+\hardsubproblem{Prove that $B_T$ is unbiased over the distribution of $\berrorrv$ and $\W$.}\spc{6}
+
+\easysubproblem{What is the purpose using a \textit{restricted design}? That is, using a set of allocations that is a subset of the full set of the completely randomized design.}\spc{2}
+
+\intermediatesubproblem{Explain how to run an experiment using Fisher's \textit{blocking design} where you block on $\x_{\cdot 1}$, a factor with three levels and $\x_{\cdot 2}$, a factor with two levels.}\spc{7}
+
+
+\easysubproblem{What are the two main disadvantages to using Fisher's \textit{blocking design}?}\spc{3}
+
+\easysubproblem{Explain how to run an experiment using Student's \textit{rerandomization design} where you let the imbalance metric be 
+
+\beqn
+\sum_{j=1}^p \frac{\abss{\xbar_{j_T} - \xbar_{j_C}}}{s^2_{x_{j_T}} / (n/2) + s^2_{x_{j_C}} / (n/2)}
+\eeqn}~\spc{5.5}
+
+\easysubproblem{Explain how to run an experiment using the \textit{pairwise matching design}.}\spc{6}
+
+\easysubproblem{Does the pairwise matching design provide better imbalance on the observed covariates than the rerandomization design? Y/N}\spc{0}
+
+\end{enumerate}
+
+
+
+\end{document}
+
+
+\problem{This problem is about OLS estimation in regression. You can assume that 
+
+\beqn
+\X &:=& \bracks{\onevec_n~|~\x_{\cdot 1}~|~\ldots~|~ \x_{\cdot p}} ~~\text{with column indices} ~0, 1, \ldots, p ~~\text{and row indices}~1, 2, \ldots, n\\
+\H &:=& \XXtXinvXt \\
+\Y &=& \X\bbeta + \berrorrv \\
+\B &:=& \XtXinvXt \Y \\
+%\berrorrv &\sim& \multnormnot{n}{\zerovec_n}{\sigsq \I_n} \\
+\Yhat &=& \H\Y = \X\B \\
+\E &:=& \Y - \Yhat = (\I_n - \H)\Y
+\eeqn
+
+\noindent where the entries of $\X$ are assumed fixed and known and the entries of $\bbeta$ are the unknown parameter).}
+
+\begin{enumerate}
+
+\easysubproblem{When we \qu{do inference} for the linear model, what is the parameter vector?}\spc{0}
+
+\easysubproblem{When we \qu{do inference} for the linear model, what are considered the fixed and known quantities?}\spc{0}
+
+\easysubproblem{When we \qu{do inference} for the linear model, what are considered the random quantities? And what is the notation for their corresponding realizations?}\spc{0.5}
+
+\easysubproblem{What is the \qu{core assumption} in which the classic linear model inference follows?}\spc{0.5}
+
+
+\easysubproblem{From the core assumption, derive the distribution of $\B$.}\spc{2}
+
+
+\easysubproblem{From this result, derive the distribution of $B_j$.}\spc{1}
+
+\easysubproblem{From this result, derive the distribution of $B_j$ standardized.}\spc{1}
+
+\easysubproblem{from the core assumption, derive the distribution of $\Yhat$.}\spc{2}
+
+\easysubproblem{From this result, derive the distribution of $\hat{Y}_i$.}\spc{1}
+
+\easysubproblem{From this result, derive the distribution of $\hat{Y}_i$ standardized.}\spc{1}
+
+\easysubproblem{from the core assumption, derive the distribution of $\E$.}\spc{2}
+
+\easysubproblem{From this result, derive the distribution of $E_i$.}\spc{1}
+
+\easysubproblem{From this result, derive the distribution of $E_i$ standardized.}\spc{1}
+
+\easysubproblem{From the core assumption, show that $\oneover{\sigsq}\berrorrv^\top \berrorrv \sim \chisq{n}$.}\spc{5}
+
+
+\easysubproblem{Let $\B_1 = \H$ and let $\B_2 = \I_n - \H$. Justify the use of Cochran's theorem and then find the distributions of $\oneover{\sigsq}\berrorrv^\top \B_1 \berrorrv$ and $\oneover{\sigsq}\berrorrv^\top \B_2 \berrorrv$.}\spc{2}
+
+\easysubproblem{Show that $\oneover{\sigsq}\berrorrv^\top \B_1 \berrorrv = \oneover{\sigsq} \normsq{\X(\B - \bbeta)}$.}\spc{4}
+
+\intermediatesubproblem{Why is the term $\normsq{\X(\B - \bbeta)}$ used to measure the model's \qu{estimation error}?}\spc{4}
+
+\easysubproblem{Show that $\oneover{\sigsq}\berrorrv^\top \B_2 \berrorrv = \oneover{\sigsq} \normsq{\E}$.}\spc{4}
+
+\intermediatesubproblem{In what scenarios is $\berrorrv^\top \B_1 \berrorrv > \berrorrv^\top \B_2 \berrorrv$?}\spc{4}
+
+\intermediatesubproblem{Draw an illustration of $\berrorrv$ being orthogonally projected onto $\colsp{\X}$ via projection matrix $\H$. Use the previous answers to denote the quantities of the projection and the error of the projection.}\spc{4}
+
+\hardsubproblem{A good linear model has a large or a small projection of the error? Discuss.}\spc{1}
+
+\easysubproblem{Find $\expe{\oneover{\sigsq}\normsq{\E}}$.}\spc{0.5}
+
+\easysubproblem{Show that $\frac{\normsq{\E}}{n-(p+1)}$ is an unbiased estimate of $\sigsq$.}\spc{2}
+
+
+\easysubproblem{Prove that $\displaystyle \frac{\sqrt{n-(p+1)}(B_j - \beta_j)}{\norm{\E} \sqrt{\XtXinv_{j,j}}} \sim T_{n-(p+1)}$.}\spc{8}
+
+\easysubproblem{Let $H_0: \beta_j = 0$. Find the test statistic using the fact from the previous question. Let $s_e$ denote $RMSE := \sqrt{MSE} := \sqrt{SSE / (n-(p+1)} = \sqrt{\normsq{e} / (n-(p+1)}$.}\spc{2}
+
+\easysubproblem{Consider a new parameter of interest $\mu_\star := \expe{Y_\star} = \x_\star \bbeta$, this is the expected response for a unit with measurements given in row vector $\x_\star$ whose first entry is 1. Prove that $\displaystyle \frac{\hat{Y}_\star - \mu_\star}{\sigma \sqrt{\x_\star \XtXinv \x_\star^\top}} \sim \stdnormnot$.}\spc{6}
+
+\easysubproblem{Prove that $\displaystyle \frac{\sqrt{n-(p+1)}(\hat{Y}_\star - \mu_\star)}{\norm{\E} \sqrt{\x_\star \XtXinv \x_\star^\top}} \sim T_{n-(p+1)}$.}\spc{6}
+
+\easysubproblem{Let $H_0: \mu_\star = 17$. Find the test statistic using the fact from the previous question. Let $s_e$ denote the $RMSE$.}\spc{2}
+
+
+
+
+
+
+\easysubproblem{Consider a new parameter of interest $y_\star = \x_\star \bbeta + \epsilon_\star$, this is the response for a unit with measurements given in row vector $\x_\star$ whose first entry is 1. Prove that $\displaystyle \frac{\hat{Y}_\star - y_\star}{\sigma \sqrt{1 + \x_\star \XtXinv \x_\star^\top}} \sim \stdnormnot$.}\spc{6}
+
+\easysubproblem{Prove that $\displaystyle \frac{\sqrt{n-(p+1)}(\hat{Y}_\star - y_\star)}{\norm{\E} \sqrt{1 + \x_\star \XtXinv \x_\star^\top}} \sim T_{n-(p+1)}$.}\spc{6}
+
+\easysubproblem{Let $H_0: y_\star = 37$. Find the test statistic using the fact from the previous question. Let $s_e$ denote the $RMSE$.}\spc{2}
+
+
+\hardsubproblem{Let $S \subseteq \braces{1,2, \ldots, p}$, let $k := |S|$ and let $A = \braces{0} \cup S^C$, its complement with zero for the index of the intercept. For convenience, assume you rearrange the columns of the design matrix so that $\X = \bracks{\X_A~|~\X_S}$ and the first column is $\onevec_n$. Let $\H_A := \X_A (\X_A^\top \X_A)^{-1} \X_A^\top$. It is obvious that $\H - \H_A$ is symmetric as both $\H$ and $\H_A$ are symmetric. To prove that $\H - \H_A$ is an orthogonal projection matrix, prove that it is idempotent. Hint: use the Gram-Schmidt decomposition for both matrices and use block matrix format for $\H$.}\spc{8}
+
+
+\easysubproblem{Let $\Yhat_A := \H_A \Y$, the orthogonal projection onto $\colsp{\X_A}$. Prove that \\
+$\displaystyle \frac{(n - (p+1)) \normsq{\Yhat - \Yhat_A}}{k \normsq{\E}} \sim F_{k, n - (p+1)}
+$.}\spc{6}
+
+\hardsubproblem{Let $\hat{\E}_A := (\I_n - \H_A) \Y$, the orthogonal projection onto the $\colsp{\X_{A_\perp}}$. Prove that $\normsq{\hat{\E}_A} - \normsq{\hat{\E}} = \normsq{\Yhat - \Yhat_A}$.}\spc{6}
+
+\easysubproblem{Combining the two previous problems, write the test statistic for $H_0: \bbeta_S = \zerovec_k$ where $\beta_S$ denotes the subvector of $\bbeta$ with indices $S$. Use the notation $\Delta SSE := SSE_A - SSE$ and $MSE$.}\spc{2}
+
+\hardsubproblem{Prove that the square root of the test statistic in (ii) is the same as t-test statistic from (y) when $k=1$.}\spc{5}
+
+\intermediatesubproblem{The point of this exericse is to demonstrate that the estimator used for the omnibus / global / overall F-test is nothing but a special case of the main result from (gg). Let $S = \braces{1, 2, \ldots, p}$ and thus $k = p$ and $A = \braces{0}$. Using the result from (gg), show that $\displaystyle \frac{(n - (p+1)) \normsq{\Yhat - \ybar \onevec_n}}{p \normsq{\E}} \sim F_{p, n - (p+1)}$. }\spc{5}
+
+\easysubproblem{Prove that the omnibus / global / overall F-test statistic is $\doublehat{F} = MSR / MSE$ by using the result from (kk).}\spc{5}
+
+\hardsubproblem{[MA] Prove that the distribution that realizes the $R^2$ metric (the proportion of response variance explained by the model) is distributed as $\betanot{\frac{p}{2}}{\frac{n - (p+1)}{2}}$. This amounts to proving a fact found at the bottom of the \href{https://en.wikipedia.org/wiki/F-distribution}{F distribution's Wikipedia page}}.\spc{5}
+
+\easysubproblem{Prove that the maximum likelihood estimate for $\bbeta$ is $\bv{b}$, the OLS estimator.}\spc{5}
+
+\intermediatesubproblem{Prove that the maximum likelihood estimate for $\sigsq$ is $SSE/n$.}\spc{4}
+
+\intermediatesubproblem{Find the bias of the maximum likelihood estimator for $\sigsq$ using your answers from (w) and (oo).}\spc{3}
+
+\end{enumerate}
+
+
+\problem{This problem is about two types of Bayesian estimation of the slope parameters in linear regression which lead to the ridge and lasso estimates.}
+
+\begin{enumerate}
+\easysubproblem{Write the prior assumption about $\bbeta$ which yields the ridge estimates.}\spc{1}
+
+\easysubproblem{Using the prior and core assumption (which implies a likelihood function for $\B$), derive the ridge estimates.}\spc{14}
+
+\easysubproblem{Write the prior assumption about $\bbeta$ which yields the lasso estimates.}\spc{1}
+
+\easysubproblem{Using the prior and core assumption (which implies a likelihood function for $\B$), derive the lasso estimates to the point where you need to use a computer to run the optimization.}\spc{12}
+
+\easysubproblem{Both ridge and lasso shrink the estimate of $\bbeta$ towards what vector value?}\spc{-0.5}
+
+\easysubproblem{Describe what the prestep called \qu{variable selection} is within the modeling enterprise.}\spc{2}
+
+\easysubproblem{Describe what the prestep called \qu{variable selection} is within the modeling enterprise.}\spc{2}
+
+\easysubproblem{Describe why Lasso estimation has the added bonus of being able to perform variable selection and ridge does not.}\spc{3}
+\end{enumerate}
+
+\problem{This problem is about the specific robust regression methods we studied.}
+
+\begin{enumerate}
+
+\easysubproblem{If we only know that the errors $\errorrvoneton$ are independent, what tried and true method can we employ to get asymptotically valid inference for $\bbeta$?}\spc{0.5}
+
+\easysubproblem{If we know that the errors $\errorrvoneton$ are iid with expectation zero and variance $\sigsq$ for all values of $\x$ (i.e. the errors are \qu{homoskedastic}) but the errors are not necessarily normal, what is the asymptotic distribution of $\B$?}\spc{2}
+
+\easysubproblem{If we know that the errors $\errorrvoneton \inddist \normnot{0}{\sigsq_i}$ which means the errors are \qu{heteroskedastic}, what is the asymptotic distribution of $\B$ using the Huber-White estimator?}\spc{2}
+
+\easysubproblem{If we know that the errors $\errorrvoneton$ are independent with expectation zero and variance $\sigsq_i$ which means the errors are \qu{heteroskedastic}, what is the asymptotic distribution of $\B$ using the Huber-White estimator?}\spc{2}
+
+\easysubproblem{Is the F-tests we derived under the core assumption valid in any of the four above scenarios? Yes/no}\spc{-0.5}
+
+\end{enumerate}
+
+
+\problem{This problem is about inference for the generalized linear model (glm).}
+
+\begin{enumerate}
+
+\intermediatesubproblem{Let $Y_i \inddist \bernoulli{\theta_i}$ for $i = 1, \ldots, n$ where $\theta_i = \phi(\x_i \bbeta)$ and $\x_i \in \reals^{p+1}$ whose first entry is always 1. For the link function, use the complementary log-log (i.e. the standard Gumbel CDF). Write out the full likelihood below. No need to simplify or take the log.}\spc{3}
+
+\intermediatesubproblem{Given the assumptions in (a), write the likelihood ratio estimate for the omnibus test of $H_0: \beta_1 = \beta_2 = \ldots = \beta_p = 0$.}\spc{6}
+
+\intermediatesubproblem{Let $Y_i \inddist \poisson{\theta_i}$ for $i = 1, \ldots, n$ where $\theta_i = e^{\x_i \bbeta}$ and $\x_i \in \reals^{p+1}$ whose first entry is always 1. Write out the likelihood ratio when testing $H_0: \beta_2 = \beta_3 = 0$.}\spc{5}
+
+\intermediatesubproblem{Let $Y_i \inddist \weibullnot{k}{\theta_i}$ for $i = 1, \ldots, n$ where $\theta_i = e^{\x_i \bbeta}$ and $\x_i \in \reals^{p+1}$ whose first entry is always 1. This uses the alternate parameterization so that $\expe{Y_i} = \theta_i \Gamma(1 + 1/k)$. There is a censoring vector $\bv{c}$ which is 1 when censored on the right (meaning the real $y_i$ is $\geq $ to the observed $y_i$) and 0 when not censored. Write out the likelihood ratio when testing $H_0: \beta_2 = \beta_3 = 0$. }\spc{6}
+
+\hardsubproblem{[MA] Let $Y_i \inddist \normnot{\theta_i}{\sigsq}$ for $i = 1, \ldots, n$ where $\theta_i = \x_i \bbeta$ and $\x_i \in \reals^{p+1}$ whose first entry is always 1. So far, this is the vanilla linear model. However, consider now a wrinkle: there is a censoring vector $\bv{c}$ which is 1 when censored on the right (meaning the real $y_i$ is $\geq $ to the observed $y_i$) and 0 when not censored. This is called the \href{https://en.wikipedia.org/wiki/Tobit_model}{Tobit model}. Write the likelihood ratio estimate for the omnibus test of $H_0: \beta_1 = \beta_2 = \ldots = \beta_p = 0$.}\spc{6}
+\end{enumerate}
+
+
+\end{document}
+

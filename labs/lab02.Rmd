@@ -1,0 +1,387 @@
+---
+title: "Practice Assignment 2 MATH 343"
+author: "Your Name Here"
+output: pdf_document
+date: "11:59PM April 12d"
+---
+
+This practice assignment is coupled to the theory assignment (the problem numbers align herein) and should be worked on concomitantly. You will write code in places marked "TO-DO" to complete the problems. Most of this will be a pure programming assignment but there are some questions that instead ask you to "write a few sentences" which are not R chunks.
+
+The tools for solving these problems can be found in the class demos located [here](https://github.com/kapelner/QC_MATH_343_Spring_2024/tree/main/demos).
+
+To "hand in" the homework, push this completed file by the due date to your course repo.
+
+NOT REQUIRED: After you're done, you have the option to compile this file into a PDF (use the "knit to PDF" button on the submenu above). These final PDF's look pretty as it includes the output of your code. You can push the PDF as well. It will look nice in your portfolio.
+
+This lab requires the following packages. You should make sure they load before beginning:
+
+```{r}
+pacman::p_load(ggplot2, glmnet, survival, lmtest, skimr, MASS, mlbench)
+```
+
+## Problem 1: Inference for the linear model using the OLS estimator
+
+Below is a design matrix taken from the boston housing data and a definition of some variables.
+
+```{r}
+X = model.matrix(medv ~ ., MASS::Boston)
+n = nrow(X)
+p_plus_one = ncol(X)
+XtXinvXt = solve(t(X) %*% X) %*% t(X)
+H = X %*% XtXinvXt
+In_minus_H = diag(n) - H
+```
+
+We will now assume betas of all ones and a sigma of 2:
+
+```{r}
+betavec = rep(1, p_plus_one)
+sigsq = 2^2
+```
+
+We will now simulate many response vectors sing the core assumption. Remember that the `rnorm` function takes sigma (not sigma-squared) as an argument. Then we'll use the response vectors to compute b, yhat and e. We will collect them all into matrices so we can investigate their behavior later.
+
+```{r}
+Nsim = 10000
+bs = matrix(NA, nrow = p_plus_one, ncol = Nsim)
+yhats = matrix(NA, nrow = n, ncol = Nsim)
+es = matrix(NA, nrow = n, ncol = Nsim)
+set.seed(1)
+for (nsim in 1 : Nsim){
+  #TO-DO
+}
+```
+
+Let's now make sure the formulas are correct for Yhat. Let's take the 17th observation and standardize its values based on knowledge of the true betas and the formulas from class. We can plot them here:
+
+```{r}
+yhat17s_std = #TO-DO
+ggplot(data.frame(yhat17s_std = yhat17s_std)) + aes(x = yhat17s_std) + geom_histogram()
+```
+
+This distribution should look like a standard normal. Confirm that you cannot reject a Kolmogorov-Smirnov test that `yhat17s_std` comes from an iid N(0, 1) DGP:
+
+```{r}
+#TO-DO
+```
+
+Repeat this Kolmogorov-Smirnov test for the 7th entry of b.
+
+```{r}
+b7s_std = #TO-DO
+#TO-DO
+```
+
+Repeat this Kolmogorov-Smirnov test for the 37th entry of e.
+
+```{r}
+e37s_std = #TO-DO
+#TO-DO
+```
+
+Now let's work with just one realization of the errors which gives us one estimate of y, b, yhat and e:
+
+```{r}
+b = bs[, 1]
+yhat = yhats[, 1]
+e = es[, 1]
+y = yhat + e
+```
+
+At level alpha = 5%, test H_0: beta_7 = 0 by calculating the t-statistic and comparing it to the appropriate critical value of t.
+
+```{r}
+#TO-DO
+```
+
+Create a 95% CI for mu_17, the expected value of the 17th observation in the X matrix.
+
+```{r}
+#TO-DO
+```
+
+Create a 95% CI for y_17, the response value for the 17th observation in the X matrix.
+
+```{r}
+#TO-DO
+```
+
+Run the omnibus test at level alpha = 5% by calculating the quantities from scratch and comparing to the appropriate critical F value.
+ 
+```{r}
+#TO-DO
+```
+
+Run the multiple effect test for H_0: beta_1 = beta_2 = beta_3 = 0 at level alpha = 5% by calculating the quantities from scratch and comparing to the appropriate critical F value.
+
+```{r}
+#TO-DO
+```
+
+Compute the maximum likelihood estimator for sigsq.
+
+```{r}
+#TO-DO
+```
+
+## Problem 2: Ridge and Lasso predictions
+
+We'll use the data setup from class: the boston housing data with another 1000 garbage features tacked on and then all features standardized:
+
+```{r}
+rm(list = ls())
+p_extra = 1000
+
+set.seed(1)
+y = MASS::Boston$medv
+X = model.matrix(medv ~ ., MASS::Boston)
+X = cbind(X, matrix(rnorm(nrow(X) * p_extra), ncol = p_extra))
+colnames(X) = c("(Intercept)", colnames(MASS::Boston)[1:13], paste0("junk_", 1 : p_extra))
+
+#now we standardize the columns
+X = apply(X, 2, function(x_dot_j){(x_dot_j - mean(x_dot_j)) / sd(x_dot_j)})
+X[, 1] = 1 #reset the intercept
+```
+
+We will now split the data into training (with 400 observations) and test:
+
+```{r}
+train_idx = sample(1 : nrow(X), 400)
+test_idx = setdiff(1 : nrow(X), train_idx)
+Xtrain = X[train_idx, ]
+ytrain = y[train_idx]
+Xtest =  X[test_idx, ]
+ytest =  y[test_idx]
+```
+
+In class we fit many ridge models and many lasso models using arbitrary values of lambda. Here we will use the model selection technique from 342W implementing inner K-fold CV but not the outer K-fold CV. We can use the `cv.glmnet` function to do this. You can use its default lambda grid search. Run both ridge and lasso. Report the optimal lambda values for ridge and lasso.
+
+```{r}
+#TO-DO
+```
+
+Now fit both the ridge and lasso models using their respective optimal values of lambda.
+
+```{r}
+ridge_mod = #TO-DO
+lasso_mod = #TO-DO
+```
+
+For the lasso model, which features did it select?
+
+```{r}
+#TO-DO
+```
+
+Now predict on the test set and calculate oosRMSE. Who wins?
+
+```{r}
+#TO-DO
+```
+
+
+# Problem 3: Robust regression methods
+
+Let's use 1000 rows of the diamonds dataset for this exercise. We'll convert the ordinal factors to nominal to make the feature dummy names more readable.
+
+```{r}
+rm(list = ls())
+diamonds = ggplot2::diamonds
+?diamonds
+diamonds$cut =      factor(diamonds$cut, ordered = FALSE)      #convert to nominal
+diamonds$color =    factor(diamonds$color, ordered = FALSE)    #convert to nominal
+diamonds$clarity =  factor(diamonds$clarity, ordered = FALSE)  #convert to nominal
+
+set.seed(1)
+idx = sample(1 : nrow(diamonds), 1000)
+X = model.matrix(price ~ ., diamonds[idx, ])
+y = diamonds$price[idx]
+rm(list = setdiff(ls(), c("X", "y")))
+```
+
+Fit a linear model on all features and report the p-value for the test of H_0: beta_j = 0 where j is the index of the `depth` feature.
+
+```{r}
+#TO-DO
+```
+
+Now assume nothing is known about the error DGP except that they are independent.
+
+Report an asymptotically valid p-value for the test of H_0: beta_j = 0 where j is the index of the `depth` feature.
+
+```{r}
+#TO-DO
+```
+
+Now assume the errors are mean-centered and homoskedastic. 
+
+Report an asymptotically valid p-value for the test of H_0: beta_j = 0 where j is the index of the `depth` feature.
+
+```{r}
+#TO-DO
+```
+
+Report an asymptotically valid p-value for the test of H_0: beta_j = 0 and beta_k = 0 where j is the index of the `depth` feature and k is the index of the `table` feature.
+
+```{r}
+#TO-DO
+```
+
+Now assume the errors are mean-centered and heteroskedastic. This is the scenario where you employ the Huber-White estimator.
+
+Report an asymptotically valid p-value for the test of H_0: beta_j = 0 where j is the index of the `depth` feature.
+
+```{r}
+#TO-DO
+```
+
+Report an asymptotically valid p-value for the test of H_0: beta_j = 0 and beta_k = 0 where j is the index of the `depth` feature and k is the index of the `table` feature.
+
+```{r}
+#TO-DO
+```
+
+# Problem 4a: Inference for Bernoulli Response Models
+
+We load up the Glass dataset below. The goal is to predict and understand the effects of features on whether or not the glass is of type 1.
+
+```{r}
+rm(list = ls())
+data(Glass)
+glass = na.omit(Glass)
+glass$Type = ifelse(glass$Type == 1, 1, 0)
+```
+
+Fit a probit regression using all features and report p-values for H_0: beta_j = 0 for all features. Using the `glm` function with `family = binomial(link = "probit")`.
+
+```{r}
+#TO-DO
+```
+
+Run the omnibus test at level alpha=5% to see if any of these features are useful in predicting the probability of Type=1.
+
+```{r}
+#TO-DO
+```
+
+
+Predict the probability of glass being of type 1 if the sample had average amounts of all features.
+
+```{r}
+x_vec_avg = data.frame(t(apply(glass, 2, mean)))
+#TO-DO
+```
+
+Add quadratic terms to all the features and fit a new model. Check if these additional features are justified at level alpha=5%.
+
+```{r}
+#TO-DO
+```
+
+# Problem 4b: Inference for Poisson Count Response Model
+
+We load up the insurance dataset below. The goal is to predict and understand the effects of features on number of car insurance claims (the `Claims` column).
+
+```{r}
+rm(list = ls())
+insur = MASS::Insurance
+insur$Group = factor(insur$Group, ordered = FALSE)
+insur$Age = factor(insur$Age, ordered = FALSE)
+```
+
+Fit a poisson count model (AKA "Poisson regression") to the data and report p-values for H_0: beta_j = 0 for all features. Using the `glm` function with `family="poisson"` defaults to the log link.
+
+```{r}
+#TO-DO
+```
+
+Predict the number of claims (to the nearest claim) for a someone who lives in a major city, who's age 26, has a 1.8L engine car and has only one policy.
+
+```{r}
+#TO-DO
+```
+
+Now fit a Poisson count model that includes the interaction of Age and Holders. Test whether the addition of these interactions is warranted at level alpha=5%.
+
+```{r}
+#TO-DO
+```
+
+# Problem 4c: Inference for Negative Binomial Count Response Model
+
+Fit a Negative Binomial count model (AKA "negative binomial regression") to the data and report p-values for H_0: beta_j = 0 for all features. To do this use the `glm.nb` which defaults to the log link.
+
+```{r}
+#TO-DO
+```
+
+Predict the number of claims (to the nearest claim) for a someone who lives in a major city, who's age 26, has a 1.8L engine car and has only one policy.
+
+```{r}
+#TO-DO
+```
+
+Now fit a Negative Binomial count model that includes the interaction of Age and Holders. Test whether the addition of these interactions is warranted at level alpha=5%.
+
+```{r}
+#TO-DO
+```
+
+
+Were there any substantive differences between the inference of prediction you found between the Poisson and Negative Binomial models?
+
+#TO-DO
+
+
+# Problem 4d: Inference for the Weibull Survival Model
+
+Let's load up data from a trial of usrodeoxycholic acid.
+
+```{r}
+rm(list = ls())
+udca2 = na.omit(survival::udca2)
+?udca2
+survival_time = udca2$futime
+uncensored_dummy = udca2$status
+udca2$id = NULL
+udca2$status = NULL
+udca2$futime = NULL
+udca2$endpoint = NULL
+```
+
+We now create a surv object and print out the first 20 entries.
+
+```{r}
+surv_obj = Surv(survival_time, uncensored_dummy)
+rm(survival_time, uncensored_dummy)
+head(surv_obj, 20)
+```
+
+What do the "+" signs mean in the above print out?
+
+#TO-DO
+
+Fit a Weibull regression model to all features and report p-values for H_0: beta_j = 0 for all features.
+
+```{r}
+#TO-DO
+```
+
+Predict the survival time for a subject with the UDCA treatment (i.e. trt = 1), stage = 1, bili = 1.5 and riskscore = 4.0.
+
+```{r}
+#TO-DO
+```
+
+Run the omnibus test at alpha=5%.
+
+```{r}
+#TO-DO
+```
+
+Run the test to see if the variables stage, bili and riskscore are important in predicting survival at alpha=5%.
+
+```{r}
+#TO-DO
+```
+

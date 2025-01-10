@@ -1,0 +1,139 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=0.95in]{geometry}
+\input{../../syllabi/preamble}
+
+
+%%%unchanged
+\newcommand{\coursewebpageurl}{https://github.com/kapelner/QC_\coursedept_\coursenumber_\semester_\the\year}
+\newcommand{\coursewebpagelink}{\href{\coursewebpageurl}{course homepage}}
+\newcommand{\slackurl}{https://QC\coursedept\coursenumber\semester\the\year.slack.com/}
+\newcommand{\slacklink}{\href{\slackurl}{slack}}
+
+%%edit these!!
+\newcommand{\coursedept}{Math}
+\newcommand{\coursenumber}{343}
+\newcommand{\sixhundredsection}{643}
+\newcommand{\coursenumbercrosslisted}{/ 643}
+\newcommand{\professorname}{Adam Kapelner, PhD.}
+\newcommand{\professorcontactinfo}{@kapelner on \slacklink~in a public channel}
+\newcommand{\professoroffice}{604 Kiely Hall}
+\newcommand{\semester}{Spring}
+\newcommand{\numcredits}{3}
+\newcommand{\lectimeandloc}{Tues and Thurs 5:20 -- 6:35PM / KY 258}
+\newcommand{\requiredlabtimeandloc}{}
+\newcommand{\tataofficehourtimeandloc}{see \coursewebpagelink}
+\newcommand{\numtheoryhws}{3--5}
+\newcommand{\lastdatetimetohandinhomeworks}{Dec 15 at noon}
+\newcommand{\midtermonedateandlocation}{Thursday, October 7 on zoom during class time}
+\newcommand{\midtermtwodateandlocation}{Thursday, November 11 on zoom during class time}
+\newcommand{\finaldateandlocation}{TBD but on zoom}
+
+
+\input{../../syllabi/_header}
+
+
+
+\section*{Course Overview}
+
+MATH 343 / 643. Computational Statistics for Data Science. 3 hr.; 3 cr. Prereq.: MATH 341 or 641. Coreq.: MATH 342W or 642. Mixture models, EM algorithm, Metropolis-within-Gibbs sampling, permutation tests, the bootstrap, the Kaplan-Meier estimator, the Cox model, T and F tests for the linear model, Gauss-Markov theorem, Bayesian linear regression: Ridge and Lasso. Causality and the randomized experiment, randomization tests. Focus on computation. Special topics. Students cannot receive credit for both: MATH 343 and 643. Fall, Spring \\
+
+\section*{The Four Data Science Core Classes}
+
+This course is the last and most advanced of the four data science core classes as it builds on the previous three. In Math 340 you learn probability tools and a repertoire of random variable models. In Math 341, you learned the foundations of statistics from both the Frequentist and Bayesian perspectives. Here, we continue with more advanced Frequentist and Bayesian methods. The class will be mostly computational as you now are learning / learned computational skills in Math 342W. Thus, \textbf{this is not your typical mathematics course.}  This course will do lots of modeling of real-world situations using data via the \texttt{R} statistical language.
+
+We will also be able to delve more deeply into the concepts of Math 342W including linear regression from a statistical point of view deriving all the usual linear regression techniques you may have seen in Econometrics. Further, we will also delve into the abyss of modeling and ask questions about correlation vs causation and develop causal models from the ground up. We will discuss the theory of randomization, clinical trials and A/B testing.
+
+If we have time, we will get to advanced machine learning methods such as clustering, reinforcement learning and deep learning.
+
+\input{../../syllabi/_DSS_core}
+
+Examining the above, we note that MATH 341 and 343 form a series of two statistics courses: the first, theoretical with traditional topics and the second, computational with modern topics. Both heavily rely on the theoretical topics taught in MATH 340.
+
+%\pagebreak
+\section*{Tentative Day-by-Day Schedule}
+
+Lectures and their topics with rough time estimates per topic are below:
+
+\input{_lecture_schedule}
+
+
+
+\subsection*{Prerequisites}
+
+MATH 341 / 641 or a foundations of Frequentist and Bayesian statistics course. Critical is coverage of hypothesis testing, confidence intervals, credible regions, maximum likelihood, priors and posteriors, maximum a posteriori estimation. Implicitly, MATH 340 / 640 is also a prerequisite. At times, we will be drawing on these concepts or extending these concepts (e.g. hazard rates for survival random variables) so keep those notes handy.
+
+\subsection*{Corequisites}
+
+MATH 342W / 642 or a foundations of data science course. Critical is coverage of supervised learning, prediction concepts, basic computing using the \texttt{R} language, OLS linear regression with matrix algebra and logistic regression.
+
+\section*{Course Materials}
+
+\paragraph{Textbook:} I will be referencing Larry Wasserman's \emph{All of Statistics: A concise course in statistical inference} which can be purchased on \href{https://www.amazon.com/dp/0387402721}{Amazon} and Casella and Berger's \emph{Statistical Inference} which can be purchased on \href{https://www.amazon.com/dp/8131503941}{Amazon}. There is no excuse not to have these books. They are \textit{required}. However, I will not ususally be teaching \qu{from the book} --- most of the material in the class comes from the lecture notes. The textbooks are a way to get ``another take'' on the material and they will only cover about only half of the material done in class. For the other half, you will have to make use of other resources. I also recommend Rice's \emph{Mathematical Statistics and Data Analysis}, 3rd edition which can be purchased on \href{https://www.amazon.com/dp/0534399428}{Amazon} as well but I will not reference it during class.
+
+\paragraph{Computer Software:} During lectures, there will be demos using \texttt{R} which is a free, open source statistical programming language and console. You can download it from: \url{http://cran.mirrors.hoobly.com/}.As this course is coreq'd with MATH 342W, this course has a lot of programming in \texttt{R} for the homeworks.
+
+\input{../../syllabi/_calculator}
+
+%\input{../../syllabi/_the650section}
+
+\input{../../syllabi/_use_of_slack}
+
+\input{../../syllabi/_announcements_on_slack}
+
+\input{../../syllabi/_standard_class_meetings}
+
+%\input{../../syllabi/_jewish_holiday_reschedule}
+
+%\input{../../syllabi/_zoom_policies}
+
+%\input{../../syllabi/_lecture_upload}
+
+\section*{Homework}
+
+There will be \numtheoryhws~theory homework assignments and \numtheoryhws~practice homework assignments (labs). Homeworks will be assigned and placed on the \coursewebpagelink~ and will usually be due a week later in class. Homework will be \textbf{graded} out of 100 with extra credit getting scores possibly $> 100$. I will be doing the grading and will grade an \textit{arbitrary subset of the assignment} which is determined after the homework is handed in. 
+
+\input{../../syllabi/_theory_hws_submission_text}
+\input{../../syllabi/_philosophy_hws}
+
+\input{../../syllabi/_time_spent_hws_3_cr}
+
+\input{../../syllabi/_late_hw_policy}
+
+\input{../../syllabi/_latex_hw_bonus_policy}
+
+\input{../../syllabi/_hw_ec_policy}
+
+\section*{Examinations}
+
+\input{../../syllabi/_examination_text}
+
+\input{../../syllabi/_standard_exam_schedule}
+
+\subsection*{Exam Policies and Materials}
+
+\input{../../syllabi/_examination_policies}
+
+%\input{../../syllabi/_zoom_examination_policies}
+
+\input{../../syllabi/_standard_cheat_sheet_policy}
+
+
+\input{../../syllabi/_cheating_on_exams_and_missing_exams}
+\input{../../syllabi/_special_services}
+
+\input{../../syllabi/_class_participation}
+
+%\input{../../syllabi/_zoom_attendance}
+
+\input{../../syllabi/_343_grading_and_grading_policy}
+
+\subsection*{The Grade Distribution}
+
+As this is a small and advanced class, the class curve will be quite generous. I'm expecting approximately 40\% A's and 40\% B's. If you do your homework and demonstrate understanding on the exams, you should expect to be rewarded with an A or a B. C's are for those who \qu{dropped out} somewhere mid-semester or who cannot demonstrate basic understanding.
+
+\input{../../syllabi/_grade_checking_on_gradesly}
+
+\input{../../syllabi/_auditing_policy}
+
+\end{document}

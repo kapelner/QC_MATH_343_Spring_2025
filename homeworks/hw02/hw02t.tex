@@ -1,0 +1,216 @@
+\documentclass[12pt]{article}
+
+\include{preamble}
+
+\newtoggle{professormode}
+\toggletrue{professormode} %STUDENTS: DELETE or COMMENT this line
+
+
+
+\title{MATH 343 / 643 Homework \#2}
+
+\author{Professor Adam Kapelner} %STUDENTS: write your name here
+
+\iftoggle{professormode}{
+\date{Due 11:59PM April 10, \the\year \\ \vspace{0.5cm} \small (this document last updated \currenttime~on \today)}
+}
+
+\renewcommand{\abstractname}{Instructions and Philosophy}
+
+\begin{document}
+\maketitle
+
+\iftoggle{professormode}{
+\begin{abstract}
+The path to success in this class is to do many problems. Unlike other courses, exclusively doing reading(s) will not help. Coming to lecture is akin to watching workout videos; thinking about and solving problems on your own is the actual ``working out.''  Feel free to \qu{work out} with others; \textbf{I want you to work on this in groups.}
+
+Reading is still \textit{required}. For this homework set, read as much as you can online about the topics we covered.
+
+The problems below are color coded: \ingreen{green} problems are considered \textit{easy} and marked \qu{[easy]}; \inorange{yellow} problems are considered \textit{intermediate} and marked \qu{[harder]}, \inred{red} problems are considered \textit{difficult} and marked \qu{[difficult]} and \inpurple{purple} problems are extra credit. The \textit{easy} problems are intended to be ``giveaways'' if you went to class. Do as much as you can of the others; I expect you to at least attempt the \textit{difficult} problems. 
+
+This homework is worth 100 points but the point distribution will not be determined until after the due date. See syllabus for the policy on late homework.
+
+Up to 7 points are given as a bonus if the homework is typed using \LaTeX. Links to instaling \LaTeX~and program for compiling \LaTeX~is found on the syllabus. You are encouraged to use \url{overleaf.com}. If you are handing in homework this way, read the comments in the code; there are two lines to comment out and you should replace my name with yours and write your section. The easiest way to use overleaf is to copy the raw text from hwxx.tex and preamble.tex into two new overleaf tex files with the same name. If you are asked to make drawings, you can take a picture of your handwritten drawing and insert them as figures or leave space using the \qu{$\backslash$vspace} command and draw them in after printing or attach them stapled.
+
+The document is available with spaces for you to write your answers. If not using \LaTeX, print this document and write in your answers. I do not accept homeworks which are \textit{not} on this printout. Keep this first page printed for your records.
+
+\end{abstract}
+
+\thispagestyle{empty}
+\vspace{1cm}
+NAME: \line(1,0){380}
+\clearpage
+}
+
+
+\problem{This problem is about OLS estimation in regression. You can assume that 
+
+\beqn
+\X &:=& \bracks{\onevec_n~|~\x_{\cdot 1}~|~\ldots~|~ \x_{\cdot p}} ~~\text{with column indices} ~0, 1, \ldots, p ~~\text{and row indices}~1, 2, \ldots, n\\
+\H &:=& \XXtXinvXt \\
+\Y &=& \X\bbeta + \berrorrv \\
+\B &:=& \XtXinvXt \Y \\
+%\berrorrv &\sim& \multnormnot{n}{\zerovec_n}{\sigsq \I_n} \\
+\Yhat &=& \H\Y = \X\B \\
+\E &:=& \Y - \Yhat = (\I_n - \H)\Y
+\eeqn
+
+\noindent where the entries of $\X$ are assumed fixed and known and the entries of $\bbeta$ are the unknown parameter).}
+
+\begin{enumerate}
+
+\easysubproblem{When we \qu{do inference} for the linear model, what is the parameter vector?}\spc{0}
+
+\easysubproblem{When we \qu{do inference} for the linear model, what are considered the fixed and known quantities?}\spc{0}
+
+\easysubproblem{When we \qu{do inference} for the linear model, what are considered the random quantities? And what is the notation for their corresponding realizations?}\spc{0.5}
+
+\easysubproblem{What is the \qu{core assumption} in which the classic linear model inference follows?}\spc{0.5}
+
+
+\easysubproblem{From the core assumption, derive the distribution of $\B$.}\spc{2}
+
+
+\easysubproblem{From this result, derive the distribution of $B_j$.}\spc{1}
+
+\easysubproblem{From this result, derive the distribution of $B_j$ standardized.}\spc{1}
+
+\easysubproblem{from the core assumption, derive the distribution of $\Yhat$.}\spc{2}
+
+\easysubproblem{From this result, derive the distribution of $\hat{Y}_i$.}\spc{1}
+
+\easysubproblem{From this result, derive the distribution of $\hat{Y}_i$ standardized.}\spc{1}
+
+\easysubproblem{from the core assumption, derive the distribution of $\E$.}\spc{2}
+
+\easysubproblem{From this result, derive the distribution of $E_i$.}\spc{1}
+
+\easysubproblem{From this result, derive the distribution of $E_i$ standardized.}\spc{1}
+
+\easysubproblem{From the core assumption, show that $\oneover{\sigsq}\berrorrv^\top \berrorrv \sim \chisq{n}$.}\spc{5}
+
+
+\easysubproblem{Let $\B_1 = \H$ and let $\B_2 = \I_n - \H$. Justify the use of Cochran's theorem and then find the distributions of $\oneover{\sigsq}\berrorrv^\top \B_1 \berrorrv$ and $\oneover{\sigsq}\berrorrv^\top \B_2 \berrorrv$.}\spc{2}
+
+\easysubproblem{Show that $\oneover{\sigsq}\berrorrv^\top \B_1 \berrorrv = \oneover{\sigsq} \normsq{\X(\B - \bbeta)}$.}\spc{4}
+
+\intermediatesubproblem{Why is the term $\normsq{\X(\B - \bbeta)}$ used to measure the model's \qu{estimation error}?}\spc{4}
+
+\easysubproblem{Show that $\oneover{\sigsq}\berrorrv^\top \B_2 \berrorrv = \oneover{\sigsq} \normsq{\E}$.}\spc{4}
+
+\intermediatesubproblem{In what scenarios is $\berrorrv^\top \B_1 \berrorrv > \berrorrv^\top \B_2 \berrorrv$?}\spc{4}
+
+\intermediatesubproblem{Draw an illustration of $\berrorrv$ being orthogonally projected onto $\colsp{\X}$ via projection matrix $\H$. Use the previous answers to denote the quantities of the projection and the error of the projection.}\spc{4}
+
+\hardsubproblem{A good linear model has a large or a small projection of the error? Discuss.}\spc{1}
+
+\easysubproblem{Find $\expe{\oneover{\sigsq}\normsq{\E}}$.}\spc{0.5}
+
+\easysubproblem{Show that $\frac{\normsq{\E}}{n-(p+1)}$ is an unbiased estimate of $\sigsq$.}\spc{2}
+
+
+\easysubproblem{Prove that $\displaystyle \frac{\sqrt{n-(p+1)}(B_j - \beta_j)}{\norm{\E} \sqrt{\XtXinv_{j,j}}} \sim T_{n-(p+1)}$.}\spc{8}
+
+\easysubproblem{Let $H_0: \beta_j = 0$. Find the test statistic using the fact from the previous question. Let $s_e$ denote $RMSE := \sqrt{MSE} := \sqrt{SSE / (n-(p+1)} = \sqrt{\normsq{e} / (n-(p+1)}$.}\spc{2}
+
+\easysubproblem{Consider a new parameter of interest $\mu_\star := \expe{Y_\star} = \x_\star \bbeta$, this is the expected response for a unit with measurements given in row vector $\x_\star$ whose first entry is 1. Prove that $\displaystyle \frac{\hat{Y}_\star - \mu_\star}{\sigma \sqrt{\x_\star \XtXinv \x_\star^\top}} \sim \stdnormnot$.}\spc{6}
+
+\easysubproblem{Prove that $\displaystyle \frac{\sqrt{n-(p+1)}(\hat{Y}_\star - \mu_\star)}{\norm{\E} \sqrt{\x_\star \XtXinv \x_\star^\top}} \sim T_{n-(p+1)}$.}\spc{6}
+
+\easysubproblem{Let $H_0: \mu_\star = 17$. Find the test statistic using the fact from the previous question. Let $s_e$ denote the $RMSE$.}\spc{2}
+
+
+
+
+
+
+\easysubproblem{Consider a new parameter of interest $y_\star = \x_\star \bbeta + \epsilon_\star$, this is the response for a unit with measurements given in row vector $\x_\star$ whose first entry is 1. Prove that $\displaystyle \frac{\hat{Y}_\star - y_\star}{\sigma \sqrt{1 + \x_\star \XtXinv \x_\star^\top}} \sim \stdnormnot$.}\spc{6}
+
+\easysubproblem{Prove that $\displaystyle \frac{\sqrt{n-(p+1)}(\hat{Y}_\star - y_\star)}{\norm{\E} \sqrt{1 + \x_\star \XtXinv \x_\star^\top}} \sim T_{n-(p+1)}$.}\spc{6}
+
+\easysubproblem{Let $H_0: y_\star = 37$. Find the test statistic using the fact from the previous question. Let $s_e$ denote the $RMSE$.}\spc{2}
+
+
+\hardsubproblem{Let $S \subseteq \braces{1,2, \ldots, p}$, let $k := |S|$ and let $A = \braces{0} \cup S^C$, its complement with zero for the index of the intercept. For convenience, assume you rearrange the columns of the design matrix so that $\X = \bracks{\X_A~|~\X_S}$ and the first column is $\onevec_n$. Let $\H_A := \X_A (\X_A^\top \X_A)^{-1} \X_A^\top$. It is obvious that $\H - \H_A$ is symmetric as both $\H$ and $\H_A$ are symmetric. To prove that $\H - \H_A$ is an orthogonal projection matrix, prove that it is idempotent. Hint: use the Gram-Schmidt decomposition for both matrices and use block matrix format for $\H$.}\spc{8}
+
+
+\easysubproblem{Let $\Yhat_A := \H_A \Y$, the orthogonal projection onto $\colsp{\X_A}$. Prove that \\
+$\displaystyle \frac{(n - (p+1)) \normsq{\Yhat - \Yhat_A}}{k \normsq{\E}} \sim F_{k, n - (p+1)}
+$.}\spc{6}
+
+\hardsubproblem{Let $\hat{\E}_A := (\I_n - \H_A) \Y$, the orthogonal projection onto the $\colsp{\X_{A_\perp}}$. Prove that $\normsq{\hat{\E}_A} - \normsq{\hat{\E}} = \normsq{\Yhat - \Yhat_A}$.}\spc{6}
+
+\easysubproblem{Combining the two previous problems, write the test statistic for $H_0: \bbeta_S = \zerovec_k$ where $\beta_S$ denotes the subvector of $\bbeta$ with indices $S$. Use the notation $\Delta SSE := SSE_A - SSE$ and $MSE$.}\spc{2}
+
+\hardsubproblem{Prove that the square root of the test statistic in (ii) is the same as t-test statistic from (y) when $k=1$.}\spc{5}
+
+\intermediatesubproblem{The point of this exericse is to demonstrate that the estimator used for the omnibus / global / overall F-test is nothing but a special case of the main result from (gg). Let $S = \braces{1, 2, \ldots, p}$ and thus $k = p$ and $A = \braces{0}$. Using the result from (gg), show that $\displaystyle \frac{(n - (p+1)) \normsq{\Yhat - \ybar \onevec_n}}{p \normsq{\E}} \sim F_{p, n - (p+1)}$. }\spc{5}
+
+\easysubproblem{Prove that the omnibus / global / overall F-test statistic is $\doublehat{F} = MSR / MSE$ by using the result from (kk).}\spc{5}
+
+\hardsubproblem{[MA] Prove that the distribution that realizes the $R^2$ metric (the proportion of response variance explained by the model) is distributed as $\betanot{\frac{p}{2}}{\frac{n - (p+1)}{2}}$. This amounts to proving a fact found at the bottom of the \href{https://en.wikipedia.org/wiki/F-distribution}{F distribution's Wikipedia page}}.\spc{5}
+
+\easysubproblem{Prove that the maximum likelihood estimate for $\bbeta$ is $\bv{b}$, the OLS estimator.}\spc{5}
+
+\intermediatesubproblem{Prove that the maximum likelihood estimate for $\sigsq$ is $SSE/n$.}\spc{4}
+
+\intermediatesubproblem{Find the bias of the maximum likelihood estimator for $\sigsq$ using your answers from (w) and (oo).}\spc{3}
+
+\end{enumerate}
+
+
+\problem{This problem is about two types of Bayesian estimation of the slope parameters in linear regression which lead to the ridge and lasso estimates.}
+
+\begin{enumerate}
+\easysubproblem{Write the prior assumption about $\bbeta$ which yields the ridge estimates.}\spc{1}
+
+\easysubproblem{Using the prior and core assumption (which implies a likelihood function for $\B$), derive the ridge estimates.}\spc{14}
+
+\easysubproblem{Write the prior assumption about $\bbeta$ which yields the lasso estimates.}\spc{1}
+
+\easysubproblem{Using the prior and core assumption (which implies a likelihood function for $\B$), derive the lasso estimates to the point where you need to use a computer to run the optimization.}\spc{12}
+
+\easysubproblem{Both ridge and lasso shrink the estimate of $\bbeta$ towards what vector value?}\spc{-0.5}
+
+\easysubproblem{Describe what the prestep called \qu{variable selection} is within the modeling enterprise.}\spc{2}
+
+\easysubproblem{Describe what the prestep called \qu{variable selection} is within the modeling enterprise.}\spc{2}
+
+\easysubproblem{Describe why Lasso estimation has the added bonus of being able to perform variable selection and ridge does not.}\spc{3}
+\end{enumerate}
+
+\problem{This problem is about the specific robust regression methods we studied.}
+
+\begin{enumerate}
+
+\easysubproblem{If we only know that the errors $\errorrvoneton$ are independent, what tried and true method can we employ to get asymptotically valid inference for $\bbeta$?}\spc{0.5}
+
+\easysubproblem{If we know that the errors $\errorrvoneton$ are iid with expectation zero and variance $\sigsq$ for all values of $\x$ (i.e. the errors are \qu{homoskedastic}) but the errors are not necessarily normal, what is the asymptotic distribution of $\B$?}\spc{2}
+
+\easysubproblem{If we know that the errors $\errorrvoneton \inddist \normnot{0}{\sigsq_i}$ which means the errors are \qu{heteroskedastic}, what is the asymptotic distribution of $\B$ using the Huber-White estimator?}\spc{2}
+
+\easysubproblem{If we know that the errors $\errorrvoneton$ are independent with expectation zero and variance $\sigsq_i$ which means the errors are \qu{heteroskedastic}, what is the asymptotic distribution of $\B$ using the Huber-White estimator?}\spc{2}
+
+\easysubproblem{Is the F-tests we derived under the core assumption valid in any of the four above scenarios? Yes/no}\spc{-0.5}
+
+\end{enumerate}
+
+
+\problem{This problem is about inference for the generalized linear model (glm).}
+
+\begin{enumerate}
+
+\intermediatesubproblem{Let $Y_i \inddist \bernoulli{\theta_i}$ for $i = 1, \ldots, n$ where $\theta_i = \phi(\x_i \bbeta)$ and $\x_i \in \reals^{p+1}$ whose first entry is always 1. For the link function, use the complementary log-log (i.e. the standard Gumbel CDF). Write out the full likelihood below. No need to simplify or take the log.}\spc{3}
+
+\intermediatesubproblem{Given the assumptions in (a), write the likelihood ratio estimate for the omnibus test of $H_0: \beta_1 = \beta_2 = \ldots = \beta_p = 0$.}\spc{6}
+
+\intermediatesubproblem{Let $Y_i \inddist \poisson{\theta_i}$ for $i = 1, \ldots, n$ where $\theta_i = e^{\x_i \bbeta}$ and $\x_i \in \reals^{p+1}$ whose first entry is always 1. Write out the likelihood ratio when testing $H_0: \beta_2 = \beta_3 = 0$.}\spc{5}
+
+\intermediatesubproblem{Let $Y_i \inddist \weibullnot{k}{\theta_i}$ for $i = 1, \ldots, n$ where $\theta_i = e^{\x_i \bbeta}$ and $\x_i \in \reals^{p+1}$ whose first entry is always 1. This uses the alternate parameterization so that $\expe{Y_i} = \theta_i \Gamma(1 + 1/k)$. There is a censoring vector $\bv{c}$ which is 1 when censored on the right (meaning the real $y_i$ is $\geq $ to the observed $y_i$) and 0 when not censored. Write out the likelihood ratio when testing $H_0: \beta_2 = \beta_3 = 0$. }\spc{6}
+
+\hardsubproblem{[MA] Let $Y_i \inddist \normnot{\theta_i}{\sigsq}$ for $i = 1, \ldots, n$ where $\theta_i = \x_i \bbeta$ and $\x_i \in \reals^{p+1}$ whose first entry is always 1. So far, this is the vanilla linear model. However, consider now a wrinkle: there is a censoring vector $\bv{c}$ which is 1 when censored on the right (meaning the real $y_i$ is $\geq $ to the observed $y_i$) and 0 when not censored. This is called the \href{https://en.wikipedia.org/wiki/Tobit_model}{Tobit model}. Write the likelihood ratio estimate for the omnibus test of $H_0: \beta_1 = \beta_2 = \ldots = \beta_p = 0$.}\spc{6}
+\end{enumerate}
+
+
+\end{document}
+

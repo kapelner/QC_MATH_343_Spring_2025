@@ -1,0 +1,207 @@
+\documentclass[12pt]{article}
+
+\include{preamble}
+
+\newtoggle{professormode}
+\toggletrue{professormode} %STUDENTS: DELETE or COMMENT this line
+
+
+
+\title{MATH 343 / 643 Homework \#1}
+
+\author{Professor Adam Kapelner} %STUDENTS: write your name here
+
+\iftoggle{professormode}{
+\date{Due 11:59PM March 3, \the\year \\ \vspace{0.5cm} \small (this document last updated \currenttime~on \today)}
+}
+
+\renewcommand{\abstractname}{Instructions and Philosophy}
+
+\begin{document}
+\maketitle
+
+\iftoggle{professormode}{
+\begin{abstract}
+The path to success in this class is to do many problems. Unlike other courses, exclusively doing reading(s) will not help. Coming to lecture is akin to watching workout videos; thinking about and solving problems on your own is the actual ``working out.''  Feel free to \qu{work out} with others; \textbf{I want you to work on this in groups.}
+
+Reading is still \textit{required}. For this homework set, read as much as you can online about the topics we covered.
+
+The problems below are color coded: \ingreen{green} problems are considered \textit{easy} and marked \qu{[easy]}; \inorange{yellow} problems are considered \textit{intermediate} and marked \qu{[harder]}, \inred{red} problems are considered \textit{difficult} and marked \qu{[difficult]} and \inpurple{purple} problems are extra credit. The \textit{easy} problems are intended to be ``giveaways'' if you went to class. Do as much as you can of the others; I expect you to at least attempt the \textit{difficult} problems. 
+
+This homework is worth 100 points but the point distribution will not be determined until after the due date. See syllabus for the policy on late homework.
+
+Up to 7 points are given as a bonus if the homework is typed using \LaTeX. Links to instaling \LaTeX~and program for compiling \LaTeX~is found on the syllabus. You are encouraged to use \url{overleaf.com}. If you are handing in homework this way, read the comments in the code; there are two lines to comment out and you should replace my name with yours and write your section. The easiest way to use overleaf is to copy the raw text from hwxx.tex and preamble.tex into two new overleaf tex files with the same name. If you are asked to make drawings, you can take a picture of your handwritten drawing and insert them as figures or leave space using the \qu{$\backslash$vspace} command and draw them in after printing or attach them stapled.
+
+The document is available with spaces for you to write your answers. If not using \LaTeX, print this document and write in your answers. I do not accept homeworks which are \textit{not} on this printout. Keep this first page printed for your records.
+
+\end{abstract}
+
+\thispagestyle{empty}
+\vspace{1cm}
+NAME: \line(1,0){380}
+\clearpage
+}
+
+\problem{These are general questions about Gibbs Sampling and Metropolis-within-Gibbs Sampling.}
+
+\begin{enumerate}
+
+\easysubproblem{Let $\dime{\thetavec} = p$ and assume a prior $f(\thetavec)$ to be continuous. Describe the steps of the systematic sweep Gibbs Sampler algorithm below that will converge to $f(\thetavec\,|\,\X)$. Label the steps that are necessary for the $p$ dimensions separately e.g. Step 2.1, Step 2.2, \ldots, Step 2.p. You need to reference these step numbers later on in the problem.}\spc{10}
+
+
+\easysubproblem{What are all the items you need to know in order to write code for that implements a Gibbs Sampler?}\spc{2}
+
+\easysubproblem{Explain what burning of the chain is and why it is necessary.}\spc{4}
+
+\easysubproblem{Explain what thninng of the chain is and why it is necessary.}\spc{4}
+
+
+\easysubproblem{Pretend you are estimating $\cprob{\theta_1,~\theta_2}{X}$ and the joint posterior looks like the picture below where the $x$ axis is $\theta_1$ and the $y$ axis is $\theta_2$ and darker colors indicate higher probability. Begin at $\bracks{\theta_1,\theta_2} = \bracks{0.5,0.5}$ and simulate 5 iterations of the systematic sweep Gibbs sampling algorithm by drawing new points on the plot.}
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=3.5in]{contour.png}
+\end{figure}
+
+\easysubproblem{What are all the items you need to know in order to write code for that implements a Gibbs Sampler?}\spc{4}
+
+\easysubproblem{What are all the items you need to know in order to write code for that implements a Gibbs Sampler?}\spc{4}
+
+\easysubproblem{Consider the need to implement a Metropolis Hastings step within the Sampler for $\theta_j$. Why would you need to do this? At which step (reference your steps in part a) would you require it?}\spc{3}
+
+\easysubproblem{If $\support{\theta_j} = \reals$, propose a default proposal distribution to start with:
+
+\beqn
+q(\theta_{t,j}\,|\,\theta_{t-1,j}, \phi) = \hspace{6in}
+\eeqn
+
+Remember, the mean of proposal distributions should be $\theta_{t-1,j}$ (or close to that value) and $\phi$ are additional parameters which may or may not be used.}
+
+\intermediatesubproblem{How do you know if this proposal distribution is a good choice or not?}\spc{2}
+
+\hardsubproblem{If $\support{\theta_j} = (0, \infty)$, propose a proposal distribution 
+
+\beqn
+q(\theta_{t,j}\,|\,\theta_{t-1,j}, \phi) = \hspace{6in}
+\eeqn}
+
+\hardsubproblem{[MA] If $\support{\theta_j} = \zeroonecl$, propose a proposal distribution
+
+\beqn
+q(\theta_{t,j}\,|\,\theta_{t-1,j}, \phi) = \hspace{6in}
+\eeqn}
+
+\end{enumerate}
+
+\problem{Consider a count model that has many zeroes. We choose to fit it with a hurdle model
+
+\beqn
+\Xoneton \iid \begin{cases}
+0 & \withprob \theta_1 \\
+\text{ShiftedExtNegBinomial}(\theta_2, \theta_3, +1) & \withprob 1 - \theta_1
+\end{cases}
+\eeqn
+
+\noindent where the shifted distribution is just the extended negative binomial distribution so that the probability of realizing a count of one is the probability of realizing a count of zero, the probability of realizing a count of two is the probability of realizing a count of one, etc. i.e.
+
+\beqn
+\text{ShiftedExtNegBinomial}(\theta_2, \theta_3, +1) := p(x) = \frac{\Gammaf{x_i - 1 + \theta_2}}{(x_i - 1)! \Gammaf{\theta_2}} (1 - \theta_3)^{x_i - 1} \theta_3^{\theta_2}.
+\eeqn
+}
+
+\begin{enumerate}
+
+\intermediatesubproblem{What is the parameter space for all three parameters of interest? This may require looking at your MATH 340 notes.}\spc{3}
+
+\intermediatesubproblem{Assume a flat prior $f(\theta_1, \theta_2, \theta_3) \propto 1$. Find the kernel of the posterior distribution $f(\theta_1, \theta_2, \theta_3\,|\,\x, n_0, n_+)$ where $\x := \braces{\xoneton}$, the observations. Let $n_0$ be the number of zeroes in the dataset and $n_+ := n - n_0$, the number $>0$ in the dataset.}\spc{9}
+
+\intermediatesubproblem{Find the log of the kernel of the posterior distribution.}\spc{6}
+
+
+\easysubproblem{Find the conditional distribution $f(\theta_1\,|\,\x, n_0, n_+, \theta_2, \theta_3)$ as a brand name rv.}\spc{2}
+
+
+\easysubproblem{Find the kernel of the conditional distribution $f(\theta_2\,|\,\x, n_0, n_+, \theta_1, \theta_3)$.}\spc{3}
+
+
+\easysubproblem{Is the conditional distribution $f(\theta_2\,|\,\x, n_0, n_+, \theta_1, \theta_3)$ a brand name rv? Yes/no}\spc{-0.5}
+
+\easysubproblem{Given your answer in (a), the $\support{\theta_2}$ and your answer from problem 1(k) which was marked difficult, provide a proposal distribution 
+
+\beqn
+q(\theta_{t,2}\,|\,\theta_{t-1,2}, \phi) = \hspace{6in}
+\eeqn}
+
+
+
+\easysubproblem{Find the conditional distribution $f(\theta_3\,|\,\x, n_0, n_+, \theta_1, \theta_2)$ as a brand name rv.}\spc{2}
+
+
+\end{enumerate}
+
+
+\problem{These are general questions about Permutation Testing.}
+
+\begin{enumerate}
+
+\easysubproblem{What are the null and alternative hypotheses for a two-sample permutation test?}\spc{3}
+
+\easysubproblem{Let $n_1$ and $n_2$ be the sample sizes from population one and population two respectively. How many possible sample \qu{permutations} are there? I put permutations in quotes because it's not truly a \qu{permutation} in the sense that you were taught in MATH 241.}\spc{1}
+
+\easysubproblem{Give three examples of a test statistic to employ within the body of the loop of a permutation test.}\spc{3}
+
+\hardsubproblem{Explain how you would calculate a p-value in a permutation test.}\spc{6}
+
+\end{enumerate}
+
+\problem{These are general questions about the Bootstrap. Assume $\Xoneton \iid$ some DGP.}
+
+\begin{enumerate}
+
+\easysubproblem{Describe the steps in the bootstrap procedure for the estimate $\thetahathat := w(\xoneton)$ which estimates $\theta$.}\spc{6}
+
+\easysubproblem{In what situations should the bootstrap be employed instead of other inferential procedures you learned about?}\spc{4}
+
+\hardsubproblem{Explain in what situations the bootstrap fails.}\spc{6}
+
+\end{enumerate}
+
+\problem{These are questions about parametric survival using the Weibull model i.e.
+
+\beqn
+Y_1, \ldots, Y_n \iid \text{Weibull}(k, \lambda) := f(y) = k\lambda^k y^{k-1} e^{-\lambda^k y^k} \indic{y > 0}, ~~ F(y) = 1 - e^{-\lambda^k y^k}, ~~ S(y) = e^{-\lambda^k y^k}
+\eeqn
+}
+
+\begin{enumerate}
+
+
+\hardsubproblem{Assume no censoring in the data. Find closed form expressions and/or equations for the MLEs of $k$ and $\lambda$}\spc{8}
+
+\hardsubproblem{Assume censoring in the data so that $\bf{c}$ is the binary vector that is one when censored and zero if measured. Let $\y$ be the vector of measurements or censored values if not measured. Find $\ell\parens{k,\lambda; \y, \c}.$}\spc{10}
+
+\intermediatesubproblem{In class we proved that $\expe{Y} = \oneover{\lambda}\Gammaf{1 + \oneover{k}}$. Use this result to find $\cexpe{Y}{Y>a}$ where $a>0$. You should first find the density of the truncated distribution. Then the expectation of this distribution will basically follow the same steps as found in lecture when we derived the expectation.}\spc{6}
+
+
+\intermediatesubproblem{Describe the steps in an EM algorithm to find the maximum likelihood estimates of $k$ and $\lambda$.}\spc{5}
+\end{enumerate}
+
+
+\problem{These are questions about nonparametric survival inference.}
+
+\begin{enumerate}
+
+\intermediatesubproblem{Explain how the Kaplan-Meier estimator differs from the empirical survival function if there is censoring at all different times before and after the maximum measured survival. There is only one difference!}\spc{8}
+
+\easysubproblem{Consider the dataset $y = \braces{79,   81,   92+,  95,  105+, 107,  122}$ where the \qu{+} signs indicate censored values. Draw the Kaplan-Meier estimate of $S(y)$. Try to make it to scale as best as possible.} \spc{10}
+
+
+\easysubproblem{Write the hypotheses for the log-rank test.}\spc{2}
+
+\easysubproblem{Write the formula for the test statistic in the log-rank test.}\spc{5}
+
+\end{enumerate}
+
+
+\end{document}
+
