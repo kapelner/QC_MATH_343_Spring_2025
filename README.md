@@ -7,7 +7,7 @@ We will use github and [git](https://en.wikipedia.org/wiki/Git) for sharing code
 
 ## Lectures
 
-My lecture notes are scanned in as PDF files contributed by myself and will mostly follow the previous year's lectures found [here](QC_MATH_343_Spring_2024).
+My lecture notes are scanned in as PDF files contributed by myself and will mostly follow the previous year's lectures found [here](https://github.com/kapelner/QC_MATH_343_Spring_2024/tree/main/lectures).
 
 ## Homeworks
 
