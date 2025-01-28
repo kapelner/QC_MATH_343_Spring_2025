@@ -73,5 +73,5 @@ acf(gibbs_chain$theta_2)
 nrow(gibbs_chain)
 
 #straight to inference
-visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta_1, true_theta_1)
-visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta_2, true_theta_2)
+visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta_1, true_value = true_theta_1, alpha = 0.05)
+visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta_2, true_value = true_theta_2, alpha = 0.05)

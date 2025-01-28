@@ -101,5 +101,6 @@ gibbs_chain = gibbs_chain[seq(1, nrow(gibbs_chain), by = t_thin), ]
 nrow(gibbs_chain)
 
 #inference
-visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta1s, true_theta_1)
-visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta2s, true_theta_2)
+visualize_chain_and_compute_estimates_and_cr(gibbs_chain$ms, true_value = true_m, alpha = 0.05)
+visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta1s, true_value = true_theta_1, alpha = 0.05)
+visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta2s, true_value = true_theta_2, alpha = 0.05)
