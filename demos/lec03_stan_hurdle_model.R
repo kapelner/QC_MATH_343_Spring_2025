@@ -1,4 +1,4 @@
-source("lec02_visualize_function.R")
+source("lec01_visualize_function.R")
 
 #Hamiltonian Monte Carlo (2011)
 #https://academic.oup.com/jrsssb/article/73/2/123/7034367
@@ -17,7 +17,7 @@ source("lec02_visualize_function.R")
 #which is accessible from most popular languages (including R
 #via the package "rstan"). See
 #https://en.wikipedia.org/wiki/Stan_(software)
-pacman::p_load(rstan, ggplot2)
+pacman::p_load(rstan)
 #on your computer... make sure the following line works otherwise stan is not 
 #installed correctly!
 # example(stan_model, package = "rstan", run.dontrun = TRUE)
