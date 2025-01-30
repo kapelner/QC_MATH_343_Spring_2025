@@ -1,5 +1,5 @@
 pacman::p_load(ggplot2, MCMCpack)
-source("lec02_visualize_function.R")
+source("visualize_function.R")
 
 set.seed(1)
 n = 100
@@ -121,10 +121,22 @@ t_thin = 15
 gibbs_chain = gibbs_chain[seq(1, nrow(gibbs_chain), by = t_thin), ]
 #how many samples left?
 nrow(gibbs_chain)
+#break out the Is
+gibbs_chain_Is = gibbs_chain[, 7 : ncol(gibbs_chain)]
+gibbs_chain = gibbs_chain[, 1 : 5]
+
 
 #inference
-visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta0s, true_theta_0)
-visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta1s, true_theta_1)
-visualize_chain_and_compute_estimates_and_cr(gibbs_chain$sigsq0s, true_sigsq_0)
-visualize_chain_and_compute_estimates_and_cr(gibbs_chain$sigsq1s, true_sigsq_1)
-visualize_chain_and_compute_estimates_and_cr(gibbs_chain$rhos, true_rho)
+visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta0s, true_value = true_theta_0, alpha = 0.05)
+visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta1s, true_value = true_theta_1, alpha = 0.05)
+visualize_chain_and_compute_estimates_and_cr(gibbs_chain$sigsq0s, true_value = true_sigsq_0, alpha = 0.05)
+visualize_chain_and_compute_estimates_and_cr(gibbs_chain$sigsq1s, true_value = true_sigsq_1, alpha = 0.05)
+visualize_chain_and_compute_estimates_and_cr(gibbs_chain$rhos,    true_value = true_rho,     alpha = 0.05)
+
+#we can even do inference on the I's. For example
+prop.table(table(gibbs_chain_Is[, 1]))
+prop.table(table(gibbs_chain_Is[, 2]))
+prop.table(table(gibbs_chain_Is[, 10]))
+prop.table(table(gibbs_chain_Is[, 50]))
+prop.table(table(gibbs_chain_Is[, 100]))
+#what's the MMSE for I_i?

@@ -1,6 +1,6 @@
-pacman::p_load(ggplot2)
+source("visualize_function.R")
+
 set.seed(1)
-source("lec02_visualize_function.R")
 
 n = 40
 
@@ -69,7 +69,7 @@ gibbs_chain = data.frame(
 )
 
 #assess convergence
-max_t = 1e4
+max_t = 2000
 ggplot(gibbs_chain) +
   geom_point(aes(x = t, y = theta1s)) +
   xlim(1, max_t)
@@ -92,7 +92,7 @@ acf(theta2s, xlim = c(1, 25), ylim = c(-0.05, 0.3))
 acf(ms, xlim = c(1, 25), ylim = c(-0.05, 0.3))
 
 #looks like it thins around 6
-t_thin = 100
+t_thin = 6
 
 #thin the chains
 gibbs_chain = gibbs_chain[seq(1, nrow(gibbs_chain), by = t_thin), ]
@@ -101,5 +101,6 @@ gibbs_chain = gibbs_chain[seq(1, nrow(gibbs_chain), by = t_thin), ]
 nrow(gibbs_chain)
 
 #inference
-visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta1s, true_theta_1)
-visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta2s, true_theta_2)
+visualize_chain_and_compute_estimates_and_cr(gibbs_chain$ms, true_value = true_m, alpha = 0.05)
+visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta1s, true_value = true_theta_1, alpha = 0.05)
+visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta2s, true_value = true_theta_2, alpha = 0.05)

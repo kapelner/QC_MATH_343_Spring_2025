@@ -1,5 +1,4 @@
-pacman::p_load(ggplot2)
-source("lec02_visualize_function.R")
+source("visualize_function.R")
 #https://scholar.google.com/scholar?hl=en&as_sdt=7%2C39&q=Stochastic+relaxation%2C+Gibbs+distributions%2C+and+the+Bayesian+restoration+of+images&btnG=
 
 set.seed(1)
@@ -68,11 +67,11 @@ par(mfrow = c(2, 1))
 acf(gibbs_chain$theta_1)
 acf(gibbs_chain$theta_2)
 
-#no thin!
+#no need to thin!
 
 #how many samples left?
 nrow(gibbs_chain)
 
 #straight to inference
-visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta_1, true_theta_1)
-visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta_2, true_theta_2)
+visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta_1, true_value = true_theta_1, alpha = 0.05)
+visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta_2, true_value = true_theta_2, alpha = 0.05)
