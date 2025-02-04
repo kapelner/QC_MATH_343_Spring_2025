@@ -7,7 +7,7 @@ n = 40
 #############we don't get to see the real DGP!
 true_m = 10       #theta_1
 true_theta_1 = 2 #theta_2
-true_theta_2 = 4 #theta_3
+true_theta_2 = 6 #theta_3
 
 x = rpois(true_m, true_theta_1)
 x = c(x, rpois(n - true_m, true_theta_2))
@@ -84,6 +84,7 @@ ggplot(gibbs_chain) +
 t_burn_in = 100
 gibbs_chain = gibbs_chain[t_burn_in : num_tot_samples, ]
 
+head(gibbs_chain)
 
 ##assess autocorrelation
 par(mfrow = c(3, 1))
@@ -92,7 +93,7 @@ acf(theta2s, xlim = c(1, 25), ylim = c(-0.05, 0.3))
 acf(ms, xlim = c(1, 25), ylim = c(-0.05, 0.3))
 
 #looks like it thins around 6
-t_thin = 6
+t_thin = 3
 
 #thin the chains
 gibbs_chain = gibbs_chain[seq(1, nrow(gibbs_chain), by = t_thin), ]

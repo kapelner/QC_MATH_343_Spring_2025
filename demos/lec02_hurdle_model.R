@@ -39,11 +39,11 @@ n0 = sum(x == 0)
 n_minus_n0 = n - n0
 n0
 n_minus_n0
-sum_x_minus_1_greater_than_0 = sum(x[x > 0] - 1)
+sum_x_minus_1_greater_than_0 = sum(x[x > 0])
 ###do the samples
 for (s in 2 : num_tot_samples){
   theta_1s[s] = rbeta(1, n0 + 1, n_minus_n0)
-  theta_2s[s] = rgamma(1, 1 + sum_x_minus_1_greater_than_0, n_minus_n0)
+  theta_2s[s] = rgamma(1, 1 + sum_x_minus_1_greater_than_0 - n_minus_n0, n_minus_n0)
 }
 
 #collect all iterations
