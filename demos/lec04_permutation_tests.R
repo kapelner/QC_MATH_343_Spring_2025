@@ -11,10 +11,13 @@ x2 = rnorm(n2)
 #############we don't get to see the real DGP!
 
 #look at data
-ggplot(data.frame(x = c(x1, x2), samp = c(rep("x1", n1), rep("x2", n2)))) + 
+ggplot(data.frame(x = c(x1, x2), samp = c(rep("sample_1", n1), rep("sample_2", n2)))) + 
   geom_histogram(aes(x = x, fill = samp, col = samp), alpha = 0.5, bins = 50)
 
 #let's set the test statistic to be the ratio of sample variances
+test_stat = function(x_1, x_2){
+  var(x_1) / var(x_2)
+}
 
 B = 1e5
 x = c(x1, x2)
@@ -29,12 +32,12 @@ for (b in 1 : B){
   x_b1 = x[x_ind_b1]
   x_b2 = x[x_ind_b2]
   #calculate the test statistic
-  thetahathat_bs[b] = var(x_b1) / var(x_b2)
+  thetahathat_bs[b] = test_stat(x_b1, x_b2)
 }
 rm(x, x_ind, b, x_ind_b, x_ind_b1, x_ind_b2, x_b1, x_b2)
 
 #now calculate the actual test statistic
-thetahathat = var(x1) / var(x2)
+thetahathat = test_stat(x1, x2)
 
 alpha = 0.05
 ret_a = quantile(thetahathat_bs, alpha / 2)
@@ -66,7 +69,7 @@ x2 = rweibull(n1, 3, 1.5)
 
 
 #look at data
-ggplot(data.frame(x = c(x1, x2), samp = c(rep("x1", n1), rep("x2", n2)))) + 
+ggplot(data.frame(x = c(x1, x2), samp = c(rep("sample_1", n1), rep("sample_2", n2)))) + 
   geom_boxplot(aes(x = x, col = samp))
 round(rbind(
   sort(x1),
@@ -79,6 +82,14 @@ round(rbind(
 
 #here it makes sense to use a "better-designed" test statistic
 #such as the 2-sample t-stat for different variances!
+test_stat = function(x_1, x_2){
+  (mean(x_1) - mean(x_2)) / 
+    sqrt(
+      var(x_1) / length(x_1) + 
+      var(x_2) / length(x_2)
+    )
+}
+
 
 #can we use the 
 #here, all permutations can be done as the following is ~184,000
@@ -87,6 +98,7 @@ choose(n1 + n2, n1)
 #the test statistic here to 
 
 pacman::p_load(combinat)
+set.seed(1)
 x = c(x1, x2)
 x_ind = 1 : length(x)
 x_ind_permutations = combn(x_ind, n1)
@@ -102,12 +114,12 @@ for (b in 1 : B){
   x_b1 = x[x_ind_b1]
   x_b2 = x[x_ind_b2]
   #calculate the test statistic
-  thetahathat_bs[b] = (mean(x_b1) - mean(x_b2)) / sqrt(var(x_b1) / n1 + var(x_b2) / n2)
+  thetahathat_bs[b] =  test_stat(x_b1, x_b2) 
 }
 rm(x, b, x_ind_b, x_ind_b1, x_ind_b2, x_b1, x_b2)
 
 #now calculate the actual test statistic
-thetahathat = (mean(x1) - mean(x2)) / sqrt(var(x1) / n1 + var(x2) / n2)
+thetahathat = test_stat(x1, x2)
 
 alpha = 0.05
 ret_a = quantile(thetahathat_bs, alpha / 2)
@@ -156,6 +168,7 @@ for (nsim in 1 : Nsim){
   thetahathat = (mean(x1) - mean(x2)) / sqrt(var(x1) / n1 + var(x2) / n2)
   rejections_perm[nsim] = thetahathat < ret_a | thetahathat > ret_b
   rejections_ks[nsim] = ks.test(x1, x2)$p.value < alpha
+  
 }
 rm(x, x_ind, x_ind_permutations, b, x_ind_b, x_ind_b1, x_ind_b2, x_b1, x_b2, thetahathat, nsim)
 
