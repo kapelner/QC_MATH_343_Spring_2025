@@ -12,7 +12,7 @@
 \author{Professor Adam Kapelner} %STUDENTS: write your name here
 
 \iftoggle{professormode}{
-\date{Due 11:59PM March 3, \the\year \\ \vspace{0.5cm} \small (this document last updated \currenttime~on \today)}
+\date{Due noon February 28 on github \\ \vspace{0.5cm} \small (this document last updated \currenttime~on \today)}
 }
 
 \renewcommand{\abstractname}{Instructions and Philosophy}
@@ -42,18 +42,18 @@ NAME: \line(1,0){380}
 \clearpage
 }
 
-\problem{These are general questions about Gibbs Sampling and Metropolis-within-Gibbs Sampling.}
+\problem{These are general questions about Gibbs Sampling.}% and Metropolis-within-Gibbs Sampling.}
 
 \begin{enumerate}
 
 \easysubproblem{Let $\dime{\thetavec} = p$ and assume a prior $f(\thetavec)$ to be continuous. Describe the steps of the systematic sweep Gibbs Sampler algorithm below that will converge to $f(\thetavec\,|\,\X)$. Label the steps that are necessary for the $p$ dimensions separately e.g. Step 2.1, Step 2.2, \ldots, Step 2.p. You need to reference these step numbers later on in the problem.}\spc{10}
 
 
-\easysubproblem{What are all the items you need to know in order to write code for that implements a Gibbs Sampler?}\spc{2}
+\easysubproblem{What are all the items you need to know in order to write the code that implements a Gibbs Sampler?}\spc{2}
 
-\easysubproblem{Explain what burning of the chain is and why it is necessary.}\spc{4}
+\easysubproblem{Explain what burning of the Gibbs sample chain is and why it is necessary.}\spc{4}
 
-\easysubproblem{Explain what thninng of the chain is and why it is necessary.}\spc{4}
+\easysubproblem{Explain what thinning of the chain is and why it is necessary.}\spc{4}
 
 
 \easysubproblem{Pretend you are estimating $\cprob{\theta_1,~\theta_2}{X}$ and the joint posterior looks like the picture below where the $x$ axis is $\theta_1$ and the $y$ axis is $\theta_2$ and darker colors indicate higher probability. Begin at $\bracks{\theta_1,\theta_2} = \bracks{0.5,0.5}$ and simulate 5 iterations of the systematic sweep Gibbs sampling algorithm by drawing new points on the plot.}
@@ -63,33 +63,29 @@ NAME: \line(1,0){380}
 \includegraphics[width=3.5in]{contour.png}
 \end{figure}
 
-\easysubproblem{What are all the items you need to know in order to write code for that implements a Gibbs Sampler?}\spc{4}
-
-\easysubproblem{What are all the items you need to know in order to write code for that implements a Gibbs Sampler?}\spc{4}
-
-\easysubproblem{Consider the need to implement a Metropolis Hastings step within the Sampler for $\theta_j$. Why would you need to do this? At which step (reference your steps in part a) would you require it?}\spc{3}
-
-\easysubproblem{If $\support{\theta_j} = \reals$, propose a default proposal distribution to start with:
-
-\beqn
-q(\theta_{t,j}\,|\,\theta_{t-1,j}, \phi) = \hspace{6in}
-\eeqn
-
-Remember, the mean of proposal distributions should be $\theta_{t-1,j}$ (or close to that value) and $\phi$ are additional parameters which may or may not be used.}
-
-\intermediatesubproblem{How do you know if this proposal distribution is a good choice or not?}\spc{2}
-
-\hardsubproblem{If $\support{\theta_j} = (0, \infty)$, propose a proposal distribution 
-
-\beqn
-q(\theta_{t,j}\,|\,\theta_{t-1,j}, \phi) = \hspace{6in}
-\eeqn}
-
-\hardsubproblem{[MA] If $\support{\theta_j} = \zeroonecl$, propose a proposal distribution
-
-\beqn
-q(\theta_{t,j}\,|\,\theta_{t-1,j}, \phi) = \hspace{6in}
-\eeqn}
+%\easysubproblem{Consider the need to implement a Metropolis Hastings step within the Sampler for $\theta_j$. Why would you need to do this? At which step (reference your steps in part a) would you require it?}\spc{3}
+%
+%\easysubproblem{If $\support{\theta_j} = \reals$, propose a default proposal distribution to start with:
+%
+%\beqn
+%q(\theta_{t,j}\,|\,\theta_{t-1,j}, \phi) = \hspace{6in}
+%\eeqn
+%
+%Remember, the mean of proposal distributions should be $\theta_{t-1,j}$ (or close to that value) and $\phi$ are additional parameters which may or may not be used.}
+%
+%\intermediatesubproblem{How do you know if this proposal distribution is a good choice or not?}\spc{2}
+%
+%\hardsubproblem{If $\support{\theta_j} = (0, \infty)$, propose a proposal distribution 
+%
+%\beqn
+%q(\theta_{t,j}\,|\,\theta_{t-1,j}, \phi) = \hspace{6in}
+%\eeqn}
+%
+%\hardsubproblem{[MA] If $\support{\theta_j} = \zeroonecl$, propose a proposal distribution
+%
+%\beqn
+%q(\theta_{t,j}\,|\,\theta_{t-1,j}, \phi) = \hspace{6in}
+%\eeqn}
 
 \end{enumerate}
 
@@ -115,7 +111,7 @@ q(\theta_{t,j}\,|\,\theta_{t-1,j}, \phi) = \hspace{6in}
 
 \intermediatesubproblem{Assume a flat prior $f(\theta_1, \theta_2, \theta_3) \propto 1$. Find the kernel of the posterior distribution $f(\theta_1, \theta_2, \theta_3\,|\,\x, n_0, n_+)$ where $\x := \braces{\xoneton}$, the observations. Let $n_0$ be the number of zeroes in the dataset and $n_+ := n - n_0$, the number $>0$ in the dataset.}\spc{9}
 
-\intermediatesubproblem{Find the log of the kernel of the posterior distribution.}\spc{6}
+%\intermediatesubproblem{Find the log of the kernel of the posterior distribution.}\spc{6}
 
 
 \easysubproblem{Find the conditional distribution $f(\theta_1\,|\,\x, n_0, n_+, \theta_2, \theta_3)$ as a brand name rv.}\spc{2}
@@ -126,16 +122,69 @@ q(\theta_{t,j}\,|\,\theta_{t-1,j}, \phi) = \hspace{6in}
 
 \easysubproblem{Is the conditional distribution $f(\theta_2\,|\,\x, n_0, n_+, \theta_1, \theta_3)$ a brand name rv? Yes/no}\spc{-0.5}
 
-\easysubproblem{Given your answer in (a), the $\support{\theta_2}$ and your answer from problem 1(k) which was marked difficult, provide a proposal distribution 
-
-\beqn
-q(\theta_{t,2}\,|\,\theta_{t-1,2}, \phi) = \hspace{6in}
-\eeqn}
+%\easysubproblem{Given your answer in (a), the $\support{\theta_2}$ and your answer from problem 1(k) which was marked difficult, provide a proposal distribution 
+%
+%\beqn
+%q(\theta_{t,2}\,|\,\theta_{t-1,2}, \phi) = \hspace{6in}
+%\eeqn}
 
 
 
 \easysubproblem{Find the conditional distribution $f(\theta_3\,|\,\x, n_0, n_+, \theta_1, \theta_2)$ as a brand name rv.}\spc{2}
 
+\easysubproblem{Is it possible to get inference for this model using a Gibbs Sampler? Why or why not?}\spc{2}
+
+\end{enumerate}
+
+\problem{Consider the change point model
+
+\beqn
+X_1, X_2, \ldots, X_{\theta_3} \iid \normnot{\theta_1}{\sigsq_1} ~~\text{independent of}~~
+X_{\theta_3 + 1}, X_{\theta_3 + 2}, \ldots, X_{n} \iid \normnot{\theta_2}{\sigsq_2}
+\eeqn
+}
+
+\begin{enumerate}
+
+\intermediatesubproblem{What is the parameter space for all five parameters of interest?}\spc{3}
+
+\intermediatesubproblem{Assume a flat prior $\theta_1, \theta_2, \theta_3$ and Jeffrey's prior for $\sigsq_1, \sigsq_2$ which are assumed a priori independent of one another. Find the kernel of the posterior distribution.}\spc{9}
+
+\intermediatesubproblem{Find the kernels of all five conditional distributions. If they are proportional to a known distribution, name it.}\spc{5}
+
+\intermediatesubproblem{Find the conditional PMF of $\theta_3$.}\spc{4}
+
+\easysubproblem{Is it possible to get inference for this model using a Gibbs Sampler? Why or why not?}\spc{2}
+
+\end{enumerate}
+
+
+\problem{Consider the discrete mixture model:
+
+\beqn
+\Xoneton \iid \begin{cases}
+\poisson{\theta_0} & \withprob \rho \\
+\poisson{\theta_1} & \withprob 1 - \rho
+\end{cases}
+\eeqn
+}
+
+\begin{enumerate}
+
+\intermediatesubproblem{What is the parameter space for all three parameters of interest?}\spc{3}
+
+\intermediatesubproblem{Assume a flat prior one all parameters. Find the kernel of the posterior distribution.}\spc{7}
+
+\easysubproblem{Is this proportional to any known distribution?}\spc{1}
+
+\intermediatesubproblem{Is it possible to make a Gibbs Sampler to get inference here? Why or why not.}\spc{3}
+
+\intermediatesubproblem{Let's use data augmentation. Add $I_1, \ldots, I_n$ as parameters whose parameter space is $\braces{0,1}$ where $I_i=1$ denotes that the $i$th observation has membership in the $\poisson{\theta_0}$ distribution and $I_i=0$ denotes that the $i$th observation has membership in the $\poisson{\theta_1}$ distribution. Now find the kernel of the posterior distribution.}\spc{7}
+
+
+\intermediatesubproblem{Find the kernels of all four conditional distributions (for $\theta_0, \theta_1, \rho, I_i$). If they are proportional to a known distribution, name it.}\spc{10}
+
+\easysubproblem{Is it possible to get inference for this model using a Gibbs Sampler after data augmentation? Why or why not?}\spc{2}
 
 \end{enumerate}
 
@@ -144,7 +193,7 @@ q(\theta_{t,2}\,|\,\theta_{t-1,2}, \phi) = \hspace{6in}
 
 \begin{enumerate}
 
-\easysubproblem{What are the null and alternative hypotheses for a two-sample permutation test?}\spc{3}
+\easysubproblem{What are the null and alternative hypotheses for a two-sample permutation test?}\spc{1}
 
 \easysubproblem{Let $n_1$ and $n_2$ be the sample sizes from population one and population two respectively. How many possible sample \qu{permutations} are there? I put permutations in quotes because it's not truly a \qu{permutation} in the sense that you were taught in MATH 241.}\spc{1}
 
@@ -158,11 +207,11 @@ q(\theta_{t,2}\,|\,\theta_{t-1,2}, \phi) = \hspace{6in}
 
 \begin{enumerate}
 
-\easysubproblem{Describe the steps in the bootstrap procedure for the estimate $\thetahathat := w(\xoneton)$ which estimates $\theta$.}\spc{6}
+\easysubproblem{Describe the steps in the bootstrap procedure for the estimate $\thetahathat := w(\xoneton)$ which estimates $\theta$.}\spc{4}
 
 \easysubproblem{In what situations should the bootstrap be employed instead of other inferential procedures you learned about?}\spc{4}
 
-\hardsubproblem{Explain in what situations the bootstrap fails.}\spc{6}
+\hardsubproblem{Explain in what situations the bootstrap fails. Read online about this.}\spc{2}
 
 \end{enumerate}
 
@@ -180,10 +229,10 @@ Y_1, \ldots, Y_n \iid \text{Weibull}(k, \lambda) := f(y) = k\lambda^k y^{k-1} e^
 
 \hardsubproblem{Assume censoring in the data so that $\bf{c}$ is the binary vector that is one when censored and zero if measured. Let $\y$ be the vector of measurements or censored values if not measured. Find $\ell\parens{k,\lambda; \y, \c}.$}\spc{10}
 
-\intermediatesubproblem{In class we proved that $\expe{Y} = \oneover{\lambda}\Gammaf{1 + \oneover{k}}$. Use this result to find $\cexpe{Y}{Y>a}$ where $a>0$. You should first find the density of the truncated distribution. Then the expectation of this distribution will basically follow the same steps as found in lecture when we derived the expectation.}\spc{6}
+\intermediatesubproblem{In class we proved that $\expe{Y} = \oneover{\lambda}\Gammaf{1 + \oneover{k}}$. Use this result to find $\cexpe{Y}{Y>a}$ where $a>0$. You should first find the density of the truncated distribution. Then the expectation of this distribution will basically follow the same steps as found in lecture when we derived the expectation.}\spc{4}
 
 
-\intermediatesubproblem{Describe the steps in an EM algorithm to find the maximum likelihood estimates of $k$ and $\lambda$.}\spc{5}
+%\intermediatesubproblem{Describe the steps in an EM algorithm to find the maximum likelihood estimates of $k$ and $\lambda$.}\spc{5}
 \end{enumerate}
 
 
@@ -191,10 +240,21 @@ Y_1, \ldots, Y_n \iid \text{Weibull}(k, \lambda) := f(y) = k\lambda^k y^{k-1} e^
 
 \begin{enumerate}
 
-\intermediatesubproblem{Explain how the Kaplan-Meier estimator differs from the empirical survival function if there is censoring at all different times before and after the maximum measured survival. There is only one difference!}\spc{8}
+\easysubproblem{Show that the empirical survival function is equal to the product limit estimator form with no censoring. Make sure to define what your notation means.} \spc{4}
 
-\easysubproblem{Consider the dataset $y = \braces{79,   81,   92+,  95,  105+, 107,  122}$ where the \qu{+} signs indicate censored values. Draw the Kaplan-Meier estimate of $S(y)$. Try to make it to scale as best as possible.} \spc{10}
+\easysubproblem{Consider the dataset $y = \braces{79,   81,   92,  95,  105, 107, 122}$ measured in days. Draw the estimate of $S(y)$.} \spc{8}
 
+\intermediatesubproblem{Let your parameter of interest $\theta$ be survival past 106 days. Compute a 95\% CI for $\theta$.}\spc{3}
+
+\intermediatesubproblem{Test $H_a: \theta > 0.5$.}\spc{2}
+
+\easysubproblem{Explain how you would use the bootstrap to find a CI for the median. Explain why the bootstrap won't be so accurate in this example.} \spc{3}
+
+\intermediatesubproblem{Rederive the Kaplan-Meier estimator for the survival function.}\spc{8}
+
+\intermediatesubproblem{Consider the dataset $y = \braces{79,   81,   92+,  95,  105+, 107,  122}$ measured in days where the \qu{+} signs indicate censored values. Draw the Kaplan-Meier estimate of $S(y)$ in a different color atop the estimate in (b). Try to make it to scale as best as possible.} \spc{0}
+
+\intermediatesubproblem{Explain how you would use the bootstrap to find a CI for the median.} \spc{6}
 
 \easysubproblem{Write the hypotheses for the log-rank test.}\spc{2}
 

@@ -2,7 +2,7 @@
 title: "Practice Assignment 1 MATH 343"
 author: "Your Name Here"
 output: pdf_document
-date: "11:59PM March 3"
+date: "noon February 28"
 ---
 
 This practice assignment is coupled to the theory assignment (the problem numbers align herein) and should be worked on concomitantly.
@@ -11,124 +11,70 @@ You should have R and RStudio (latest versions) installed to edit this file. You
 
 The tools for solving these problems can be found in the class demos located [here](https://github.com/kapelner/QC_MATH_343_Spring_2024/tree/main/demos). I prefer you to follow the methods from these examples. If you google and find esoteric code you don't understand or if you use chat GPT, this doesn't do you too much good in the long run.
 
-To "hand in" the homework, you should follow the github repo setup instructions on the course homepage. Once you have your own class repo e.g. located in ~, make a /labs directory. Then go back to ~ and clone the class repo. Then copy this file into your repo/labs directory. Edits made there can be committed and pushed. You must push this completed file by the due date to avoid late penalties. 
-
-NOT REQUIRED: After you're done, you have the option to compile this file into a PDF (use the "knit to PDF" button on the submenu above). These final PDF's look pretty as it includes the output of your code. You can push the PDF as well. It will look nice in your portfolio.
+To "hand in" the homework, you should follow the github repo setup instructions on the course homepage. Once you have your own class repo e.g. located in ~, make a /labs directory. Then go back to ~ and clone the class repo. Then copy this file into your repo/labs directory. Edits made there can be committed and pushed. You must push this completed file by the due date to avoid late penalties.
 
 This lab requires the following packages. You should make sure they load before beginning:
 
 ```{r}
-pacman::p_load(ggplot2, rstan, survival, optimx)
+pacman::p_load(ggplot2, survival, optimx)
 ```
 
-You should also make sure stan works by running the following code:
+## Problem 1: Gibbs Sampler
 
-```{r}
-example(stan_model, package = "rstan", run.dontrun = TRUE)
-```
-
-
-## Problem 2: Metropolis-within-Gibbs Sampling and Stan
-
-Problem 2 in the theory homework assumes a hurdle-extnegbinomial model for count data. As usual, we will generate the real data below from this DGP (which you don't have the luxury of seeing). We will also visualize its histogram:
+Problem 3 in the theory homework assumes a normal change point model. We will make up some data and visualize it using a scatterplot:
 
 ```{r}
 set.seed(1)
 n = 50
 
-true_theta_1 = 0.2345
-true_theta_2 = 4.5678
-true_theta_3 = 0.3456
+true_theta_1 = 3
+true_theta_2 = 6
+true_sigsq_1 = 1.5
+true_sigsq_2 = 0.5
+true_theta_3 = 37
 
-x = array(NA, n)
-for (i in 1 : n){
-  x[i] =  if (runif(1) <= true_theta_1){
-            0
-          } else {
-            rnbinom(1, true_theta_2, true_theta_3) + 1
-          }
-}
+x = c(rnorm(true_theta_3, true_theta_1, true_sigsq_1), rnorm(n - true_theta_3, true_theta_2, true_sigsq_2))
 
-ggplot(data.frame(x = x)) + 
-  geom_histogram(aes(x = x))
+ggplot(data.frame(t = 1 : n, x = x)) + 
+  geom_point(aes(x = t, y = x))
 ```
 
-Imagine you are looking at this dataset of counts for the first time (i.e. forget that we generated the data ourselves). Why do you think a hurdle model with an extended negative binomial is appropriate?
+Imagine you are looking at this dataset of counts for the first time (i.e. forget that we generated the data ourselves). Why do you think athe model is appropriate?
 
 #TO-DO
 
-We will now implement the Metropolis-within-Gibbs sampler given what you derived in the theoretical assignment. You found that I've provided some boilerplate code from the class demos below. It is your job to do the sampling.
+We will now implement the Gibbs sampler given what you derived in the theoretical assignment. You found that I've provided some boilerplate code from the class demos below. It is your job to do the sampling.
 
 ```{r}
 num_tot_samples = 1e4
-theta_1s = array(NA, num_tot_samples)
-theta_2s = array(NA, num_tot_samples)
 theta_3s = array(NA, num_tot_samples)
+theta_1s = array(NA, num_tot_samples)
+sigsq_1s = array(NA, num_tot_samples)
+theta_2s = array(NA, num_tot_samples)
+sigsq_2s = array(NA, num_tot_samples)
 
 ###initialize thetas to be null values
-theta_1s[1] = .Machine$double.eps
+theta_3s[1] = #TO-DO
 theta_2s[1] = .Machine$double.eps
 theta_3s[1] = .Machine$double.eps
 
-
-##useful data to cache here
-n_0 = sum(x == 0)
-n_plus = n - n+0
-x_gr_one_minus_one = x[x >= 1] - 1
-
-#possibly initialize phi for Metropolis-Hastings step
-phi = #
-#save diagnoistics on whether the proposal distribution worked
-accept_theta2s = array(TRUE, num_tot_samples)
-  
-#create log density of kernel of the conditional distribution of theta_2
-ln_kernel_theta_2_given_everything_else = function(theta2, theta3){
-  #TO-DO
-}
-
-
 ###do the sampling
 for (s in 2 : num_tot_samples){
-  theta_1s[s] = #do gibbs sample here
-
-	#sample beta_0 first
-	theta2star = #do metropolis proposal sample here
-	#calc r, the Metropolis Ratio
-	ln_r = ln_kernel_theta_2_given_everything_else(theta2star, theta_3s[s - 1]) - 
-	       ln_kernel_theta_2_given_everything_else(theta_2s[s - 1], theta_3s[s - 1])
-	if (is.nan(ln_r) || (runif(1) > exp(ln_r))){
-		#reject - set it equal to previous value
-		theta2star = theta_2s[s - 1]
-		accept_theta2s[t] = FALSE
-	} #o/t accept
-	theta2s[s] = theta2star
-    
-  theta_3s[s] = #do gibbs sample here
+  
 }
-#cleanup
-rm(s, theta2star, ln_r, ln_kernel_theta_2_given_everything_else)
 ```
-
-We diagnose whether or not the proposal distribution worked appropriately by seeing what proportion of proposal values were accepted:
-
-```{r}
-mean(accept_theta2s)
-```
-
-Comment on whether or not the proposal distribution worked.
-
-#TO-DO
-
 Now we aggregate all three chains together for convenience:
 
 ```{r}
 gibbs_chain = data.frame(
+  theta_3 = theta_3s,
   theta_1 = theta1s, 
+  sigsq_1 = sigsq_1s,
   theta_2 = theta2s, 
-  theta_3 = theta3s,
+  sigsq_2 = sigsq_2s,
   t = 1 : num_tot_samples
 )
-rm(theta1s, theta2s, theta3s, accept_theta2s, num_tot_samples)
+rm(theta1s, theta2s, theta3s, sigsq_1s, sigsq_2s)
 ```
 
 
@@ -144,6 +90,12 @@ ggplot(gibbs_chain) +
   xlim(0, max_t_for_plotting)
 ggplot(gibbs_chain) +
   geom_point(aes(x = t, y = theta_3)) + 
+  xlim(0, max_t_for_plotting)
+ggplot(gibbs_chain) +
+  geom_point(aes(x = t, y = sigsq_1)) + 
+  xlim(0, max_t_for_plotting)
+ggplot(gibbs_chain) +
+  geom_point(aes(x = t, y = sigsq_2)) + 
   xlim(0, max_t_for_plotting)
 #cleanup
 rm(max_t_for_plotting)
@@ -172,6 +124,10 @@ acf(gibbs_chain$theta_1,
 acf(gibbs_chain$theta_2, 
     xlim = c(0, ell_max + 10), ylim = c(0, r_max), lag.max = ell_max)
 acf(gibbs_chain$theta_3, 
+    xlim = c(0, ell_max + 10), ylim = c(0, r_max), lag.max = ell_max)
+acf(gibbs_chain$sigsq_1, 
+    xlim = c(0, ell_max + 10), ylim = c(0, r_max), lag.max = ell_max)
+acf(gibbs_chain$sigsq_2, 
     xlim = c(0, ell_max + 10), ylim = c(0, r_max), lag.max = ell_max)
 #cleanup
 rm(ell_max, r_max)
@@ -202,126 +158,120 @@ What would we change in the above code so we could've had more iid samples?
 Before we do inference, we first source the convenience function we used in class:
 
 ```{r}
-visualize_chain_and_compute_estimates_and_cr = function(samples, true_value, alpha = 0.05){
-  plot(
-    ggplot(data.frame(samples = samples)) +
-      geom_histogram(aes(x = samples)) +
-      geom_vline(xintercept = mean(samples), col = "blue") + 
-      geom_vline(xintercept = true_value, col = "green") + 
-      geom_vline(xintercept = quantile(samples, .025), col = "red") + 
-      geom_vline(xintercept = quantile(samples, .975), col = "red")
-  )
+visualize_chain_and_compute_estimates_and_cr = function(
+    samples, 
+    plot_mmse = TRUE, 
+    plot_mmae = TRUE, 
+    true_value = NULL, 
+    alpha = NULL, 
+    bins = 30,
+    colors = c("blue", "orange", "green", "red")){
+  ggplot_obj = ggplot(data.frame(samples = samples)) +
+    geom_histogram(aes(x = samples), bins = bins)
   
-  list(
-    mmse = mean(samples),
-    mmae = median(samples),
-    theta = true_value,
-    cr_one_minus_alpha_theta = c(
-      quantile(samples, alpha / 2), 
-      quantile(samples, 1 - alpha / 2)
-    )
+  mmse = mean(samples)
+  mmae = median(samples)
+  if (plot_mmse){
+    ggplot_obj = ggplot_obj + geom_vline(xintercept = mmse, col = colors[1])
+  }
+  
+  if (plot_mmae){
+    ggplot_obj = ggplot_obj + geom_vline(xintercept = mmae, col = colors[2])
+  }
+  
+  if (!is.null(true_value)){
+    ggplot_obj = ggplot_obj + 
+      geom_vline(xintercept = true_value, col = colors[3]) 
+  }
+  if (!is.null(alpha)){
+    ggplot_obj = ggplot_obj + 
+      geom_vline(xintercept = quantile(samples, .025), col = colors[4]) + 
+      geom_vline(xintercept = quantile(samples, .975), col = colors[4])
+  }
+  plot(ggplot_obj)
+  
+  ret = list(
+    mmse = mmse,
+    mmae = mmae,
+    theta = true_value
   )
+  if (!is.null(alpha)){
+    ret$cr_one_minus_alpha_theta = c(
+        quantile(samples, alpha / 2), 
+        quantile(samples, 1 - alpha / 2)
+      )
+  }
+  ret
 }
+
 ```
 
 Now we do inference on all three parameters:
 
 ```{r}
-visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta_1, true_theta_1)
+visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta_3, true_value = true_theta_3, alpha = 0.05)
 ```
 
-How did we do on the first parameter?
-
-#TO-DO
-
-
-```{r}
-visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta_2, true_theta_2)
-```
-
-How did we do on the second parameter?
+How accurate was our inference on this parameter (the change point)?
 
 #TO-DO
 
 ```{r}
-visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta_3, true_theta_3)
+visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta_1, true_value = true_theta_1, alpha = 0.05)
 ```
 
-How did we do on the third parameter?
-
-#TO-DO
-
-Now we do this exercise with `stan`. We first create the list of data which is passed into stan:
-
-```{r}
-stan_model_data = list(
-  n_0 = n_0,
-  n_plus = n_plus,
-  x_gr_one_minus_one = x_gr_one_minus_one
-)
-```
-
-Now we write the relevant stan code below as a string (no need for a separate .stan file). I've started by specifying the data block. For the parameters block, you'll need your answer from 2(a) on the theoretical homework (which specifies the parameter spaces of all three parameters). For the model block, you'll need the log of the posterior's kernel from 2(c) on the theoretical homework. The log of the gamma function can be called via `lgamma` in stan.
-
-```{r}
-stan_model_code = "
-  data {
-    int<lower=0> n_0;                  //the number of zeroes in the sample
-    int<lower=0> n_plus;               //the number of nonzeroes in the sample
-    vector[n_plus] x_gr_one_minus_one; //the x's greater than zero minus 1
-  }
-  
-  parameters {
-    //TO-DO... make sure you name the parameters theta_1, theta_2, theta_3
-  }
-  
-  model {
-    target += //TO-DO
-  }
-"
-```
-
-Now we sample the model using stan:
-
-```{r}
-stan_fit = stan(
-  seed = 1,
-  model_code = stan_model_code,
-  model_name = "hurdle_model",
-  data = stan_model_data
-)
-```
-
-Now we do inference on all three parameters:
-
-```{r}
-visualize_chain_and_compute_estimates_and_cr(extract(stan_fit)$theta_1, true_theta_1)
-```
-
-How did we do on the first parameter?
-
-#TO-DO
-
-
-```{r}
-visualize_chain_and_compute_estimates_and_cr(extract(stan_fit)$theta_2, true_theta_2)
-```
-
-How did we do on the second parameter?
+How accurate was our inference on this parameter (the first mean)?
 
 #TO-DO
 
 ```{r}
-visualize_chain_and_compute_estimates_and_cr(extract(stan_fit)$theta_3, true_theta_3)
+visualize_chain_and_compute_estimates_and_cr(gibbs_chain$theta_2, true_value = true_theta_2, alpha = 0.05)
 ```
 
-How did we do on the third parameter?
+How accurate was our inference on this parameter (the second mean)?
+
+```{r}
+visualize_chain_and_compute_estimates_and_cr(gibbs_chain$sigsq_1, true_value = true_sigsq_1, alpha = 0.05)
+```
+
+How accurate was our inference on this parameter (the first variance)?
+
+```{r}
+visualize_chain_and_compute_estimates_and_cr(gibbs_chain$sigsq_2, true_value = true_sigsq_2, alpha = 0.05)
+```
+
+How accurate was our inference on this parameter (the second variance)?
 
 #TO-DO
 
+Now we do inference manually from the chain itself.
+
+Find the MMSE and the MMAE for theta_1
+
+```{r}
+#TO-DO
+```
+
+Find a 95\% CR for theta_2
+
+```{r}
+#TO-DO
+```
+
+Test H_a: theta_3 < 25.
+
+```{r}
+#TO-DO
+```
+
+Masters students only: test H_a: sigsq_1 < sigsq_2.
+
+```{r}
+#TO-DO
+```
 
 
-## Problem 3: The Permutation Test
+## Problem 2: The Permutation Test
 
 We will analyze the anorexia dataset in MASS. You can read about it here:
 
@@ -359,19 +309,25 @@ Is it possible to run this many permutations? Yes / no
 Instead let's run `B = 100,000`. Pick a test statistic and compute the test statistic for all  
 
 ```{r}
+
+test_stat = function(samp1, samp2){
+  #TO-DO
+}
+
 B = 1e5
 x_ind = 1 : (n1 + n2)
 thetahathat_b = array(NA, B)
 for (b in 1 : B){
-  #TO-DO
-  thetahathat_b[b] = #TO-DO
+  x_1b = #TO-DO
+  x_2b = #TO-DO
+  thetahathat_b[b] = test_stat(x_1b, x_2b)
 }
 ```
 
 Now compute the test stat for the real data
 
 ```{r}
-thetahathat = #TO-DO
+thetahathat = test_stat(x_1, x_2)
 ```
 
 Declare the alpha value
@@ -393,10 +349,10 @@ What is the conclusion of the test?
 Calculate the p-value of this test.
 
 ```{r}
-#TO-DO for MA students only
+#TO-DO 
 ```
 
-## Problem 4: The Bootstrap
+## Problem 3: The Bootstrap
 
 Set the number of bootstrap samples to be `B = 100,000`.
 
@@ -436,7 +392,7 @@ Use the bootstrap to test H_a: theta is nonzero where theta is defined as above.
 #TO-DO
 ```
 
-## Problem 5: Parametric Survival using the Weibull iid DGP
+## Problem 4: Parametric Survival using the Weibull iid DGP
 
 Let's look at the lung dataset's survival by sex. We'll recode their censoring variable to match the definition from class. Group 1 is male and group 2 is female. The values are sorted.
 
@@ -481,56 +437,10 @@ Using what you derived one the homework for the setting where there is censoring
 #TO-DO
 ```
 
-Instead of using the optimization package, write an E-M algorithm that can compute the maximum likelihood estimates of `k` and `lambda` for female survival times (group 2 only). Use epsilon = 0.000001. Everything is filled in for you below except the E step and M step. For the M step, use your function you wrote above, `mle_weibull_iid_compute`.
 
-```{r}
-EPS = 1e-6
-num_maximum_samples = 1e4
+## Problem 5: Nonparametric Survival
 
-#create vectors 
-#reasonable starting positions
-ks[1] = 1
-lambdas[1] = 1 / mean(y_2)
-
-#create copy of y that will store the expected values of the censored responses
-y_with_censor_estimates = y
-for (t in 2 : num_maximum_samples){
-  k = ks[t - 1]
-  lambda = lambdas[t - 1]
-  
-  ###E-step
-  for (i in which(c_2 == 1)){
-    y_with_censor_estimates[i] = #TO-DO
-  }
-  
-  ###M-step
-  #TO-DO
-  
-  ###check convergence
-  if (sqrt(
-    (ks[t - 1] - ks[t])^2 +
-    (lambdas[t - 1] - lambdas[t])^2
-  ) < EPS){
-    t_break = t
-    break
-  }
-}
-
-#collect all iterations
-em_chain = data.frame(
-  ks = ks, 
-  lambdas = lambdas,
-  t = 1 : num_maximum_samples
-)
-em_chain[1 : t_break, ]
-em_chain[t_break, ]
-```
-
-Are the maximum likelihood estimates of `k` and `lambda` around the same as you computed using the optimization function?
-
-#TO-DO
-
-## Problem 6: Nonparametric Survival
+For this problem, you'll need to read up on how to use the `survival` package as the solutions will all be one liners.
 
 Trace out the Kaplan-Meier survival distribution estimate for female survival times (group 2 only).
 
@@ -545,6 +455,12 @@ Estimate median survival for females.
 ```
 
 Run the log rank test to attempt to prove male and female survival are different.
+
+```{r}
+#TO-DO
+```
+
+Masters students only: run a bootstrap test at level 5% attempting to prove male and female median survival are different.
 
 ```{r}
 #TO-DO
