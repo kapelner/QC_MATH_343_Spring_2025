@@ -20,6 +20,8 @@ ggplot(data.frame(y = y)) +
 fitdist_obj = fitdist(y, "weibull", method = "mle")
 k_hat_hat_mle = as.numeric(fitdist_obj$estimate[1])
 lambda_hat_hat_mle = 1 / as.numeric(fitdist_obj$estimate[2])
+k_hat_hat_mle
+lambda_hat_hat_mle
 
 #use invariance of mle thm to estimate the mean
 theta_hat_hat_mle = 1 / lambda_hat_hat_mle * gamma(1 / k_hat_hat_mle + 1)
@@ -37,8 +39,8 @@ true_theta
 
 #e.g. let's censor at t_f = 1
 t_f = 1
-c_vec = ifelse(y > t_f, 1, 0)
-y[c_vec == 1] = NA
+c_vec = ifelse(y > t_f, 0, 1)
+y[c_vec == 0] = NA
 cbind(y, c_vec)
 
 #now we still need to estimate k, lambda and the mean theta
@@ -49,10 +51,10 @@ cbind(y, c_vec)
 #the best
 
 loglik = function(thetavec){
-  n_0 = sum(c_vec == 0)
-  n_1 = sum(c_vec == 1)
-  sum_log_y_uncensored = sum(log(y[c_vec == 0]))
-  sum_y_uncensored_to_the_k = sum(y[c_vec == 0]^thetavec[1])
+  n_0 = sum(c_vec == 1)
+  n_1 = sum(c_vec == 0)
+  sum_log_y_uncensored = sum(log(y[c_vec == 1]))
+  sum_y_uncensored_to_the_k = sum(y[c_vec == 1]^thetavec[1])
   
   n_0 * thetavec[1] * log(thetavec[2]) +
     n_0 * log(thetavec[1]) +
@@ -69,7 +71,9 @@ optimx_obj = optimx(thetavec_0, loglik, lower = .Machine$double.eps,
       control = list(maximize = TRUE), method = 'L-BFGS-B')
 k_hat_hat_mle = optimx_obj$p1
 lambda_hat_hat_mle = optimx_obj$p2
-       
+k_hat_hat_mle
+lambda_hat_hat_mle
+
 #use invariance of mle thm to estimate the mean
 theta_hat_hat_mle = 1 / lambda_hat_hat_mle * gamma(1 / k_hat_hat_mle + 1)
 theta_hat_hat_mle
