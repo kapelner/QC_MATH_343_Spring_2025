@@ -58,13 +58,13 @@ c(S_hat_t - z * sqrt(var_S_hat_t), S_hat_t + z * sqrt(var_S_hat_t))
 
 #e.g. let's censor at t_f = 1
 t_f = 1
-c_vec = ifelse(y > t_f, 1, 0)
+c_vec = ifelse(y > t_f, 0, 1)
 
 #for the empirical survival function, 
 #we just set y to be the censored value which by definition from class
 #is the maximum y value
 y_cens = y
-y_cens[c_vec == 1] = t_f
+y_cens[c_vec == 0] = t_f
 
 #now we plot the empirical CDF complement
 ecdf_obj = ecdf(y_cens) #this was the function we used last semester for the K-S test
@@ -76,7 +76,7 @@ ggplot(data.frame(y = y_grid, surv = 1 - ecdf_obj(y_grid))) +
 #after t_f. Since there are no more observations y_i > t_f, it estimates zero.
 
 #So now we use the survival package which properly handles this
-survival_obj = Surv(y_cens, 1 - c_vec) #we flip our vector to be in their format
+survival_obj = Surv(y_cens, c_vec) #we flip our vector to be in their format
 survfit2(survival_obj ~ 1) %>% 
   ggsurvfit() +
   xlab("time") +
@@ -87,9 +87,9 @@ survfit2(survival_obj ~ 1) %>%
 
 
 #let's now censor at times that are less than the maximum due to differential
-#recruitment. Let's randomly call 30% of them "censored
+#recruitment. Let's randomly call 30% of them "censored => 70% dead
 set.seed(1)
-c_vec = rbinom(n, 1, prob = 0.3)
+c_vec = rbinom(n, 1, prob = 0.7)
 
 #the empirical survival function won't work anymore as "ignoring censoring 
 #erroneously treats patients who are censored as part of the risk set for 
@@ -97,7 +97,7 @@ c_vec = rbinom(n, 1, prob = 0.3)
 #we need to use the Kaplan-Meier estimator and that's exactly what the package does
 #https://scholar.google.com/scholar?q=Nonparametric+estimation+from+incomplete+observations&hl=en&btnG=Search&as_sdt=1%2C39&as_sdtp=on
 
-survival_obj = Surv(y, 1 - c_vec) #we flip our vector to be in their format
+survival_obj = Surv(y, c_vec)
 survival_fit_obj = survfit2(survival_obj ~ 1) 
 survival_fit_obj %>% 
   ggsurvfit() +
@@ -114,6 +114,27 @@ summary(survival_fit_obj)
 #those are the upper/lower limits of the bands you see in the plot
 
 #how about inference for theta := Med[Y]?
+phi_hat_hat = summary(survival_fit_obj)$table[7]
+phi_hat_hat
 summary(survival_fit_obj)$table[7 : 9]
+#this is using the formulas... much better to use the bootstrap
 
+B = 1e4
+phi_b = array(NA, B)
+for (b in 1 : B){
+  i_b = sample(1 : n, n, replace = TRUE)
+  survival_obj = Surv(y[i_b], c_vec[i_b])
+  survival_fit_obj_b = survfit2(survival_obj ~ 1)
+  phi_b[b] = summary(survival_fit_obj_b)$table[7]
+}
 
+#let's look at the distribution and the CI's
+ci_a = quantile(phi_b, alpha / 2)
+ci_b = quantile(phi_b, 1 - alpha / 2)
+c(ci_a, phi_hat_hat, ci_b)
+
+ggplot(data.frame(phi_b = phi_b)) + 
+  geom_histogram(aes(x = phi_b), bins = 500) +
+  geom_vline(xintercept = ci_a, col = "red") +
+  geom_vline(xintercept = ci_b, col = "red") +
+  geom_vline(xintercept = phi_hat_hat, col = "blue")
