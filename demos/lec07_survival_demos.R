@@ -112,6 +112,11 @@ survival_fit_obj %>%
 #can we do inference for any time t?
 summary(survival_fit_obj) 
 #those are the upper/lower limits of the bands you see in the plot
+#how about the line at t = 0.901 the survival is 0.4653 how about the std error?
+sqrt(0.4653 * (1 - 0.4653) / n)
+sqrt(0.4653 * (1 - 0.4653) / sum(c_vec == 1))
+0.4653 + qnorm(.975) * sqrt(0.4653 * (1 - 0.4653) / sum(c_vec == 1)) * c(-1,1)
+#they're using the t dsitribution I believe?
 
 #how about inference for theta := Med[Y]?
 phi_hat_hat = summary(survival_fit_obj)$table[7]
