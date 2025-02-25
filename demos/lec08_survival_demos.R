@@ -98,6 +98,7 @@ c_vec = rbinom(n, 1, prob = 0.7)
 #https://scholar.google.com/scholar?q=Nonparametric+estimation+from+incomplete+observations&hl=en&btnG=Search&as_sdt=1%2C39&as_sdtp=on
 
 survival_obj = Surv(y, c_vec)
+sort(survival_obj)
 survival_fit_obj = survfit2(survival_obj ~ 1) 
 survival_fit_obj %>% 
   ggsurvfit() +
@@ -115,14 +116,13 @@ summary(survival_fit_obj)
 #how about the line at t = 0.901 the survival is 0.4653 how about the std error?
 sqrt(0.4653 * (1 - 0.4653) / n)
 sqrt(0.4653 * (1 - 0.4653) / sum(c_vec == 1))
-0.4653 + qnorm(.975) * sqrt(0.4653 * (1 - 0.4653) / sum(c_vec == 1)) * c(-1,1)
-#they're using the t dsitribution I believe?
+#I think they're using that formula from class to get the standard error
 
 #how about inference for theta := Med[Y]?
 phi_hat_hat = summary(survival_fit_obj)$table[7]
 phi_hat_hat
 summary(survival_fit_obj)$table[7 : 9]
-#this is using the formulas... much better to use the bootstrap
+#this is using some formulas we didn't discuss... much better to use the bootstrap
 
 B = 1e4
 phi_b = array(NA, B)
@@ -136,7 +136,7 @@ for (b in 1 : B){
 #let's look at the distribution and the CI's
 ci_a = quantile(phi_b, alpha / 2)
 ci_b = quantile(phi_b, 1 - alpha / 2)
-c(ci_a, phi_hat_hat, ci_b)
+c(phi_hat_hat, ci_a, ci_b)
 
 ggplot(data.frame(phi_b = phi_b)) + 
   geom_histogram(aes(x = phi_b), bins = 500) +
