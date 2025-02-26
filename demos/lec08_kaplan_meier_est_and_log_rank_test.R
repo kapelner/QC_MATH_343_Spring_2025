@@ -17,19 +17,19 @@ c_vec = c(1, 0, 1, 1, 0, 1)
 cbind(y, c_vec)
 
 #create the table
-d_i = c(1, 0, 1, 0, 0, 1)
-q_i = c_vec
+d_i = c(1, 0, 1, 1, 0, 1)
+q_i = 1 - c_vec
 survival_table = data.frame(t_i = y, d_i = d_i, q_i = q_i)
 survival_table
 
 #n_1
 n_i = array(NA, n)
 n_i[1] = n
-n_i[2] = n_i[1]
-n_i[3] = n_i[1] - d_i[1] - q_i[2]
-n_i[4] = n_i[3]
-n_i[5] = n_i[5]
-n_i[6] = n_i[3] - d_i[3] - q_i[4] - q_i[5]
+n_i[2] = n_i[1] - d_i[1] - q_i[2]
+n_i[3] = n_i[2] - d_i[2]
+n_i[4] = n_i[3] - d_i[3]
+n_i[5] = n_i[4] - d_i[4] - q_i[5]
+n_i[6] = n_i[5]
 
 survival_table$n_i = n_i
 #now we ignore all censorings as they are accounted for in 
@@ -40,6 +40,10 @@ survival_table$p_surv_i = cumprod(survival_table$p_i)
 survival_table
 
 survival_obj = Surv(y, c_vec)
+survival_fit_obj = survfit(survival_obj ~ 1)
+plot(survival_fit_obj)
+summary(survival_fit_obj)
+
 survival_obj
 survival_fit_obj = survfit2(survival_obj ~ 1)
 plot(survival_fit_obj)
@@ -64,19 +68,26 @@ is_male = 1 - (survival::lung$sex - 1) #zero is female, one is male
 n_1 = sum(is_male == 1)
 n_2 = sum(is_male == 0)
 y_1 = survival::lung$time[is_male == 1]
-c_1 = 1 - (survival::lung$status[is_male == 1] - 1)
+c_1 = survival::lung$status[is_male == 1] - 1
 y_2 = survival::lung$time[is_male == 0]
-c_2 = 1 - (survival::lung$status[is_male == 0] - 1)
+c_2 = survival::lung$status[is_male == 0] - 1
 #what are the number of observed events?
-sum(c_1 == 0)
-sum(c_2 == 0)
+sum(c_1 == 1)
+sum(c_2 == 1)
+
+survival_fit_obj = survfit2(Surv(survival::lung$time, survival::lung$status - 1) ~ is_male)
+survival_fit_obj %>% 
+  ggsurvfit() +
+  xlab("time") +
+  ylim(0, 1) +
+  ylab("survival probability estimate")
 
 #we'll learn about data.table soon enough
 pacman::p_load(data.table)
 num_observation_to_print = 50
 
 #create a data frame from the original data
-tab_1 = data.table(t_i = y_1, d_1i = ifelse(c_1 == 0, 1, 0), q_1i = ifelse(c_1 == 0, 0, 1))
+tab_1 = data.table(t_i = y_1, d_1i = ifelse(c_1 == 1, 1, 0), q_1i = ifelse(c_1 == 1, 0, 1))
 setorder(tab_1, "t_i")
 tab_1[1:num_observation_to_print]
 
