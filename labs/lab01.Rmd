@@ -2,7 +2,7 @@
 title: "Practice Assignment 1 MATH 343"
 author: "Your Name Here"
 output: pdf_document
-date: "noon February 28"
+date: "11:59PM March 2"
 ---
 
 This practice assignment is coupled to the theory assignment (the problem numbers align herein) and should be worked on concomitantly.
