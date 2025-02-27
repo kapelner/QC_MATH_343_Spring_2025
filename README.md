@@ -27,7 +27,7 @@ My lecture notes are scanned in as PDF files contributed by myself and will most
 
 ## Exams
 
-* Midterm I, Thursday, February 27 in class
+* Midterm I, Thursday, February 27 in class [(exam 1)](https://github.com/kapelner/QC_MATH_343_Spring_2025/blob/master/exams/midterm1/midterm1.pdf) [(exam solutions 1)](https://github.com/kapelner/QC_MATH_343_Spring_2025/blob/master/exams/midterm1/midterm1_solutions.pdf)
 * Midterm II, Tuesday, April 10 in class
 * Final, TBA
 
