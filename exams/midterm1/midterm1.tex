@@ -3,7 +3,7 @@
 \include{preamble}
 
 \newtoggle{solutions}
-%\toggletrue{solutions}
+\toggletrue{solutions}
 
 \newcommand{\instr}{\small Your answer will consist of a lowercase string (e.g. \texttt{aebgd}) where the order of the letters does not matter. \normalsize}
 
@@ -275,7 +275,7 @@ Test the hypothesis in (a) at $\alpha = 5\%$. Justify why you retained or reject
 %
 \iftoggle{solutions}{\inred{
 ~\\~\\ 
-Reject $H_0$. The true test statistic from the raw data is $s_1 - s_2 = -1.18$ which falls outside of the 95\% RET given above.
+Retain $H_0$. The true test statistic from the raw data is $s_1 - s_2 = -1.18$ which falls inside the 95\% RET given above.
 }}{~\spc{6}}
 
 \subquestionwithpoints{2} Circle one: did you have to make any parametric assumptions to run the test in (d)? \quad yes \quad /  \quad \iftoggle{solutions}{\inred{no}}{no}
@@ -287,7 +287,7 @@ Reject $H_0$. The true test statistic from the raw data is $s_1 - s_2 = -1.18$ w
 
 \problem We are interested in the differential survival (measured in days) of lung cancer patients by the amount of daily calories they consume in their diet. There are $n = 181$ total subjects in the study. Group 1 is those that consume more than 1200 per day (and there are $n_1 = 32$) and the number that consume 1000 calories or less per day is $n_2 = 149$. Below are the KM curves. The + signs indicate a censored observation.
 
-\vspace{-0.55cm}
+\vspace{-0.4cm}
 \begin{figure}[h]
     \centering
     \includegraphics[width=6.0in]{kms.pdf}
