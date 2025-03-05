@@ -96,17 +96,17 @@ NAME: \line(1,0){380}
 
 \intermediatesubproblem{Why is the term $\normsq{\X(\B - \bbeta)}$ used to measure the model's \qu{estimation error}?}\spc{4}
 
-\easysubproblem{Show that $\oneover{\sigsq}\berrorrv^\top \B_2 \berrorrv = \oneover{\sigsq} \normsq{\E}$.}\spc{4}
+\easysubproblem{Show that $\oneover{\sigsq}\berrorrv^\top \B_2 \berrorrv = \oneover{\sigsq} \normsq{\E}$.}\spc{6}
 
 \intermediatesubproblem{In what scenarios is $\berrorrv^\top \B_1 \berrorrv > \berrorrv^\top \B_2 \berrorrv$?}\spc{4}
 
-\intermediatesubproblem{Draw an illustration of $\berrorrv$ being orthogonally projected onto $\colsp{\X}$ via projection matrix $\H$. Use the previous answers to denote the quantities of the projection and the error of the projection.}\spc{4}
+\intermediatesubproblem{Draw an illustration of $\berrorrv$ being orthogonally projected onto $\colsp{\X}$ via projection matrix $\H$. Use the previous answers to denote the quantities of the projection and the error of the projection.}\spc{6}
 
 \hardsubproblem{A good linear model has a large or a small projection of the error? Discuss.}\spc{1}
 
-\easysubproblem{Find $\expe{\oneover{\sigsq}\normsq{\E}}$.}\spc{0.5}
+\easysubproblem{Find $\expe{\oneover{\sigsq}\normsq{\E}}$.}\spc{1}
 
-\easysubproblem{Show that $\frac{\normsq{\E}}{n-(p+1)}$ is an unbiased estimate of $\sigsq$.}\spc{2}
+\easysubproblem{Show that $\frac{\normsq{\E}}{n-(p+1)}$ is an unbiased estimate of $\sigsq$.}\spc{3}
 
 
 \easysubproblem{Prove that $\displaystyle \frac{\sqrt{n-(p+1)}(B_j - \beta_j)}{\norm{\E} \sqrt{\XtXinv_{j,j}}} \sim T_{n-(p+1)}$.}\spc{8}
@@ -117,16 +117,16 @@ NAME: \line(1,0){380}
 
 \easysubproblem{Prove that $\displaystyle \frac{\sqrt{n-(p+1)}(\hat{Y}_\star - \mu_\star)}{\norm{\E} \sqrt{\x_\star \XtXinv \x_\star^\top}} \sim T_{n-(p+1)}$.}\spc{6}
 
-\easysubproblem{Let $H_0: \mu_\star = 17$. Find the test statistic using the fact from the previous question. Let $s_e$ denote the $RMSE$.}\spc{2}
+\easysubproblem{Let $H_0: \mu_\star = 17$. Find the test statistic using the fact from the previous question. Let $s_e$ denote the $RMSE$.}\spc{3}
 
 
 
 
 
 
-\easysubproblem{Consider a new parameter of interest $y_\star = \x_\star \bbeta + \epsilon_\star$, this is the response for a unit with measurements given in row vector $\x_\star$ whose first entry is 1. Prove that $\displaystyle \frac{\hat{Y}_\star - y_\star}{\sigma \sqrt{1 + \x_\star \XtXinv \x_\star^\top}} \sim \stdnormnot$.}\spc{6}
+\easysubproblem{Consider a new parameter of interest $y_\star = \x_\star \bbeta + \epsilon_\star$, this is the response for a unit with measurements given in row vector $\x_\star$ whose first entry is 1. Prove that $\displaystyle \frac{\hat{Y}_\star - y_\star}{\sigma \sqrt{1 + \x_\star \XtXinv \x_\star^\top}} \sim \stdnormnot$.}\spc{7}
 
-\easysubproblem{Prove that $\displaystyle \frac{\sqrt{n-(p+1)}(\hat{Y}_\star - y_\star)}{\norm{\E} \sqrt{1 + \x_\star \XtXinv \x_\star^\top}} \sim T_{n-(p+1)}$.}\spc{6}
+\easysubproblem{Prove that $\displaystyle \frac{\sqrt{n-(p+1)}(\hat{Y}_\star - y_\star)}{\norm{\E} \sqrt{1 + \x_\star \XtXinv \x_\star^\top}} \sim T_{n-(p+1)}$.}\spc{5}
 
 \easysubproblem{Let $H_0: y_\star = 37$. Find the test statistic using the fact from the previous question. Let $s_e$ denote the $RMSE$.}\spc{2}
 
@@ -138,23 +138,23 @@ NAME: \line(1,0){380}
 $\displaystyle \frac{(n - (p+1)) \normsq{\Yhat - \Yhat_A}}{k \normsq{\E}} \sim F_{k, n - (p+1)}
 $.}\spc{6}
 
-\hardsubproblem{Let $\hat{\E}_A := (\I_n - \H_A) \Y$, the orthogonal projection onto the $\colsp{\X_{A_\perp}}$. Prove that $\normsq{\hat{\E}_A} - \normsq{\hat{\E}} = \normsq{\Yhat - \Yhat_A}$.}\spc{6}
+\hardsubproblem{Let $\hat{\E}_A := (\I_n - \H_A) \Y$, the orthogonal projection onto the $\colsp{\X_{A_\perp}}$. Prove that $\normsq{\hat{\E}_A} - \normsq{\hat{\E}} = \normsq{\Yhat - \Yhat_A}$.}\spc{7}
 
-\easysubproblem{Combining the two previous problems, write the test statistic for $H_0: \bbeta_S = \zerovec_k$ where $\beta_S$ denotes the subvector of $\bbeta$ with indices $S$. Use the notation $\Delta SSE := SSE_A - SSE$ and $MSE$.}\spc{2}
+\easysubproblem{Combining the two previous problems, write the test statistic for $H_0: \bbeta_S = \zerovec_k$ where $\beta_S$ denotes the subvector of $\bbeta$ with indices $S$. Use the notation $\Delta SSE := SSE_A - SSE$ and $MSE$.}\spc{3}
 
 \hardsubproblem{Prove that the square root of the test statistic in (ii) is the same as t-test statistic from (y) when $k=1$.}\spc{5}
 
-\intermediatesubproblem{The point of this exericse is to demonstrate that the estimator used for the omnibus / global / overall F-test is nothing but a special case of the main result from (gg). Let $S = \braces{1, 2, \ldots, p}$ and thus $k = p$ and $A = \braces{0}$. Using the result from (gg), show that $\displaystyle \frac{(n - (p+1)) \normsq{\Yhat - \ybar \onevec_n}}{p \normsq{\E}} \sim F_{p, n - (p+1)}$. }\spc{5}
+\intermediatesubproblem{The point of this exericse is to demonstrate that the estimator used for the omnibus / global / overall F-test is nothing but a special case of the main result from (gg). Let $S = \braces{1, 2, \ldots, p}$ and thus $k = p$ and $A = \braces{0}$. Using the result from (gg), show that $\displaystyle \frac{(n - (p+1)) \normsq{\Yhat - \ybar \onevec_n}}{p \normsq{\E}} \sim F_{p, n - (p+1)}$. }\spc{6}
 
 \easysubproblem{Prove that the omnibus / global / overall F-test statistic is $\doublehat{F} = MSR / MSE$ by using the result from (kk).}\spc{5}
 
-\hardsubproblem{[MA] Prove that the distribution that realizes the $R^2$ metric (the proportion of response variance explained by the model) is distributed as $\betanot{\frac{p}{2}}{\frac{n - (p+1)}{2}}$. This amounts to proving a fact found at the bottom of the \href{https://en.wikipedia.org/wiki/F-distribution}{F distribution's Wikipedia page}}.\spc{5}
+\hardsubproblem{[MA] Prove that the distribution that realizes the $R^2$ metric (the proportion of response variance explained by the model) is distributed as $\betanot{\frac{p}{2}}{\frac{n - (p+1)}{2}}$. This amounts to proving a fact found at the bottom of the \href{https://en.wikipedia.org/wiki/F-distribution}{F distribution's Wikipedia page}}.\spc{6}
 
-\easysubproblem{Prove that the maximum likelihood estimate for $\bbeta$ is $\bv{b}$, the OLS estimator.}\spc{5}
+\easysubproblem{Prove that the maximum likelihood estimate for $\bbeta$ is $\bv{b}$, the OLS estimator.}\spc{6}
 
-\intermediatesubproblem{Prove that the maximum likelihood estimate for $\sigsq$ is $SSE/n$.}\spc{4}
+\intermediatesubproblem{Prove that the maximum likelihood estimate for $\sigsq$ is $SSE/n$.}\spc{5}
 
-\intermediatesubproblem{Find the bias of the maximum likelihood estimator for $\sigsq$ using your answers from (w) and (oo).}\spc{3}
+\intermediatesubproblem{Find the bias of the maximum likelihood estimator for $\sigsq$ using your answers from (w) and (oo).}\spc{4}
 
 \end{enumerate}
 
@@ -168,7 +168,7 @@ $.}\spc{6}
 
 \easysubproblem{Write the prior assumption about $\bbeta$ which yields the lasso estimates.}\spc{1}
 
-\easysubproblem{Using the prior and core assumption (which implies a likelihood function for $\B$), derive the lasso estimates to the point where you need to use a computer to run the optimization.}\spc{12}
+\easysubproblem{Using the prior and core assumption (which implies a likelihood function for $\B$), derive the lasso estimates to the point where you need to use a computer to run the optimization.}\spc{11}
 
 \easysubproblem{Both ridge and lasso shrink the estimate of $\bbeta$ towards what vector value?}\spc{-0.5}
 
