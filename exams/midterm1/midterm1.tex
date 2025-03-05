@@ -3,7 +3,7 @@
 \include{preamble}
 
 \newtoggle{solutions}
-\toggletrue{solutions}
+%\toggletrue{solutions}
 
 \newcommand{\instr}{\small Your answer will consist of a lowercase string (e.g. \texttt{aebgd}) where the order of the letters does not matter. \normalsize}
 
@@ -151,7 +151,7 @@ p(\theta_3~|~\x, \theta_1, \theta_2) &\propto& \theta_1^{\theta_3} e^{-\theta_1 
 %
 
 
-\subquestionwithpoints{3} After thinning, how many samples would be lift in the Gibbs chains approximately? (Assume we burned a very small number of iterations).
+\subquestionwithpoints{3} After thinning, how many samples would be left in the Gibbs chains approximately? (Assume we burned a very small number of iterations).
 %
 \iftoggle{solutions}{\inred{
 \beqn
@@ -395,7 +395,7 @@ and we also have the censoring binary data $\bv{c} := <c_{2,1}, c_{2,2}, \ldots,
 }}{~\spc{12}}
 
 
-\subquestionwithpoints{2} Circle one: does the likelihood in the previous question have a closed form solution for either parameter? \quad yes \quad /  \quad \iftoggle{solutions}{\inred{no}}{no}
+\subquestionwithpoints{2} Circle one: are there closed form solutions for either parameter's maximum likelihood estimate? \quad yes \quad /  \quad \iftoggle{solutions}{\inred{no}}{no}
 
 \end{enumerate}
 
