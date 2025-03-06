@@ -396,14 +396,11 @@ n = 50
 true_beta_0 = 1.23
 true_beta_1 = 2.34
 
-y = array(NA, n)
-t = runif(n, 0, 10)
-for (i in 1 : n){
-  y[i] = rpois(n, true_beta_0 + true_beta_1 * t)
-}
+t = sort(runif(n, 0, 10))
+y = rpois(n, true_beta_0 + true_beta_1 * t)
 
 ggplot(data.frame(y = y, t = t)) + 
-  geom_histogram(aes(x = t, y = y))
+  geom_point(aes(x = t, y = y))
 ```
 
 Imagine you are looking at this dataset of counts for the first time (i.e. forget that we generated the data ourselves). Why do you think a hurdle model with an extended negative binomial is appropriate?
