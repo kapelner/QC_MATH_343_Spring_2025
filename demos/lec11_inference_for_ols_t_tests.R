@@ -272,3 +272,9 @@ for (i in 1 : length(x_stars)){
   )
 }
 ggplot_obj
+
+rm(list = ls())
+
+#How does this look in the real world? It's a one-liner:
+summary(lm(medv ~ ., MASS::Boston))
+#pvals are valid if you are looking at *one* test of H_0: beta_j = 0
