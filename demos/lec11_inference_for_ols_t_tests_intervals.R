@@ -212,7 +212,9 @@ yhat_star
 alpha = 0.05
 t_one_minus_alpha_over_two_df = qt(1 - alpha / 2, df_err)
 t_one_minus_alpha_over_two_df
-#why is this not equal to 1.96?
+z_one_minus_alpha_over_two = qnorm(1 - alpha / 2)
+z_one_minus_alpha_over_two
+#why is the t not equal to the z?
 
 
 yhat_star + c(-1, +1) *
@@ -233,6 +235,7 @@ x_stars = seq(from = 0, to = 3, by = RES)
 X_star_vecs = cbind(1, x_stars)
 ci_mu_star_one_min_alphas = matrix(NA, nrow = length(x_stars), ncol = 2)
 ci_y_star_one_min_alphas = matrix(NA,  nrow = length(x_stars), ncol = 2)
+ci_y_star_approx_one_min_alphas = matrix(NA,  nrow = length(x_stars), ncol = 2)
 for (i in 1 : length(x_stars)){
   x_star_vec = X_star_vecs[i, , drop = FALSE]
   yhat_star = as.numeric(x_star_vec %*% b)
@@ -241,11 +244,29 @@ for (i in 1 : length(x_stars)){
     as.numeric(sqrt(x_star_vec %*% XtXinv %*% t(x_star_vec)))
   ci_y_star_one_min_alphas[i, ] = yhat_star + c(-1, +1) *
     t_one_minus_alpha_over_two_df * s_e * 
-    as.numeric(sqrt(1 + x_star_vec %*% XtXinv %*% t(x_star_vec)))  
+    as.numeric(sqrt(1 + x_star_vec %*% XtXinv %*% t(x_star_vec))) 
+  ci_y_star_approx_one_min_alphas[i, ] = yhat_star + c(-1, +1) *
+    z_one_minus_alpha_over_two * s_e
 }
 
 
-#first let's plot the prediction intervals for y_*
+#let's plot the 342 formula approx prediction intervals for y_*
+eps_offset = 0
+for (i in 1 : length(x_stars)){
+  ggplot_obj = ggplot_obj + geom_segment(
+    x = X_star_vecs[i, 2] + eps_offset, 
+    xend = X_star_vecs[i, 2] + eps_offset,
+    y = ci_y_star_approx_one_min_alphas[i, 1],
+    yend = ci_y_star_approx_one_min_alphas[i, 2],
+    col = "red",
+    lwd = 2, 
+    inherit.aes = FALSE
+  )
+}
+ggplot_obj
+
+#then let's plot the exact prediction intervals for y_*
+
 for (i in 1 : length(x_stars)){
   ggplot_obj = ggplot_obj + geom_segment(
     x = X_star_vecs[i, 2], 
@@ -259,7 +280,7 @@ for (i in 1 : length(x_stars)){
 }
 ggplot_obj
 
-#first let's plot the mean intervals for h_*(x_*)
+#then let's plot the mean intervals for h_*(x_*)
 for (i in 1 : length(x_stars)){
   ggplot_obj = ggplot_obj + geom_segment(
     x = X_star_vecs[i, 2], 
@@ -267,7 +288,7 @@ for (i in 1 : length(x_stars)){
     y = ci_mu_star_one_min_alphas[i, 1],
     yend = ci_mu_star_one_min_alphas[i, 2],
     col = "blue",
-    lwd = 1, 
+    lwd = 3, 
     inherit.aes = FALSE
   )
 }
