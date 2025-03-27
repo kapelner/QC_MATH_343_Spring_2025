@@ -5,9 +5,11 @@
 #let's compare the shrinkage of lasso and ridge
 n = 100
 x = rnorm(n)
-true_beta_1 = 0.3 #assume intercept is zero and known for purposes of this demo
-y = true_beta_1 * x + rnorm(n)
-lambda_lasso = 50
+true_beta_0 = 0
+true_beta_1 = 0.2
+sigma = 0.2
+y = true_beta_0 + true_beta_1 * x + rnorm(n, 0, sigma)
+lambda_lasso = 40
 lambda_ridge = 100
 
 RES = 500
@@ -30,25 +32,28 @@ betahathat_ridge = possible_betas[which.min(ridge_objective_funs)]
 pacman::p_load(ggplot2, data.table)
 ggplot(melt(data.table(
   beta = possible_betas, 
-  sse = sse_terms,
-  abs_regular = lasso_abs_regular_terms,
-  sq_regular = ridge_sq_regular_terms,
+  sse_objective_function_ols = sse_terms,
+  abs_regularization_penalty = lasso_abs_regular_terms,
+  sq_regularization_penalty = ridge_sq_regular_terms,
   lasso_objective_fun = lasso_objective_funs,
   ridge_objective_funs = ridge_objective_funs
 ), id.vars = c("beta"))) +
   geom_line(aes(x = beta, y = value, color = variable), lwd = 2) +
   geom_vline(xintercept = 0, col = "grey") +
   geom_vline(xintercept = betahathat_lasso, col = "blue") +
+  geom_vline(xintercept = coef(lm(y ~ x))[2], col = "red") +
   geom_vline(xintercept = betahathat_ridge, col = "purple") +
   geom_vline(xintercept = true_beta_1, col = "orange") +
-  xlim(-0.5, 1)
+  xlim(-0.2, 0.5) + # xlim(-0.5, 1) + 
+  ylim(0, 50)
 
-#Let's do this same boston housing data demo using the lasso. There is no closed form solution 
+#Let's do the same boston housing data demo using the lasso. There is no closed form solution 
 #so we will use the numerical optimization found in the `glmnet` package.
 rm(list = ls())
 pacman::p_load(glmnet)
 
 p_extra = 350 #1000
+lambda_lasso = 1
 
 set.seed(1)
 y = MASS::Boston$medv
@@ -61,14 +66,10 @@ dim(X)
 X = apply(X, 2, function(x_dot_j){(x_dot_j - mean(x_dot_j)) / sd(x_dot_j)})
 X[, 1] = 1 #reset the intercept as it was turned into NaN's since its sd = 0
 
-#now if we try to model it, p + 1 > n so OLS will not work. Let's try lasso
-#Let's see the lasso estimate for a default value of lambda:
-
-lambda = 1
-b_lasso = glmnet(X, y, lambda = lambda, alpha = 1)$beta
+#run lasso regression using the canonical R package
+b_lasso = glmnet(X, y, lambda = lambda_lasso, alpha = 1)$beta
 head(b_lasso, 30)
-
-#those dots are zeroes (this is called sparse representation)
+#those dots are zeroes (this is called a "sparse vector representation")
 
 # But let's see how it performs relative to OLS and Ridge. To do so, we'll use the same setup but 
 #not add quite as many junk features so we can compare to OLS and Ridge:
@@ -83,10 +84,6 @@ y_test = y[test_indices]
 train_indices = setdiff(1 : nrow(X), test_indices)
 X_train = X[train_indices, ]
 y_train = y[train_indices]
-
-# Lasso is more sensitive to lambda than ridge, so let's start small
-
-lambda = 1
 
 # And we'll fit both models:
 
