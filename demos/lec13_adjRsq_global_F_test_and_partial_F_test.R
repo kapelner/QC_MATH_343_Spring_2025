@@ -14,8 +14,6 @@ SSE = sum(e^2)
 MSE = SSE / df_error
 s_e = sqrt(MSE)
 
-full_mod = lm(medv ~ ., MASS::Boston)
-summary(full_mod)
 
 #calculate Rsq_adj manually
 Rsq_adj = 1 - MSE / var(y)
@@ -29,6 +27,10 @@ F_omni = MSR / MSE
 F_omni
 #pval
 1 - pf(F_omni, p, df_error)
+
+#calculate F-test using R's lm function
+full_mod = lm(medv ~ ., MASS::Boston)
+summary(full_mod)
 
 #calculate partial F test manually
 summary_table = coef(summary(lm(medv ~ ., MASS::Boston)))
