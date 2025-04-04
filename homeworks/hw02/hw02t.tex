@@ -211,40 +211,6 @@ $.}\spc{6}
 \hardsubproblem{[MA] Let $Y_i \inddist \normnot{\theta_i}{\sigsq}$ for $i = 1, \ldots, n$ where $\theta_i = \x_i \bbeta$ and $\x_i \in \reals^{p+1}$ whose first entry is always 1. So far, this is the vanilla linear model. However, consider now a wrinkle: there is a censoring vector $\bv{c}$ which is 1 when censored on the right (meaning the real $y_i$ is $\geq $ to the observed $y_i$) and 0 when not censored. This is called the \href{https://en.wikipedia.org/wiki/Tobit_model}{Tobit model}. Write the likelihood ratio estimate for the omnibus test of $H_0: \beta_1 = \beta_2 = \ldots = \beta_p = 0$.}\spc{20}
 \end{enumerate}
 
-\problem{Consider the Poisson linear regression model with one feature, time:
-
-\beqn
-Y_1, Y_2, \ldots, Y_n ~|~ t_1, t_2, \ldots, t_n \inddist \poisson{\beta_0 + \beta_1 t_i}
-\eeqn
-
-\noindent and consider a Bayesian approach to inference.}
-
-\begin{enumerate}
-
-\easysubproblem{What is the parameter space for the two parameters of interest?}\spc{1}
-
-\easysubproblem{Assume a flat prior $f(\beta_0, \beta_1) \propto 1$. Find the kernel of the posterior distribution $f(\beta_0, \beta_1\,|\,y_1, \ldots, y_n, t_1, \ldots, t_n)$.}\spc{3}
-
-\easysubproblem{Find the log of the kernel of the posterior distribution.}\spc{2}
-
-
-\easysubproblem{Find the kernel of the conditional distribution $f(\beta_0\,|\,y_1, \ldots, y_n, t_1, \ldots, t_n, \beta_1)$. Is it a brand name rv?}\spc{3}
-
-\easysubproblem{Find the kernel of the conditional distribution $f(\beta_1\,|\,y_1, \ldots, y_n, t_1, \ldots, t_n, \beta_0)$. Is it a brand name rv?}\spc{4}
-
-\intermediatesubproblem{Given your answer in (a), the $\support{\beta_0}$, provide a proposal distribution  for the conditional distribution of $\beta_0$:
-
-\beqn
-q(\beta_0\,|\,y_1, \ldots, y_n, t_1, \ldots, t_n, \beta_1, \phi)= \hspace{6in}
-\eeqn}
-
-\intermediatesubproblem{Given your answer in (a), the $\support{\beta_1}$, provide a proposal distribution  for the conditional distribution of $\beta_1$:
-
-\beqn
-q(\beta_1\,|\,y_1, \ldots, y_n, t_1, \ldots, t_n, \beta_0, \phi)= \hspace{6in}
-\eeqn}
-
-\end{enumerate}
 
 
 \end{document}

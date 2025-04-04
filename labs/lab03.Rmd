@@ -1,0 +1,325 @@
+---
+title: "Practice Assignment 3 MATH 343"
+author: "Your Name Here"
+output: pdf_document
+date: "noon April 11"
+---
+
+
+## Problem 1: Bayesian Inference for Poisson Time-Trend Regression using Metropolis Sampling and Stan
+
+Problem 6 in the theory homework assumes a Poisson Time-Trend Regression for count data. As usual, we will generate the real data below from this DGP (which you don't have the luxury of seeing). We will also visualize its histogram:
+
+```{r}
+set.seed(1)
+n = 50
+
+true_beta_0 = 1.23
+true_beta_1 = 2.34
+
+t = sort(runif(n, 0, 10))
+y = rpois(n, true_beta_0 + true_beta_1 * t)
+
+ggplot(data.frame(y = y, t = t)) + 
+  geom_point(aes(x = t, y = y))
+```
+
+Imagine you are looking at this dataset of counts for the first time (i.e. forget that we generated the data ourselves). Why do you think a hurdle model with an extended negative binomial is appropriate?
+
+#TO-DO
+
+We will now implement the Metropolis-Hastings MCMC sampler given what you derived in problem 5 of the theoretical assignment. You found that I've provided some boilerplate code from the class demos below. It is your job to do the sampling.
+
+```{r}
+num_tot_samples = 1e4
+beta_0s = array(NA, num_tot_samples)
+beta_1s = array(NA, num_tot_samples)
+
+###initialize parameters to be null values
+beta_0s[1] = .Machine$double.eps
+beta_1s[1] = .Machine$double.eps
+
+#possibly initialize phi for Metropolis-Hastings steps
+phi_beta_0 = #
+phi_beta_1 = #
+  
+#save diagnoistics on whether the proposal distribution worked
+accept_beta_0s = array(NA, num_tot_samples)
+accept_beta_1s = array(NA, num_tot_samples)
+  
+#create log density of kernel of the conditional distribution of beta_0
+ln_kernel_beta_0_given_everything_else = function(){
+  #TO-DO
+}
+#create log density of kernel of the conditional distribution of beta_1
+ln_kernel_beta_1_given_everything_else = function(){
+  #TO-DO
+}
+
+
+###do the sampling
+for (s in 2 : num_tot_samples){
+  
+  #sample beta_0 by pulling from the proposal distribution
+  beta_0_star = #
+  #sample beta_0 via calculating r, the Metropolis Ratio
+	ln_r = ln_kernel_beta_0_given_everything_else() - 
+	       ln_kernel_beta_0_given_everything_else()
+	if (is.nan(ln_r) || (runif(1) > exp(ln_r))){
+		#reject - set it equal to previous value
+		beta_0s[s] = beta_0s[s - 1]
+		accept_beta_0s[t] = FALSE
+	} else {
+	  #accept: set it equal to proposal
+	  beta_0s[s] = beta_0_star
+		accept_beta_0s[t] = TRUE
+	}
+  
+  #sample beta_1 by pulling from the proposal distribution
+  beta_1_star = #
+  #sample beta_0 via calculating r, the Metropolis Ratio
+	ln_r = ln_kernel_beta_1_given_everything_else() - 
+	       ln_kernel_beta_1_given_everything_else()
+	if (is.nan(ln_r) || (runif(1) > exp(ln_r))){
+		#reject - set it equal to previous value
+		beta_1s[s] = beta_1s[s - 1]
+		accept_beta_1s[t] = FALSE
+	} else {
+	  #accept: set it equal to proposal
+	  beta_1s[s] = beta_1_star
+		accept_beta_1s[t] = TRUE
+	}
+}
+#cleanup
+rm(s, beta_0_star, beta_1_star, ln_r, ln_kernel_beta_0_given_everything_else, ln_kernel_beta_1_given_everything_else)
+```
+
+We diagnose whether or not the proposal distribution worked appropriately by seeing what proportion of proposal values were accepted:
+
+```{r}
+mean(accept_beta_0s)
+mean(accept_beta_1s)
+```
+
+Comment on whether or not the proposal distribution "worked" (i.e. you had a good proportion of acceptances). If it didn't work, go back and revamp the proposal distribution and run it again.
+
+#TO-DO
+
+Now we aggregate all three chains together for convenience:
+
+```{r}
+gibbs_chain = data.frame(
+  beta_0 = beta_0s, 
+  beta_1 = beta_1s,
+  iter = 1 : num_tot_samples
+)
+```
+
+
+We now assess convergence using plots. Feel free to play around with the `max_t_for_plotting` to get a better visual on the beginning of the chains.
+
+```{r}
+max_t_for_plotting = 500
+ggplot(gibbs_chain) +
+  geom_point(aes(x = t, y = beta_0)) + 
+  xlim(0, max_t_for_plotting)
+ggplot(gibbs_chain) +
+  geom_point(aes(x = t, y = beta_1)) + 
+  xlim(0, max_t_for_plotting)
+#cleanup
+rm(max_t_for_plotting)
+```
+
+Where do we burn?
+
+```{r}
+t_burn_in = #TO-DO
+```
+
+Now we burn:
+
+```{r}
+gibbs_chain = #TO-DO
+```
+
+Now we assess autocorrelation. Play with the `ell_max` and `r_max` to get the best assessment possible:
+
+```{r}
+par(mfrow = c(2, 1))
+ell_max = 500
+r_max = 1
+acf(gibbs_chain$beta_0, 
+    xlim = c(0, ell_max + 10), ylim = c(0, r_max), lag.max = ell_max)
+acf(gibbs_chain$beta_1, 
+    xlim = c(0, ell_max + 10), ylim = c(0, r_max), lag.max = ell_max)
+#cleanup
+rm(ell_max, r_max)
+```
+
+Where do we thin?
+
+```{r}
+t_thin = #TO-DO
+```
+
+Now we thin:
+
+```{r}
+gibbs_chain = #TO-DO
+```
+
+How many iid samples do we have after burning and thinning?
+
+```{r}
+#TO-DO
+```
+
+What would we change in the above code so we could've had more iid samples?
+
+#TO-DO
+
+Before we do inference, we first source the convenience function we used in class:
+
+```{r}
+pacman::p_load(ggplot2)
+
+visualize_chain_and_compute_estimates_and_cr = function(
+    samples, 
+    plot_mmse = TRUE, 
+    plot_mmae = TRUE, 
+    true_value = NULL, 
+    alpha = NULL, 
+    bins = 30,
+    colors = c("blue", "orange", "green", "red")){
+  ggplot_obj = ggplot(data.frame(samples = samples)) +
+    geom_histogram(aes(x = samples), bins = bins)
+  
+  mmse = mean(samples)
+  mmae = median(samples)
+  if (plot_mmse){
+    ggplot_obj = ggplot_obj + geom_vline(xintercept = mmse, col = colors[1])
+  }
+  
+  if (plot_mmae){
+    ggplot_obj = ggplot_obj + geom_vline(xintercept = mmae, col = colors[2])
+  }
+  
+  if (!is.null(true_value)){
+    ggplot_obj = ggplot_obj + 
+      geom_vline(xintercept = true_value, col = colors[3]) 
+  }
+  if (!is.null(alpha)){
+    ggplot_obj = ggplot_obj + 
+      geom_vline(xintercept = quantile(samples, .025), col = colors[4]) + 
+      geom_vline(xintercept = quantile(samples, .975), col = colors[4])
+  }
+  plot(ggplot_obj)
+  
+  ret = list(
+    mmse = mmse,
+    mmae = mmae,
+    theta = true_value
+  )
+  if (!is.null(alpha)){
+    ret$cr_one_minus_alpha_theta = c(
+        quantile(samples, alpha / 2), 
+        quantile(samples, 1 - alpha / 2)
+      )
+  }
+  ret
+}
+```
+
+Now we do inference on all parameters:
+
+```{r}
+visualize_chain_and_compute_estimates_and_cr(gibbs_chain$beta_0, true_value = true_beta_0, alpha = 0.05)
+```
+
+How good was the inference on the first parameter?
+
+#TO-DO
+
+
+```{r}
+visualize_chain_and_compute_estimates_and_cr(gibbs_chain$beta_1, true_value = true_beta_1, alpha = 0.05)
+```
+
+How good was the inference on the second parameter?
+
+#TO-DO
+
+Now we do this exercise with `stan`.You should also make sure stan works by running the following code before proceeding. If this doesn't work and you're on Windows, you need to install R build tools (see https://cran.r-project.org/bin/windows/Rtools/). On MAC or Linix, start googling the error message.
+
+```{r}
+example(stan_model, package = "rstan", run.dontrun = TRUE)
+```
+
+If the above worked, you will see no red errors and a whole bunch of output ending with something like:
+
+Chain 4: 
+Chain 4:  Elapsed Time: 0.031 seconds (Warm-up)
+Chain 4:                0.032 seconds (Sampling)
+Chain 4:                0.063 seconds (Total)
+Chain 4: 
+
+Now that we know stan works, we first create the list of data which is passed into stan:
+
+```{r}
+stan_model_data = list(y = y, t = t, n = n)
+```
+
+Now we write the relevant stan code below as a string (no need for a separate .stan file). I've started by specifying the data block. For the parameters block, you'll need your answer from 5(a) on the theoretical homework (which specifies the parameter spaces). For the model block, you'll need the log of the posterior's kernel from 5(c) on the theoretical homework. The log of the gamma function can be called via `lgamma` in stan.
+
+```{r}
+stan_model_code = "
+  data {
+    int<lower=0> n; //the sample size
+    vector[n] t;    //the times for each sample
+    vector[n] y;    //the response count for each sample
+  }
+  
+  parameters {
+    //TO-DO... make sure you name the parameters beta_0, beta_1 otherwise nothing will work later
+  }
+  
+  model {
+    target += //TO-DO
+  }
+"
+```
+
+Now we sample the model using stan:
+
+```{r}
+stan_fit = stan(
+  seed = 1,
+  model_code = stan_model_code,
+  model_name = "poisson_regression_model",
+  data = stan_model_data
+)
+```
+
+Now we do inference on all three parameters:
+
+```{r}
+visualize_chain_and_compute_estimates_and_cr(extract(stan_fit)$beta_0, true_value = true_beta_0, alpha = 0.05)
+```
+
+How good was the inference on the second parameter?
+
+#TO-DO
+
+
+```{r}
+visualize_chain_and_compute_estimates_and_cr(extract(stan_fit)$beta_1, true_value = true_beta_1, alpha = 0.05)
+```
+
+How good was the inference on the second parameter?
+
+#TO-DO
+
+Which worked better: Metropolis-Hastings MCMC Sampling or Stan's No-UTurn-Hamiltonian MCMC sampling?
+
+#TO-DO
+
