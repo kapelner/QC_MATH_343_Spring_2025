@@ -15,6 +15,8 @@ summary(full_mod)
 #it displays the Wald tests that are computed via the sqrt of the diagonal 
 #entries from the Fisher information matrix and computing the matrix is not super difficult;
 #see here: https://web.stanford.edu/class/archive/stats/stats200/stats200.1172/Lecture26.pdf
+#there is also a measure of fit called "deviance" which we don't have time to go into
+#the AIC reported is the same that we studied from MATH 341
 
 #notice how we have the log likelihood easily accessible from R
 as.numeric(logLik(full_mod))
@@ -57,7 +59,7 @@ lik_ratio_test_stat = 2 * (as.numeric(logLik(full_mod)) - as.numeric(logLik(red_
 
 #let's verify with R's built-in function anova
 anova(full_mod, red_mod) 
-
+#same value rounded to 4 decimals
 
 #But if I yank the ones that seem only marginally significant...
 summary(full_mod)
@@ -73,7 +75,7 @@ lik_ratio_test_stat = 2 * (as.numeric(logLik(full_mod)) - as.numeric(logLik(red_
 
 #let's verify with R's built-in function anova
 anova(full_mod, red_mod) 
-
+#same value
 
 ## Poisson regression
 pacman::p_load(ggplot2, skimr)
@@ -94,6 +96,7 @@ summary(null_mod)
 #make sure the null model is correct - it should be ybar
 exp(coef(null_mod)) #make sure to exponentiate the beta estimates due to link function
 mean(philippines_housing$total)
+#indeed
 
 #let's run the omnibus test
 anova(full_mod, null_mod)
@@ -104,6 +107,33 @@ red_mod = glm(total ~ age, philippines_housing, family = "poisson")
 
 anova(full_mod, red_mod)
 #the features removed seem to matter
+
+
+
+##Negative Binomial regression
+pacman::p_load(MASS)
+full_mod = glm.nb(total ~ ., philippines_housing)
+summary(full_mod)
+#looks about the same as the Poisson regression in terms of variables' significances
+#what is theta +- std err?
+
+
+null_mod = glm.nb(total ~ 1, philippines_housing)
+summary(null_mod) 
+#make sure the null model is correct - it should be ybar
+exp(coef(null_mod)) #make sure to exponentiate the beta estimates due to link function
+mean(philippines_housing$total)
+#indeed
+
+#let's run the omnibus test
+anova(full_mod, null_mod)
+#yes, the features matter
+
+#let's run the partial test removing everything but the most significant feature, age
+red_mod = glm.nb(total ~ age, philippines_housing)
+
+anova(full_mod, red_mod)
+#they marginally matter where in the Poisson regression their effect was much more striking
 
 
 ## Weibull regression
@@ -140,7 +170,7 @@ summary(null_mod)
 #the null model fits only the intercept and k
 #the prediction will be:
 exp(coef(null_mod)) * gamma(1 + 1 / null_mod$scale)
-#why is the average survival so high?
+#why is the average survival so high? Because the data also has...
 mean(subset(lung, status == 0)$time)
 mean(subset(lung, status == 1)$time)
 
