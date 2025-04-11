@@ -2,7 +2,7 @@
 title: "Practice Assignment 2 MATH 343"
 author: "Your Name Here"
 output: pdf_document
-date: "6PM April 11"
+date: "11:59PM April 11"
 ---
 
 This practice assignment is coupled to the theory assignment (the problem numbers align herein) and should be worked on concomitantly. You will write code in places marked "TO-DO" to complete the problems. Most of this will be a pure programming assignment but there are some questions that instead ask you to "write a few sentences" which are not R chunks.
