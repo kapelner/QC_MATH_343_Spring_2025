@@ -1,0 +1,414 @@
+\documentclass[12pt]{article}
+
+\include{preamble}
+
+\newtoggle{solutions}
+%\toggletrue{solutions}
+
+\newcommand{\instr}{\small Your answer will consist of a lowercase string (e.g. \texttt{aebgd}) where the order of the letters does not matter. \normalsize}
+
+\title{Math 343 / 643 Spring \the\year{} \\ Midterm Examination Two}
+\author{Professor Adam Kapelner}
+
+\date{April 10, \the\year{}}
+
+\begin{document}
+\maketitle
+
+\noindent Full Name \line(1,0){410}
+
+\thispagestyle{empty}
+
+\section*{Code of Academic Integrity}
+
+\footnotesize
+Since the college is an academic community, its fundamental purpose is the pursuit of knowledge. Essential to the success of this educational mission is a commitment to the principles of academic integrity. Every member of the college community is responsible for upholding the highest standards of honesty at all times. Students, as members of the community, are also responsible for adhering to the principles and spirit of the following Code of Academic Integrity.
+
+Activities that have the effect or intention of interfering with education, pursuit of knowledge, or fair evaluation of a student's performance are prohibited. Examples of such activities include but are not limited to the following definitions:
+
+\paragraph{Cheating} Using or attempting to use unauthorized assistance, material, or study aids in examinations or other academic work or preventing, or attempting to prevent, another from using authorized assistance, material, or study aids. Example: using an unauthorized cheat sheet in a quiz or exam, altering a graded exam and resubmitting it for a better grade, etc.\\
+\\
+\noindent I acknowledge and agree to uphold this Code of Academic Integrity. \\~\\
+
+\begin{center}
+\line(1,0){350} ~~~ \line(1,0){100}\\
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~signature~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ date
+\end{center}
+
+\normalsize
+
+\section*{Instructions}
+This exam is 75 minutes (variable time per question) and closed-book. You are allowed \textbf{one} page (front and back) of a \qu{cheat sheet}, blank scrap paper (provided by the proctor) and a graphing calculator (which is not your smartphone). Please read the questions carefully. Within each problem, I recommend considering the questions that are easy first and then circling back to evaluate the harder ones. No food is allowed, only drinks. %If the question reads \qu{compute,} this means the solution will be a number otherwise you can leave the answer in \textit{any} widely accepted mathematical notation which could be resolved to an exact or approximate number with the use of a computer. I advise you to skip problems marked \qu{[Extra Credit]} until you have finished the other questions on the exam, then loop back and plug in all the holes. I also advise you to use pencil. The exam is 100 points total plus extra credit. Partial credit will be granted for incomplete answers on most of the questions. \fbox{Box} in your final answers. Good luck!
+
+\pagebreak
+
+\problem Consider the following full-rank design matrix:
+
+\beqn
+\X := \bracks{\onevec_n~|~\x_{\cdot 1}~|~\ldots~|~ \x_{\cdot p}} = \threevec{\x_{1 \cdot}}{\vdots}{\x_{n \cdot}}
+\eeqn
+
+\noindent with column indices $0, 1, \ldots, p$ and row indices $1, 2, \ldots, n$. And let $\H$ be the orthogonal projection matrix onto the column space of $\X$. We assume also a continuous (real-valued) response model which is linear in these measurements, i.e. $\Y = \X\bbeta + \berrorrv$. For the error term, we assume the \qu{core assumption},
+
+\beqn
+\berrorrv \sim \multnormnot{n}{\zerovec_n}{\sigsq \I_n} ~~~\text{where $\sigsq>0$}.
+\eeqn
+
+\noindent Consider the following estimator for $\bbeta$: $\B := \XtXinvXt \Y$ and let $\Yhat := \X\B$ and $\E := \Y - \Yhat$.
+
+\begin{enumerate}[(a)]
+
+
+
+\subquestionwithpoints{5} Circle all of the following which are non-degenerate random variables.~\\
+%
+\iftoggle{solutions}{
+\beqn
+n,~~~p,~~~\X,~~~\x_{\cdot 1},~~~ \x_{n \cdot},~~~ \H,~~~ \inred{\Y},~~~ \bbeta,~~ ~\inred{\berrorrv},~~~ \sigsq, ~~~\I_n,~~~ \inred{\B}, ~~~ \inred{\Yhat}, ~~~\inred{\E}
+\eeqn}{
+\beqn
+n,~~~p,~~~\X,~~~\x_{\cdot 1},~~~ \x_{n \cdot},~~~ \H,~~~ \Y,~~~ \bbeta,~~~ \berrorrv,~~~ \sigsq, ~~~\I_n,~~~ \B, ~~~ \Yhat, ~~~\E
+\eeqn
+~\spc{0.5}}
+
+\subquestionwithpoints{3} Of the random variables in the previous question, which two are independent of each other? No need to prove this.
+
+
+\iftoggle{solutions}{\inred{
+\beqn
+\B, \E
+\eeqn
+}}{~\spc{0.5}}
+
+
+\subquestionwithpoints{5} Derive the distribution of $\B$ with only what is in the problem header, the fact about multivariate normal distributions from 340 and linear algebra manipulations. Show each step.
+
+\iftoggle{solutions}{\inred{
+\beqn
+\B &=& \XtXinvXt \Y = \XtXinvXt \parens{\X\bbeta + \berrorrv} = \bbeta + \XtXinvXt\berrorrv \\ &\sim& \multnormnot{p+1}{\bbeta}{\XtXinvXt \sigsq \I_n \parens{\XtXinvXt}^\top} \\
+&=& \multnormnot{p+1}{\bbeta}{\sigsq \XtXinvXt \X \parens{\XtXinv}^\top} \\
+&=& \multnormnot{p+1}{\bbeta}{\sigsq \parens{\XtXinv}^\top} \\
+&=& \multnormnot{p+1}{\bbeta}{\sigsq \inverse{\parens{\XtX}^\top}} \\
+&=& \multnormnot{p+1}{\bbeta}{\sigsq \XtXinv} \\
+\eeqn
+}}{~\spc{5}}
+
+\pagebreak
+
+
+\subquestionwithpoints{6} Prove misspecification error vanishes as $n \rightarrow \infty$.
+
+\iftoggle{solutions}{\inred{
+Misspecification error is $g(\x) - h^*(\x)$ where $h^*(\x) = \x\bbeta$ by assumption and $g(\x) = \x\bv{b}$ because we are using OLS thus misspecification error is $\x(\bbeta - \bv{b})$. Over the whole dataset the misspecification errors are $\x_{1 \cdot}(\bbeta - \bv{b}), \ldots, \x_{n \cdot}(\bbeta - \bv{b})$. One way to holistically measure all misspecification errors is to sum their squares, i.e, $||\X(\bbeta - \bv{b})||^2$ as seen on the homework.
+
+Now we prove this holistic measure goes to zero as $n$ increases. First note that $\b$ is a realization of $\B$, the OLS estimator which is also the MLE for $\bbeta$. From 341, the monster theorem stated that MLE's are consistent. Thus in our setting, $\B \convp \bbeta$ and thus by the multivariate CMT from 340, $\B - \bbeta \convp \zerovec_{p+1}$. Now we apply this result to our holistic measure. By the multivariate CMT, $||\X(\bbeta - \bv{b})||^2 \convp ||\X\zerovec_{p+1}||^2 = 0$.
+}}{~\spc{8.5}}
+
+\end{enumerate}
+
+
+\problem Consider the Boston Housing Data which has $n = 506$ and response \texttt{medv} with $\ybar = 22.53$ and $s_y = 9.20$. We consider modeling \texttt{medv} using OLS on \texttt{zn + rm + nox + dis + lstat}, all continuous (non-categorical) features. Below is the $\XtXinv$ where $\X$ is the design matrix:
+
+\begin{Verbatim}[frame=single, fontsize = \small]
+            (Intercept)       zn       rm      nox      dis    lstat
+(Intercept)     0.58000  4.4e-04 -5.1e-02 -2.7e-01 -1.8e-02 -3.0e-03
+zn              0.00044  6.9e-06 -4.5e-05 -7.1e-05 -5.1e-05 -2.0e-07
+rm             -0.05100 -4.5e-05  6.9e-03  7.5e-04  6.3e-04  4.4e-04
+nox            -0.27000 -7.1e-05  7.5e-04  4.2e-01  1.5e-02 -1.9e-03
+dis            -0.01800 -5.1e-05  6.3e-04  1.5e-02  1.5e-03  4.3e-05
+lstat          -0.00300 -2.0e-07  4.4e-04 -1.9e-03  4.3e-05  8.9e-05
+\end{Verbatim}
+
+\noindent The RMSE for this regression is 5.289 and here are the slope estimates:
+
+
+\begin{Verbatim}[frame=single, fontsize = \small]
+(Intercept)          zn          rm         nox         dis       lstat 
+      16.14        0.06        4.44      -15.20       -1.44       -0.66
+\end{Verbatim}
+
+\noindent Assume the \qu{core assumption} (see Problem 1 for its definition) except in (e,f,l,m) which make explicit a new assumption.
+
+\begin{enumerate}[(a)]
+
+\subquestionwithpoints{2} Consider creating a $\doublehat{CI}_{\beta_{\texttt{nox}}, 95\%}$, the confidence interval for the true slope parameter of the variable \texttt{nox}. Which degrees of freedom value would you use to lookup the appropriate $t$ value's quantile? 
+
+\iftoggle{solutions}{\inred{
+\beqn
+df_{\text{error}} := n-(p+1) = 506 - 6 = 500
+\eeqn
+}}{~\spc{0}}
+
+\pagebreak
+
+
+\subquestionwithpoints{5} Compute $\doublehat{CI}_{\beta_{\texttt{nox}}, 95\%}$ to the nearest two digits. Regardless of the truly appropriate $t$ value, use 1.96 as the $t$ value.
+
+\iftoggle{solutions}{\inred{
+\beqn
+\doublehat{CI}_{\beta_{\texttt{nox}}, 1 - \alpha} &=& \bracks{b_{\texttt{nox}} \pm t_{df_{\text{error}}, 1 - \alpha/2} \cdot s_e \sqrt{\XtXinv_{\texttt{nox}, \texttt{nox}}}} \\
+\doublehat{CI}_{\beta_3, 95\%} &=& \bracks{b_3 \pm 1.96 \cdot s_e \sqrt{\XtXinv_{4,4}}} \\
+&=& \bracks{-15.20 \pm 1.96 \cdot 5.289 \sqrt{0.42}} = \bracks{-21.92,  -8.48}
+\eeqn
+}}{~\spc{3.5}}
+
+
+\subquestionwithpoints{1} The confidence interval in the previous question is... circle one: \\\iftoggle{solutions}{\inred{exact}}{exact} ~~/~~ approximate
+
+\subquestionwithpoints{1} Based on your confidence interval from the previous question, the null hypothesis that $\beta_{\texttt{nox}} = 0$ would be ... circle one: \\\iftoggle{solutions}{\inred{rejected}}{rejected} ~~/~~ retained
+
+\subquestionwithpoints{5} Assume the errors are independent, mean centered and homoskedastic but now assume they are \textit{not} normally distributed. Create a $\doublehat{CI}_{\beta, 95\%}$ for the variable \texttt{nox} to the nearest two digits.
+
+\iftoggle{solutions}{\inred{
+\beqn
+\bracks{-21.92,  -8.48}
+\eeqn
+}}{~\spc{1}}
+
+\subquestionwithpoints{1} The confidence interval in the previous question is... circle one: \\ exact ~~/~~ \iftoggle{solutions}{\inred{approximate}}{approximate}
+
+
+\subquestionwithpoints{5} Justify and record your decision for the test of $H_0: \beta_{\texttt{rm}} = 3$, a test on the slope parameter for the variable \texttt{rm}. Regardless of the truly appropriate $t$ value, use 1.96 as the $t$ value.
+
+\iftoggle{solutions}{\inred{
+\beqn
+\doublehat{t} := \frac{b_{\texttt{rm}} - \beta_{\texttt{rm}}}{s_e \cdot \sqrt{\XtXinv_{\texttt{rm}, \texttt{rm}}}} = \frac{4.44 - 3}{5.289 \cdot \sqrt{0.0069}} = 3.277 > 1.96 \mathimplies \text{Reject $H_0$}
+\eeqn
+}}{~\spc{3}}
+
+\pagebreak
+
+\subquestionwithpoints{5} Compute $R^2_{adj}$ to the nearest two digits using the following calculations:
+
+\beqn
+s_e &:=& \sqrt{\frac{SSE}{df_{\text{error}}}} \mathimplies SSE = df_{\text{error}} \cdot s_e^2  = 500 \cdot 5.289^2   = 13986.76 \\
+SST &:=& \sum_{i=1}^n (y_i - \ybar)^2 = (n-1) \cdot s^2_y = 505 \cdot 9.20^2  = 42743.2
+\eeqn
+
+
+
+\iftoggle{solutions}{\inred{
+\beqn
+R^2_{adj} &:=& 1 - \frac{n-1}{df_{\text{error}}} \frac{SSE}{SST} = \frac{505}{500} \frac{13986.76}{42743.2} = 0.33\\
+\eeqn
+}}{~\spc{3}}
+
+Below is the first six rows and six columns of the $\H$ matrix. There are rownames and colnames displayed to help with finding entries (e.g., $\H_{2,4} = 0.0076$).
+
+\begin{center}
+\begin{minipage}{10cm}
+\begin{Verbatim}[frame=single]
+       1      2      3      4      5      6
+1 0.0053 0.0020 0.0035 0.0039 0.0024 0.0036
+2 0.0020 0.0058 0.0065 0.0076 0.0076 0.0072
+3 0.0035 0.0065 0.0100 0.0110 0.0110 0.0085
+4 0.0039 0.0076 0.0110 0.0130 0.0130 0.0110
+5 0.0024 0.0076 0.0110 0.0130 0.0140 0.0110
+6 0.0036 0.0072 0.0085 0.0110 0.0110 0.0110
+\end{Verbatim}
+\end{minipage}
+\end{center}
+
+\subquestionwithpoints{5} Estimate the probability the residual for the fourth observation in the boston housing dataset will be greater than 5 as best as you can.
+
+\iftoggle{solutions}{\inred{
+\beqn
+&& E_4 \sim \normnot{0}{\sigsq (1 - h_{4,4})} \mathimplies \frac{E_4}{\sigma \sqrt{1 - h_{4,4}}} \sim \stdnormnot \mathimplies \frac{E_4}{s_e \sqrt{1 - h_{4,4}}} \approxdist \stdnormnot \\
+&& \prob{E_4 > 5} = \prob{\frac{E_4}{s_e \sqrt{1 - h_{4,4}}} > \frac{5}{s_e \sqrt{1 - h_{4,4}}}} \approx \prob{Z > \frac{5}{5.289\sqrt{1 - 0.0130}}} \\
+ &=& \prob{Z > 0.95} \approx 16\%
+\eeqn
+}}{~\spc{3}}
+
+\pagebreak
+
+\subquestionwithpoints{6} The predicted value for the first observation is $\hat{y}_1 = 29.15$. Find a $\doublehat{CI}_{y_1, 95\%}$ where $y_1$ is the response value for a new census tract with the same measurements as $\x_{1 \cdot}$ to the nearest two digits.  Regardless of the truly appropriate $t$ value, use 1.96 as the $t$ value.
+
+\iftoggle{solutions}{\inred{
+\beqn
+\doublehat{CI}_{y_1, 95\%} &=& \bracks{\hat{y}_1 \pm t_{1-\alpha/2, n - (p+1)} \cdot s_e\sqrt{1 + \x_{1 \cdot}^\top \XtXinv \x_{1 \cdot}}} \\
+&=& \bracks{\hat{y}_1 \pm t_{1-\alpha/2, n - (p+1)} \cdot s_e\sqrt{1 + h_{1,1}}} \\
+&=& \bracks{29.15 \pm 1.96 \cdot 5.289 \sqrt{1 + 0.0053}} = \bracks{18.76, 39.54}
+\eeqn
+}}{~\spc{6}}
+
+We now model \texttt{medv} using \texttt{rm + lstat} via an OLS. The RMSE for this regression is 5.540 and here are the slope estimates:
+
+\begin{center}
+\begin{minipage}{8cm}
+\begin{Verbatim}[frame=single]
+(Intercept)          rm       lstat 
+      -1.36        5.09       -0.64
+\end{Verbatim}
+\end{minipage}
+\end{center}
+
+
+\subquestionwithpoints{7} Calculate the F-statistic for $H_0: \beta_{\texttt{zn}} = \beta_{\texttt{nox}} = \beta_{\texttt{dis}} = 0$ to the nearest two digits.
+
+\iftoggle{solutions}{\inred{
+\beqn
+\doublehat{f} := \frac{\displaystyle \frac{SSE_A - SSE}{k}}{\displaystyle\frac{SSE}{df_{error}}} = \frac{\displaystyle\frac{15437.87 - 13986.76}{3}}{\displaystyle\frac{13986.76}{500}} = 17.29
+\eeqn
+
+The value of $k$ is the number of features we are setting to zero in $H_0$ which is 3. The value of SSE we take from part (h). To obtain the value of $SSE_A$, see the calculation in part (h). $SSE_A = df_A s^2_{e_A}$ where the quantities on the rhs are now applicable to the reduced model with features in set $A$. Following part (a), $df_A = n - ((p-k) + 1) = 506 - ((5-3) + 1) = 503$. And $s^2_{e_A}$ can be found in the text above this question. Thus, $SSE_A = 503 \cdot 5.54^2 = 15437.87$. 
+}}{~\spc{6}}
+
+
+\pagebreak
+
+Below is $\XtXinvXt \bv{\doublehat{D}} \X \XtXinv$, a matrix where $\X$ is the design matrix and $\bv{\doublehat{D}}$ is the diagonal matrix with the residuals squared along its diagonal.
+
+\begin{center}
+\begin{minipage}{8cm}
+\begin{Verbatim}[frame=single]
+            (Intercept)    rm lstat
+(Intercept)       29.20 -4.14 -0.26
+rm                -4.14  0.59  0.03
+lstat             -0.26  0.03  0.00
+\end{Verbatim}
+\end{minipage}
+\end{center}
+
+\subquestionwithpoints{5} Assume the errors are independent, mean centered but neither homoskedastic nor normally distributed. Create a $\doublehat{CI}_{\beta_{\texttt{rm}}, 95\%}$, the confidence interval for the true slope parameter of the variable \texttt{rm} to the nearest two digits.
+
+\iftoggle{solutions}{\inred{
+\beqn
+\doublehat{CI}_{\beta_{\texttt{rm}}, 1-\alpha} &=& \bracks{b_{\texttt{rm}} \pm z_{1-\alpha/2} \sqrt{\parens{\XtXinvXt \bv{\doublehat{D}} \X \XtXinv}_{\texttt{rm}, \texttt{rm}}}~} \\
+\doublehat{CI}_{\beta_1, 95\%} &=& \bracks{b_1 \pm 1.96   \sqrt{\parens{\XtXinvXt \bv{\doublehat{D}} \X \XtXinv}_{2,2}}~} \\
+&=& \bracks{5.09 \pm 1.96  \sqrt{0.59}} = \bracks{3.58, 6.60}
+\eeqn
+}}{~\spc{4}}
+
+\subquestionwithpoints{1} The confidence interval in the previous question is... circle one: \\ exact ~~/~~ \iftoggle{solutions}{\inred{approximate}}{approximate}
+
+\end{enumerate}
+
+
+\problem Consider a subset of the vocab data in the \texttt{carData} package. The response is a person's score on a vocabulary test. This score ranges in $\braces{0, 1, 2, \ldots, 10}$ and features: \texttt{gender} (categorical: male/female), \texttt{nativeBorn} (categorical: yes/no), \texttt{age} (continuous: measured in years) and \texttt{educ} (continuous: measured in years). We will use a negative binomial glm with the standard exponential link-to-linear function for its mean. Below is the output:
+
+\begin{center}
+\begin{minipage}{13cm}
+\begin{Verbatim}[frame=single]
+               Estimate   Std. Error z value Pr(>|z|)    
+(Intercept)    0.7761238  0.0165403  46.923  < 2e-16 ***
+gendermale    -0.0267524  0.0049960  -5.355 8.57e-08 ***
+nativeBornyes  0.1603976  0.0094713  16.935  < 2e-16 ***
+age            0.0021438  0.0001438  14.907  < 2e-16 ***
+educ           0.0582323  0.0008373  69.548  < 2e-16 ***
+
+              Theta:  172454 
+          Std. Err.:  143423
+
+ 2 x log-likelihood:  -115304.3 
+\end{Verbatim}
+\end{minipage}
+\end{center}
+
+
+\pagebreak
+
+\begin{enumerate}[(a)]
+
+
+\subquestionwithpoints{5} Is there any reason why we should not model this response metric using the negative binomial model with mean log-linear in the covariates?
+
+\iftoggle{solutions}{\inred{
+The response metric doesn't have the support of a true count model as it only ranges from $0,1,\ldots,10$ instead of $0, 1, \ldots$ and this means the model may give nonsensical predictions (i.e., vocabulary scores $>$ 10). Thus, the inference will also be suspect.
+}}{~\spc{3}}
+
+Despite what you wrote in (a), we will ignore any concerns about the appropriateness of this model going forward.
+
+\subquestionwithpoints{5} Considering all other covariate values the same, what would be the predicted \textit{percent} difference in mean score of a male versus a female to the nearest two digits? 
+
+\iftoggle{solutions}{\inred{
+Since $\hat{y} = e^{b_0} e^{b_1 x_1} \cdot \ldots \cdot e^{b_p x_p}$, the prediction is affected by not an addition, but a multiple, $e^{b_j x_j}$, thus the percent effect is $(e^{b_j x_j} - 1) \times 100$. For the male-vs-female coefficient, we then get 
+
+\beqn
+(e^{-0.0267524} - 1) \times 100 = -2.64\%
+\eeqn
+}}{~\spc{3}}
+
+\subquestionwithpoints{6} Compute $\doublehat{CI}_{\beta_{\texttt{educ}}, 95\%}$, the confidence interval for the slope parameter within the link function for the variable \texttt{educ} to the nearest four digits.
+
+\iftoggle{solutions}{\inred{
+\beqn
+\doublehat{CI}_{\beta_{\texttt{educ}}, 1-\alpha} &=& \bracks{b_{\texttt{educ}} \pm z_{1-\alpha/2} \cdot s_{b_{\texttt{educ}}}} \\
+\doublehat{CI}_{\beta_4, 95\%} &=& \bracks{b_4 \pm 1.96 \cdot s_{b_4}} \\
+ &=& \bracks{0.0582323 \pm 1.96 \cdot 0.0008373} = \bracks{0.0566,  0.0599}
+\eeqn
+}}{~\spc{6}}
+
+
+\subquestionwithpoints{1} The confidence interval in the previous question is... circle one: \\ exact ~~/~~ \iftoggle{solutions}{\inred{approximate}}{approximate}
+
+
+\pagebreak
+
+\subquestionwithpoints{6} Predict the vocabulary score of a female, foreign-born, age 25 with 17yr of education. Round the score to the nearest whole number.
+
+\iftoggle{solutions}{\inred{
+\beqn
+\hat{y} &=& \text{round}\parens{e^{b_0} e^{b_1 x_1} \cdot \ldots \cdot e^{b_p x_p}} \\
+&=& \text{round}\parens{e^{b_0} e^{b_1 (0)} e^{b_2 (0)} e^{b_3 (25)} e^{b_4 (17)}} \\
+&=& \text{round}\parens{e^{0.7761238} e^{0.0021438 (25)} e^{0.0582323 (17)}} \\
+&=& \text{round}(6.169809) = 6
+\eeqn
+}}{~\spc{6}}
+
+We now run the same model but this time omitting features \texttt{gender} and \texttt{nativeBorn}. Below is the output
+
+
+\begin{center}
+\begin{minipage}{13cm}
+\begin{Verbatim}[frame=single]
+            Estimate   Std. Error  z value Pr(>|z|)    
+(Intercept) 0.9130409  0.0139108   65.64   <2e-16 ***
+age         0.0022436  0.0001438   15.61   <2e-16 ***
+educ        0.0578375  0.0008323   69.49   <2e-16 ***
+
+              Theta:  173175 
+          Std. Err.:  146404
+
+ 2 x log-likelihood:  -115635.4
+\end{Verbatim}
+\end{minipage}
+\end{center}
+
+Here are some values of the inverse CDF of the $\chisq{df}$ distribution:
+
+\begin{center}
+\begin{minipage}{13cm}
+\begin{Verbatim}[frame=single,fontsize=\small]
+                Probability less than the critical value
+  df          0.90      0.95     0.975      0.99     0.999
+----------------------------------------------------------
+  1          2.706     3.841     5.024     6.635    10.828
+  2          4.605     5.991     7.378     9.210    13.816
+  3          6.251     7.815     9.348    11.345    16.266
+  4          7.779     9.488    11.143    13.277    18.467
+  5          9.236    11.070    12.833    15.086    20.515
+  6         10.645    12.592    14.449    16.812    22.458
+  7         12.017    14.067    16.013    18.475    24.322
+\end{Verbatim}
+\end{minipage}
+\end{center}
+
+\pagebreak
+
+\subquestionwithpoints{2} For the test of $H_0: \beta_{\texttt{gender}} = \beta_{\texttt{nativeBorn}} = 0$ at $\alpha = 1\%$, would would be the critical value of the likelihood ratio test that the test statistic is compared to?
+
+\iftoggle{solutions}{\inred{
+The degrees of freedom of this test is 2 because we are knocking out 2 features. Since $\alpha = 1\%$, we are looking for the 99\%ile of the $\chisq{2}$ which according we find in the table above on the second row and the fourth column: 9.210.
+}}{~\spc{1}}
+
+\subquestionwithpoints{7} Run the test of $H_0: \beta_{\texttt{gender}} = \beta_{\texttt{nativeBorn}} = 0$ at $\alpha = 1\%$ and record your decision and write one sentence that interprets the result of the decision.
+
+\iftoggle{solutions}{\inred{
+Since $\doublehat{\Lambda} = 2\natlog{\mathcal{L}_{\text{full}}} - 2\natlog{\mathcal{L}_{\text{reduced}}} = -115304.3 - -115635.4 = 331.1 > \chisq{2, 99\%} = 9.210$, we reject $H_0$. We can conclude that \texttt{gender} and \texttt{nativeBorn} are important in predicting vocabulary score in the context of the other variables and assuming the negative binomial model log-linear in the covariates.
+}}{~\spc{7}}
+
+
+
+\end{enumerate}
+
+\end{document}
