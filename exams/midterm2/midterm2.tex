@@ -96,10 +96,10 @@ n,~~~p,~~~\X,~~~\x_{\cdot 1},~~~ \x_{n \cdot},~~~ \H,~~~ \Y,~~~ \bbeta,~~~ \berr
 \pagebreak
 
 
-\subquestionwithpoints{6} Prove misspecification error vanishes as $n \rightarrow \infty$.
+\subquestionwithpoints{6} Prove estimation error vanishes as $n \rightarrow \infty$.
 
 \iftoggle{solutions}{\inred{
-Misspecification error is $g(\x) - h^*(\x)$ where $h^*(\x) = \x\bbeta$ by assumption and $g(\x) = \x\bv{b}$ because we are using OLS thus misspecification error is $\x(\bbeta - \bv{b})$. Over the whole dataset the misspecification errors are $\x_{1 \cdot}(\bbeta - \bv{b}), \ldots, \x_{n \cdot}(\bbeta - \bv{b})$. One way to holistically measure all misspecification errors is to sum their squares, i.e, $||\X(\bbeta - \bv{b})||^2$ as seen on the homework.
+Estimation error is $g(\x) - h^*(\x)$ where $h^*(\x) = \x\bbeta$ by assumption and $g(\x) = \x\bv{b}$ because we are using OLS thus estimation error is $\x(\bbeta - \bv{b})$. Over the whole dataset the estimation errors are $\x_{1 \cdot}(\bbeta - \bv{b}), \ldots, \x_{n \cdot}(\bbeta - \bv{b})$. One way to holistically measure all estimation errors is to sum their squares, i.e, $||\X(\bbeta - \bv{b})||^2$ as seen on the homework.
 
 Now we prove this holistic measure goes to zero as $n$ increases. First note that $\b$ is a realization of $\B$, the OLS estimator which is also the MLE for $\bbeta$. From 341, the monster theorem stated that MLE's are consistent. Thus in our setting, $\B \convp \bbeta$ and thus by the multivariate CMT from 340, $\B - \bbeta \convp \zerovec_{p+1}$. Now we apply this result to our holistic measure. By the multivariate CMT, $||\X(\bbeta - \bv{b})||^2 \convp ||\X\zerovec_{p+1}||^2 = 0$.
 }}{~\spc{8.5}}
