@@ -6,7 +6,7 @@ date: "noon April 11"
 ---
 
 
-## Problem 1: Bayesian Inference for Poisson Time-Trend Regression using Metropolis Sampling and Stan
+## Problem 1a: Bayesian Inference for Negative Binomial Regression using Metropolis Sampling
 
 Problem 6 in the theory homework assumes a Poisson Time-Trend Regression for count data. As usual, we will generate the real data below from this DGP (which you don't have the luxury of seeing). We will also visualize its histogram:
 
@@ -248,6 +248,8 @@ visualize_chain_and_compute_estimates_and_cr(gibbs_chain$beta_1, true_value = tr
 How good was the inference on the second parameter?
 
 #TO-DO
+
+## Problem 1a: Bayesian Inference for Negative Binomial Regression using Hamiltonian MCMC with the no U-Turn Sampler via Stan
 
 Now we do this exercise with `stan`.You should also make sure stan works by running the following code before proceeding. If this doesn't work and you're on Windows, you need to install R build tools (see https://cran.r-project.org/bin/windows/Rtools/). On MAC or Linix, start googling the error message.
 

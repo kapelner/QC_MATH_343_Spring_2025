@@ -5,15 +5,15 @@ data {
 
 parameters {
   simplex[2] rho;           // mixing proportions, must add up to 1 (hence the simplex)
-  ordered[2] theta;         // means (ordered so theta0 < theta1 by definition)
-  vector<lower=0>[2] sigsq; // variances
+  ordered[2] theta;         // the two means (ordered so theta_1 < theta_2 by definition)
+  vector<lower=0>[2] sigsq; // the two variances
 }
 
 model {
-  vector[2] lps = log(rho);
   for (i in 1 : n) {
-    lps[0] = normal_lpdf(x[i] | theta[0], sqrt(sigsq[0]));
-    lps[1] = normal_lpdf(x[i] | theta[1], sqrt(sigsq[1]));
+    vector[2] lps = log(rho);
+    lps[1] += normal_lpdf(x[i] | theta[1], sqrt(sigsq[1]));
+    lps[2] += normal_lpdf(x[i] | theta[2], sqrt(sigsq[2]));
+    target += log_sum_exp(lps);
   }
-  target += log_sum_exp(lps);
 }

@@ -1,34 +1,12 @@
-source("lec01_visualize_function.R")
+rm(list = ls())
+source("visualize_function.R")
+pacman::p_load(rstan, ggplot2)
 
-#Hamiltonian Monte Carlo (2011)
-#https://academic.oup.com/jrsssb/article/73/2/123/7034367
-#"The paper proposes Metropolis adjusted Langevin and Hamiltonian Monte 
-#"Carlo sampling methods defined on the Riemann manifold to resolve the 
-#"shortcomings of existing Monte Carlo algorithms when sampling from 
-#"target densities that may be high dimensional and exhibit strong correlations."
-#https://arxiv.org/pdf/1701.02434.pdf (a nice introduction)
-#"instead of fumbling around parameter space with random, uninformed jumps 
-#[like in Metropolis steps] ..."
 
-#No U-Turn Sampler for Hamiltonian Monte Carlo (2014)
-#https://jmlr.org/papers/v15/hoffman14a.html
-
-#This was coded into a software package called "stan"
-#which is accessible from most popular languages (including R
-#via the package "rstan"). See
-#https://en.wikipedia.org/wiki/Stan_(software)
-pacman::p_load(rstan)
-#on your computer... make sure the following line works otherwise stan is not 
-#installed correctly!
-# example(stan_model, package = "rstan", run.dontrun = TRUE)
-
-#let's take a look at these models we did fit with stan
-#unfortunately, stan doesn't support integer-valued parameters
-#so the Poisson change-point model as we defined it cannot be
-#fit in Stan (there are ways to still do fit that model but it's beyond
-#the scope of the course)
 
 n = 50
+seed = 1
+set.seed(seed)
 
 #############we don't get to see the real DGP!
 true_theta_1 = 0.5678
@@ -50,43 +28,37 @@ ggplot(data.frame(x = x)) +
 
 stan_model_data = list(
   n_0 = sum(x == 0),
-  n_not_0 = n - n_0,
+  n_not_0 = n - sum(x == 0),
   sum_x_minus_1_greater_than_0 = sum(x[x > 0] - 1)
 )
 
 #build the stan model object and run the sampler
-stan_fit = stan(
-  seed = 1,
-  file = "lec02_stan_spec_hurdle_model.stan",
-  model_name = "hurdle_model",
-  data = stan_model_data
+stan_mod_obj = stan_model(file = "lec17_stan_spec_hurdle_model.stan", model_name = "hurdle_model")
+stan_mod_obj
+
+stan_fit = rstan::sampling(
+  stan_mod_obj,
+  seed = seed,
+  data = stan_model_data,
+  iter = 5000
 )
 
 #straight to inference
-visualize_chain_and_compute_estimates_and_cr(extract(stan_fit)$theta_1, true_value = true_theta_1)
-visualize_chain_and_compute_estimates_and_cr(extract(stan_fit)$theta_2, true_value = true_theta_2)
+theta_1s = extract(stan_fit)$theta_1
+theta_2s = extract(stan_fit)$theta_2
+visualize_chain_and_compute_estimates_and_cr(theta_1s, true_value = true_theta_1, alpha = 0.05)
+visualize_chain_and_compute_estimates_and_cr(theta_2s, true_value = true_theta_2, alpha = 0.05)
 
 
 #Do we have to thin?
-#
-#The tradition of thinning when running MCMC stems primarily from the
-#use of samplers that require a large number of iterations to achieve 
-#the desired effective sample size. Because of the efficiency (effective 
-#samples per second) of Hamiltonian Monte Carlo, rarely should this be 
-#necessary when using Stan.
-
-#but still looks like a good idea...
-stan_ac(stan_fit, separate_chains = TRUE)
-
-stan_fit = stan(
-  seed = 1,
-  file = "lec02_stan_spec_hurdle_model.stan",
-  model_name = "hurdle_model",
-  thin = 3,
-  data = stan_model_data
-)
-stan_ac(stan_fit, separate_chains = TRUE)
-
-visualize_chain_and_compute_estimates_and_cr(extract(stan_fit)$theta_1, true_value = true_theta_1)
-visualize_chain_and_compute_estimates_and_cr(extract(stan_fit)$theta_2, true_value = true_theta_2)
+par(mfrow = c(1, 2))
+ell_min = 0
+ell_max = 100
+#let's get a close look to make sure by zooming in on the y-axis
+r_max = 0.2
+acf(theta_1s, 
+    xlim = c(ell_min, ell_max), ylim = c(0, r_max), lag.max = ell_max, main = "beta0")
+acf(theta_2s, 
+    xlim = c(ell_min, ell_max), ylim = c(0, r_max), lag.max = ell_max, main = "beta1")
+#not really...
 
