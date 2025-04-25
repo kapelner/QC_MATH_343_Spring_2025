@@ -13,15 +13,15 @@ My lecture notes are scanned in as PDF files contributed by myself and will most
 
 ## Homeworks
 
-<!--
-* Homework 3 [(download)](https://github.com/kapelner/QC_MATH_343_Spring_2025/blob/master/homeworks/hw03/hw03t.pdf?raw=true) [(view)](https://github.com/kapelner/QC_MATH_343_Spring_2025/blob/master/homeworks/hw03/hw03t.pdf) (due 5/15 pushed to your github repo)-->
+<!-- -->
+* Homework 3 [(download)](https://github.com/kapelner/QC_MATH_343_Spring_2025/blob/master/homeworks/hw03/hw03t.pdf?raw=true) [(view)](https://github.com/kapelner/QC_MATH_343_Spring_2025/blob/master/homeworks/hw03/hw03t.pdf) (due 5/18 pushed to your github repo)
 * Homework 2 [(download)](https://github.com/kapelner/QC_MATH_343_Spring_2025/blob/master/homeworks/hw02/hw02t.pdf?raw=true) [(view)](https://github.com/kapelner/QC_MATH_343_Spring_2025/blob/master/homeworks/hw02/hw02t.pdf) (due 4/11 pushed to your github repo)
 * Homework 1 [(download)](https://github.com/kapelner/QC_MATH_343_Spring_2025/blob/master/homeworks/hw01/hw01t.pdf?raw=true) [(view)](https://github.com/kapelner/QC_MATH_343_Spring_2025/blob/master/homeworks/hw01/hw01t.pdf) (due 3/2 pushed to your github repo)
 
 ## Labs
 
 <!-- 
-* [Lab 3](https://github.com/kapelner/QC_MATH_343_Spring_2025/blob/master/labs/lab03.Rmd) (due 5/16 pushed to your github repo) -->
+* [Lab 3](https://github.com/kapelner/QC_MATH_343_Spring_2025/blob/master/labs/lab03.Rmd) (due 5/18 pushed to your github repo) -->
 * [Lab 2](https://github.com/kapelner/QC_MATH_343_Spring_2025/blob/master/labs/lab02.Rmd) (due 4/11 pushed to your github repo)
 * [Lab 1](https://github.com/kapelner/QC_MATH_343_Spring_2025/blob/master/labs/lab01.Rmd) (due 3/2 pushed to your github repo)
 
