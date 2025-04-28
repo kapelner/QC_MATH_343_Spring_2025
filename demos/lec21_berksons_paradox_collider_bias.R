@@ -1,4 +1,4 @@
-pacman::p_load(tidyverse)
+pacman::p_load(tidyverse, gmodels)
 
 #let's take a look at "Berkson's Paradox" using y is binary
 rm(list = ls())
@@ -7,12 +7,6 @@ n = 2000
 x = rbinom(n, 1, 0.15)
 y1 = rbinom(n, 1, 0.17)
 y2 = rbinom(n, 1, 1 / (1 + exp(-(-3.1 + 6.2 * x * y1))))
-# prop.table(table(x))
-# prop.table(table(y1))
-# prop.table(table(y2))
-# prop.table(table(x, y2))
-# prop.table(table(y1, y2))
-# prop.table(table(x * y1, y2))
 
 
 disease_example_data = data.table(
@@ -20,6 +14,7 @@ disease_example_data = data.table(
   disease2 = y1,
   hospitalization = y2
 )
+disease_example_data
 
 #we are dealing with binary data, tables are the a good way to visualize
 #the relationships among the variables

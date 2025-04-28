@@ -1,4 +1,4 @@
-pacman::p_load(tidyverse, data.table, gmodels)
+pacman::p_load(tidyverse, data.table)
 
 # Here's an Example of REAL Correlation without Causation
 # Remember, correlation (non-spurious) will persist as the sample size increases.
