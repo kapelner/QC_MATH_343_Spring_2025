@@ -47,8 +47,12 @@ summary(lm(num_car_accidents ~ umbrella_sales + rainfall, umbrella_example_data)
 
 #Why is this? Well, you can look at how x affects y in local areas of z for instance.
 
-quantile_z_min = 0.46
-quantile_z_max = 0.54
+quantile_z_min = 0.45
+quantile_z_max = 0.55
+# quantile_z_min = 0
+# quantile_z_max = 0.1
+# quantile_z_min = 0.9
+# quantile_z_max = 1
 small_window_of_rainfall = umbrella_example_data$rainfall < 
   quantile(umbrella_example_data$rainfall, quantile_z_max) &
   umbrella_example_data$rainfall >
@@ -56,7 +60,8 @@ small_window_of_rainfall = umbrella_example_data$rainfall <
 
 ggplot(umbrella_example_data[small_window_of_rainfall, ]) +
   aes(x = umbrella_sales, y = num_car_accidents) +
-  geom_point()
+  geom_point() + 
+  geom_smooth(method = "lm")
 #there doesn't appear to be a relationship anymore
 summary(lm(num_car_accidents ~ umbrella_sales, umbrella_example_data[small_window_of_rainfall, ]))
 #b_1 is near zero and not significantly different from zero
@@ -99,11 +104,19 @@ summary(lm(cholesterol ~ exercise, cholesterol_example_data))
 #=> *big* bias in estimation!
 #Interpretation of b_1?
 
-#how did this happen? Let's color by age
-cholesterol_example_data[, age_binned := cut(age, seq(0, max_age, by = 10))]
+#what is the fake "beta_1"?
+#E[Y | x_1] = 
+#E_{X_2} [Y, X_2 | x_1] = 
+#E[75 - 1.4 * x1 + 0.9 * X_2 | x_1] = 
+#75 - 1.4 * x1 + 0.9 * E[X_2 | x_1] = 
+#75 - 1.4 * x1 + 0.9 * E[X_2]
 
-ggplot(melt(cholesterol_example_data, id.vars = c("exercise", "cholesterol"), measure.vars = "age_binned", value.name = "age_bracket")) +
-  aes(x = exercise, y = cholesterol, color = age_bracket) +
+
+#how did this happen? Let's color by age
+cholesterol_example_data[, age_range_bin := cut(age, seq(0, max_age, by = 10))]
+
+ggplot(melt(cholesterol_example_data, id.vars = c("exercise", "cholesterol"), measure.vars = "age_range_bin", value.name = "age_range_bin")) +
+  aes(x = exercise, y = cholesterol, color = age_range_bin) +
   geom_point() + 
   geom_smooth(method = "lm")  
 

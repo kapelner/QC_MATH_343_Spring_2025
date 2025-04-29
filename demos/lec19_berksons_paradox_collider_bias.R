@@ -4,15 +4,16 @@ pacman::p_load(tidyverse, gmodels)
 rm(list = ls())
 set.seed(1)
 n = 2000
-x = rbinom(n, 1, 0.15)
-y1 = rbinom(n, 1, 0.17)
-y2 = rbinom(n, 1, 1 / (1 + exp(-(-3.1 + 6.2 * x * y1))))
-
+disease1 = rbinom(n, 1, 0.15)
+disease2 = rbinom(n, 1, 0.17)
+#note: disease1 and disease2 are completely independent
+hospitalization = rbinom(n, 1, 1 / (1 + exp(-(-3.1 + 6.2 * disease1 * disease2))))
+#hospitalization is the "collider" --- it's a function of both disease1 and disease2
 
 disease_example_data = data.table(
-  disease1 = x,
-  disease2 = y1,
-  hospitalization = y2
+  disease1 = disease1,
+  disease2 = disease2,
+  hospitalization = hospitalization
 )
 disease_example_data
 
@@ -40,6 +41,8 @@ summary(glm(disease2 ~ disease1, disease_example_data[hospitalization == 1], fam
 #b_1 > 0 and significantly different from zero
 #and real beta_1 in the structural model is zero => *big* bias in its estimation
 
+#now don't have any selection bias - look at the total population (hospitalized and unhospitalized)
+summary(glm(disease2 ~ disease1, disease_example_data, family = "binomial"))
 #conclusion: selection bias matters --- make sure your dataset is sampled
 #using a simple random sample from the population (lecture 1 in 341!!!)
 
