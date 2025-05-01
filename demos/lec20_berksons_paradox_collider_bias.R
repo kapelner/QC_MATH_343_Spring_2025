@@ -1,5 +1,6 @@
 pacman::p_load(tidyverse, gmodels)
 
+#Picture E
 #let's take a look at "Berkson's Paradox" using y is binary
 rm(list = ls())
 set.seed(1)
@@ -50,6 +51,7 @@ summary(glm(disease2 ~ disease1, disease_example_data, family = "binomial"))
 #which yields bias
 
 #picture F
+rm(list = ls())
 n = 100
 set.seed(1)
 x1 = runif(n)
@@ -64,6 +66,7 @@ summary(lm(y ~ x1 + x2))
 #as the effect of x1 on y is fully blocked
 
 #picture G
+rm(list = ls())
 n = 100
 set.seed(1)
 x1 = runif(n)
@@ -76,6 +79,3 @@ summary(lm(y ~ x1))
 summary(lm(y ~ x1 + x2))
 #b1 is approximately 3.5 => biased (incorrect) 
 #as the effect of x1 on y through x2 is blocked
-
-#conclusion: don't just regress on everything all the time! You may wind up
-#killing the effect you're looking for!
