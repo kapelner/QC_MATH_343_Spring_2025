@@ -226,7 +226,7 @@ What seemed to be the common cause of both a high z_dim_size and a high price?
 
 # Problem 3: Simpson's Paradox
 
-We will look at a very famous dataset: the Berkeley graduate school PhD admission dataset of 1973, a dataset every student of Statistics should know about:
+We will look at a very famous dataset: the Berkeley graduate school PhD admission dataset of 1973, a dataset every student of Statistics should know about. They published a paper in Science about this. You should read the abstract [here](https://www.science.org/doi/abs/10.1126/science.187.4175.398).
 
 ```{r}
 rm(list = ls())
