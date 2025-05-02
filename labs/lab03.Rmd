@@ -279,9 +279,9 @@ What is the more likely story in 1973 at Berkeley (other than them being sexist)
 
 #TO-DO
 
-# Problem 4: Berkson's paradox
+# Problem 4: Collider Bias
 
-Consider the adult data from the 342 class. This data was demoed as a difficult classification problem. According to Figure 5 of [this paper](https://www.arxiv.org/pdf/2010.03933v1), they estimated a causal DAG for the adult dataset using the "PC" algorithm (see https://www.jstatsoft.org/article/view/v047i11 if you're interested). Their DAG features potential collider bias (Berkson's paradox). We will investigate three variables here, `income` (the outcome that conditions the dataset) and the two covariates `relationship` (which we simplify to a variable called `is_married`) and `hours_per_week`:
+Consider the adult data from the 342 class. This data was demoed as a difficult classification problem. According to Figure 5 of [this paper](https://www.arxiv.org/pdf/2010.03933v1), they estimated a causal DAG for the adult dataset using the "PC" algorithm (see https://www.jstatsoft.org/article/view/v047i11 if you're interested). Their DAG features potential collider bias. We will investigate three variables here, `income` (the outcome that conditions the dataset) and the two covariates `relationship` (which we simplify to a variable called `is_married`) and `hours_per_week`:
 
 ```{r}
 rm(list = ls())
@@ -307,11 +307,11 @@ Demonstrate that there is a strong negative correlation between y = hours_per_we
 #TO-DO
 ```
 
-What is the name of the paradox that embodies the discrepancy between these two results above?
+What is the name of the bias that embodies the discrepancy between these two results above?
 
-#TO-DO
+Collider bias. Berkson's paradox is a specific type of collider bias which requires hours_per_week and is_married to be independent.
 
-Make up a story as to why this paradox occurs. It is pure speculation!
+Make up a story as to why this bias paradox occurs. It is pure speculation!
 
 #TO-DO
 
