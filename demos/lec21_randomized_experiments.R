@@ -1,8 +1,7 @@
 pacman::p_load(tidyverse)
 
 #we will look at a real RCT with the data anonymized
-D = read_csv("clinical_data_cleaned.csv")
-D = D %>%
+D = read_csv("clinical_data_cleaned.csv") %>%
   mutate(x1_fac = as.factor(x1_fac)) %>%
   mutate(x2_fac = as.factor(x2_fac)) %>%
   mutate(x3_fac = as.factor(x3_fac)) %>%
@@ -48,6 +47,10 @@ ggplot(data.frame(bTs = bTs)) +
   geom_vline(xintercept = ret_region[1], col = "green") + 
   geom_vline(xintercept = ret_region[2], col = "green")
 #conclusion? what error type could this be?
+
+#calculate p val
+prob_less_than_bt = sum(bTs < coef(mod)[2]) / Nsim
+min(c(prob_less_than_bt, 1 - prob_less_than_bt))
 
 #now let's consider the baseline covariates, p = 13
 #let's first see if there is any difference
