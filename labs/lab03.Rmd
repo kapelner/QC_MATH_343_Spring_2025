@@ -442,29 +442,3 @@ Report the p-value for Fisher's randomization test for the strong null, i.e., H_
 ```{r}
 #TO-DO
 ```
-
-# Problem 7: Cox Proportional Hazard Models
-
-We fit a coxPH model on the lung cancer data via the code below:
-
-```{r}
-rm(list = ls())
-lung = na.omit(survival::lung)
-lung$status = lung$status - 1 #needs to be 0=alive, 1=dead (see Note in documentation!)
-surv_obj = Surv(lung$time, lung$status)
-full_mod = coxph(surv_obj ~ . - time - status, lung)
-summary(full_mod)
-```
-
-Interpret the exponential coefficient for the wt.loss variable.
-
-#TO-DO
-
-Do the three variables age, pat.karno and meal.cal jointly matter for the hazards rate? Test at alpha = 5%.
-
-```{r}
-#TO-DO
-```
-
-
-

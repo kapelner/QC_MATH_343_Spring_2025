@@ -287,48 +287,48 @@ Assume now that Let $\Y = \beta_0 \onevec_n + \beta_T \w + \beta_1 \x_{\cdot 1} 
 \end{enumerate}
 
 
-\problem{This question is about hazard rates and Cox proportion hazard models. This will only be required if we have the two lectures on these models.}
-
-
-\begin{enumerate}
-
-\easysubproblem{What is the definition of the hazard rate $h(t)$?}\spc{0}
-
-\easysubproblem{If $X \sim \stduniform$, derive the hazard rate $h(t)$.}\spc{2}
-
-\easysubproblem{Give an example of a real-world phenomenon $T$ whose $h(t)$ is a bathtub shape.}\spc{1}
-
-\easysubproblem{Prove that $S(t) = e^{-\displaystyle\int_0^t h(u) du}$.}\spc{6}
-
-\hardsubproblem{Explain why the assumption that $h(t) = h_0(t)e^{\beta_1 x_1 + \beta_2 x_2 + \ldots + \beta_p x_p}$ is called the \qu{proportional hazard model}.}\spc{4}
-
-\easysubproblem{Under the proportional hazard model, find the likelihood $\mathcal{L}(\bbeta, h_0; \X, \y)$.}\spc{4}
-
-\easysubproblem{Now let $h_i := h_0(y_i)$ and $H_i := \int_0^{y_i} h_0(u)du$. Find $\mathcal{L}(\bbeta, h_1, \ldots, h_n, H_1, \ldots, H_n; \X, \y)$.}\spc{4}
-
-
-\easysubproblem{Now assume (1) all $y_i$'s are uniquely-valued and (2) $H_i \approx h_1 + \ldots + h_i$ and find $\doublehat{h}_i^{MLE}$.}\spc{4}
-
-\easysubproblem{[MA] Find $\doublehat{\bbeta}^{MLE}$.}\spc{7}
-
-\intermediatesubproblem{We now run the following Cox proportional hazard model on the \texttt{lung} dataset where $y$ is survival of the patient.}
-
-\vspace{-0.2cm}
-\begin{verbatim}
-> mod = coxph(surv_obj ~ inst + sex + ph.ecog + ph.karno + wt.loss, lung)
-> summary(mod)
-
-              coef exp(coef)  se(coef)      z Pr(>|z|)    
-inst     -0.030042  0.970404  0.012931 -2.323  0.02016 *  
-sex      -0.571959  0.564419  0.198865 -2.876  0.00403 ** 
-ph.ecog   0.993224  2.699926  0.232115  4.279 1.88e-05 ***
-ph.karno  0.021492  1.021725  0.011222  1.915  0.05547 .  
-wt.loss  -0.014800  0.985309  0.007664 -1.931  0.05348 .  
-\end{verbatim}
-
-What is the interpretation of the $b$ for \texttt{wt.loss} (the unit of this feature is lbs)?\spc{3}
-
-\end{enumerate}
+%\problem{This question is about hazard rates and Cox proportion hazard models. This will only be required if we have the two lectures on these models.}
+%
+%
+%\begin{enumerate}
+%
+%\easysubproblem{What is the definition of the hazard rate $h(t)$?}\spc{0}
+%
+%\easysubproblem{If $X \sim \stduniform$, derive the hazard rate $h(t)$.}\spc{2}
+%
+%\easysubproblem{Give an example of a real-world phenomenon $T$ whose $h(t)$ is a bathtub shape.}\spc{1}
+%
+%\easysubproblem{Prove that $S(t) = e^{-\displaystyle\int_0^t h(u) du}$.}\spc{6}
+%
+%\hardsubproblem{Explain why the assumption that $h(t) = h_0(t)e^{\beta_1 x_1 + \beta_2 x_2 + \ldots + \beta_p x_p}$ is called the \qu{proportional hazard model}.}\spc{4}
+%
+%\easysubproblem{Under the proportional hazard model, find the likelihood $\mathcal{L}(\bbeta, h_0; \X, \y)$.}\spc{4}
+%
+%\easysubproblem{Now let $h_i := h_0(y_i)$ and $H_i := \int_0^{y_i} h_0(u)du$. Find $\mathcal{L}(\bbeta, h_1, \ldots, h_n, H_1, \ldots, H_n; \X, \y)$.}\spc{4}
+%
+%
+%\easysubproblem{Now assume (1) all $y_i$'s are uniquely-valued and (2) $H_i \approx h_1 + \ldots + h_i$ and find $\doublehat{h}_i^{MLE}$.}\spc{4}
+%
+%\easysubproblem{[MA] Find $\doublehat{\bbeta}^{MLE}$.}\spc{7}
+%
+%\intermediatesubproblem{We now run the following Cox proportional hazard model on the \texttt{lung} dataset where $y$ is survival of the patient.}
+%
+%\vspace{-0.2cm}
+%\begin{verbatim}
+%> mod = coxph(surv_obj ~ inst + sex + ph.ecog + ph.karno + wt.loss, lung)
+%> summary(mod)
+%
+%              coef exp(coef)  se(coef)      z Pr(>|z|)    
+%inst     -0.030042  0.970404  0.012931 -2.323  0.02016 *  
+%sex      -0.571959  0.564419  0.198865 -2.876  0.00403 ** 
+%ph.ecog   0.993224  2.699926  0.232115  4.279 1.88e-05 ***
+%ph.karno  0.021492  1.021725  0.011222  1.915  0.05547 .  
+%wt.loss  -0.014800  0.985309  0.007664 -1.931  0.05348 .  
+%\end{verbatim}
+%
+%What is the interpretation of the $b$ for \texttt{wt.loss} (the unit of this feature is lbs)?\spc{3}
+%
+%\end{enumerate}
 
 \end{document}
 
