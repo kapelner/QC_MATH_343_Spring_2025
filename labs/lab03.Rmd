@@ -2,7 +2,7 @@
 title: "Practice Assignment 3 MATH 343"
 author: "Your Name Here"
 output: pdf_document
-date: "11:59PM May 18"
+date: "noon May 19"
 ---
 
 ## Problem 1: Bayesian Inference for Negative Binomial Regression using Hamiltonian MCMC with the no U-Turn Sampler via Stan
@@ -328,7 +328,7 @@ lung$time = NULL
 lung$status = NULL
 lung$inst = NULL
 lung_male = lung[lung$sex == 1, ]
-lung_female = lung[lung$sex == 1, ]
+lung_female = lung[lung$sex == 2, ]
 n = 160
 X = as.matrix(rbind(lung_male[1 : (n / 2), ], lung_female[1 : (n / 2), ]))
 rownames(X) = NULL

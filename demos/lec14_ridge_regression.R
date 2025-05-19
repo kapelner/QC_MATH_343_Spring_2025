@@ -6,7 +6,7 @@
 #Let's take a look at the boston housing data and add many useless features.
 #We are not limited to n - (p + 1) anymore
 
-p_extra = 1 #1000
+p_extra = 100 #1000
 
 set.seed(1)
 y = MASS::Boston$medv
@@ -20,10 +20,15 @@ X = apply(X, 2, function(x_dot_j){(x_dot_j - mean(x_dot_j)) / sd(x_dot_j)})
 X[, 1] = 1 #reset the intercept
 sum(colMeans(X)^2)
 
-#now if we try to model it, p + 1 > n so OLS will not work. Let's try ridge
+
+
+#now if we try to model it, p + 1 > n so OLS will not work. 
+b_ols = solve(t(X) %*% X) %*% t(X) %*% y
+
+#Let's try ridge
 #Let's see the ridge estimate for a default value of lambda:
 
-lambda = 1
+lambda = 0.1
 b_ridge = solve(t(X) %*% X + lambda * diag(ncol(X))) %*% t(X) %*% y
 head(b_ridge, 30)
 # Clearly this works as an algorithm where OLS wouldn't. 
