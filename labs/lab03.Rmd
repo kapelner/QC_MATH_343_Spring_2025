@@ -428,7 +428,7 @@ pacman::p_load(data.table, R.utils)
 racism_sexism_agism_experimental_data = fread("racism_sexism_agism_experimental_data.csv.bz2")
 ```
 
-This experiment had many different arms: race, sex, age. For the purposes of this assignment, we will be looking just at the race arm, w = `tx_author_race` which we will binarize and the response will be y = `survey_willingness_to_pay` which we will convert into numeric.
+This experiment had many different arms: race, sex, age. For the purposes of this assignment, we will be looking just at the race arm, w = `tx_author_race` which we will binarize and the response will be y = `survey_willingness_to_pay` which we will convert into numeric. The original design was the CRD as the experiment was "sequential". You have experience with the CRD in the previous problem.
 
 ```{r}
 wy = racism_sexism_agism_experimental_data[, .(w = tx_author_race, y = survey_willingness_to_pay)]
@@ -437,7 +437,7 @@ wy[, y := as.numeric(sub("\\$", "", y))]
 head(wy)
 ```
 
-Report the p-value for Fisher's randomization test for the strong null, i.e., H_0: y_i[w=0] = y_i[w=1] for all i.
+Report the p-value for Fisher's randomization test for the strong null, i.e., H_0: y_i[w=0] = y_i[w=1] for all i. 
 
 ```{r}
 #TO-DO
