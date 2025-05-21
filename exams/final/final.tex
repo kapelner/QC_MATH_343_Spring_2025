@@ -433,8 +433,9 @@ As long as there are four zeroes and four ones in both columns, it will be corre
     \end{tabular}
 \end{table}
 
+\vspace{-0.3cm}
 \subquestionwithpoints{6} blocking with $B=2$  \iftoggle{solutions}{\inred{
-We have a continuous covariate so we sort it to obtain the smallest four values $-1.80, -0.74,  0.03,  0.15$, and the highest four values $0.19,  0.48,  1.47,  2.17$. The first block will be the subjects corresponding to the smallest four values and the second block to be the subjects corresponding to the highest four values. As long as there are two zeroes and two ones in each block, it is correct.
+We have a continuous covariate so we sort it to obtain block \#1 of the smallest four values $-1.80, -0.74,  0.03,  0.15$, and block \#2 of the highest four values $0.19,  0.48,  1.47,  2.17$. The first block will be the subjects corresponding to the smallest four values and the second block to be the subjects corresponding to the highest four values. It is correct if there are two zeroes and two ones in each block.
 }}
 
 \begin{table}[h]
@@ -495,7 +496,7 @@ glu          0.032117   0.006787   4.732 2.22e-06 ***
 bp          -0.004768   0.018541  -0.257  0.79707    
 \end{Verbatim}
 
-Assume the data was collected using a simple random sample of subjects and that the \texttt{type} being equal to \qu{Yes} means the subject has diabetes otherwise not. Provide an interpretation of the estimated coefficient of \texttt{glu} which is measured in mg/dL.
+Assume the data was collected using a simple random sample of subjects and that the \texttt{type} being equal to \qu{\texttt{Yes}} means the subject has diabetes otherwise not. Provide an interpretation of the estimated coefficient of \texttt{glu} which is measured in mg/dL.
 
 \iftoggle{solutions}{\inred{
 When comparing two subjects (A) and (B) which are sampled in the same fashion as the other subjects in this dataset where (A) has a \texttt{glu} measurement 1mg/dL larger than (B)'s \texttt{glu} measurement but share the same other observed measurements otherwise, then (A) is predicted to have an estimated log odds probability of diabetes 0.032 $\pm$ 0.007 higher than (B)'s log odds probability of diabetes assuming the log odds probability of diabetes is linear in the measurements considered herein.
@@ -530,7 +531,7 @@ Assume the data was collected using a simple random sample of subjects, and the 
 
 
 \iftoggle{solutions}{\inred{
-If \texttt{ph.ecog} is increased by one score unit and all other measurements remain constant, the [log survival of the subject in days will resultingly decrease by an estimated 0.626 $\pm$ 0.158] assuming subject survival is Weibull-distributed with log mean linear in the measurements considered herein. \\
+If \texttt{ph.ecog} is increased by one score unit and all other measurements remain constant, the [log survival of the subject in days will resultingly decrease by an estimated 0.626 $\pm$ 0.158] assuming subject survival-in-days is Weibull-distributed with log mean linear in the measurements considered herein. \\
 
 You can alternatively replace the above bracketed text with \qu{the survival of the subject in days will resultingly decrease by 46.5\%} where that value is calculated as $1-e^{-0.626}$.
 }}{~\spc{3}}
