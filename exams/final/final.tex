@@ -3,7 +3,7 @@
 \include{preamble}
 
 \newtoggle{solutions}
-%\toggletrue{solutions}
+\toggletrue{solutions}
 
 \newcommand{\instr}{\small Your answer will consist of a lowercase string (e.g. \texttt{aebgd}) where the order of the letters does not matter. \normalsize}
 
@@ -123,10 +123,10 @@ f(\theta_3\,|\,\bbeta, \theta_2, \X, \y) \propto \theta_3^{n_0} (1 - \theta_3)^{
 \eeqn
 }}{~\spc{3}}
 
-\subquestionwithpoints{2} All the conditional distributions for $\theta_2, \beta_0, \ldots, \beta_p$ (given everything else) are not proportional to anyone known distribution. What are the names of the two methods we studied in class to allow for computational Bayesian inference in this scenario?
+\subquestionwithpoints{2} All the conditional distributions for $\theta_2, \beta_0, \ldots, \beta_p$ (given everything else) are not proportional to anyone known distribution. What are the names of the two methods we studied in class to allow for efficient, practical computational Bayesian inference in this scenario?
 
 \iftoggle{solutions}{\inred{
-Metropolis-Hastings sampling, [No U-Turn Sampling within] Hamiltonian MCMC 
+Metropolis-Hastings sampling, [No U-Turn Sampling within] Hamiltonian MCMC
 }}{~\spc{1}}
 
 \pagebreak
@@ -495,7 +495,7 @@ glu          0.032117   0.006787   4.732 2.22e-06 ***
 bp          -0.004768   0.018541  -0.257  0.79707    
 \end{Verbatim}
 
-Assuming the data was collected using a simple random sample of subjects, provide an interpretation of the estimated coefficient of \texttt{glu} which is measured in mg/dL.
+Assume the data was collected using a simple random sample of subjects and that the \texttt{type} being equal to \qu{Yes} means the subject has diabetes otherwise not. Provide an interpretation of the estimated coefficient of \texttt{glu} which is measured in mg/dL.
 
 \iftoggle{solutions}{\inred{
 When comparing two subjects (A) and (B) which are sampled in the same fashion as the other subjects in this dataset where (A) has a \texttt{glu} measurement 1mg/dL larger than (B)'s \texttt{glu} measurement but share the same other observed measurements otherwise, then (A) is predicted to have an estimated log odds probability of diabetes 0.032 $\pm$ 0.007 higher than (B)'s log odds probability of diabetes assuming the log odds probability of diabetes is linear in the measurements considered herein.
@@ -526,13 +526,13 @@ Log(scale)  -3.76e-01   7.28e-02 -5.17 2.3e-07
 Scale= 0.686 
 \end{Verbatim}
 
-Assuming the variable \texttt{ph.ecog} (which is measured in \qu{score units}) was experimentally manipulated in the subjects, provide an interpretation of its estimated coefficient.
+Assume the data was collected using a simple random sample of subjects, and the variable \texttt{ph.ecog} (which is measured in \qu{score units}) was experimentally manipulated in the subjects while all other variables were observed naturally. The variable \texttt{time} is measured in units of days. Provide an interpretation of the estimated coefficient of \texttt{ph.ecog}.
 
 
 \iftoggle{solutions}{\inred{
-If \texttt{ph.ecog} is increased by one score unit and all other measurements remain constant, the [log survival of the subject will resultingly decrease by an estimated 0.626 $\pm$ 0.158] assuming subject survival is Weibull-distributed with log mean linear in the measurements considered herein. \\
+If \texttt{ph.ecog} is increased by one score unit and all other measurements remain constant, the [log survival of the subject in days will resultingly decrease by an estimated 0.626 $\pm$ 0.158] assuming subject survival is Weibull-distributed with log mean linear in the measurements considered herein. \\
 
-You can alternatively replace the above bracketed text with \qu{the survival of the subject will resultingly decrease by 46.5\%} where that value is calculated as $1-e^{-0.626}$.
+You can alternatively replace the above bracketed text with \qu{the survival of the subject in days will resultingly decrease by 46.5\%} where that value is calculated as $1-e^{-0.626}$.
 }}{~\spc{3}}
 \pagebreak
 

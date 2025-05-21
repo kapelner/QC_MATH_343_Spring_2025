@@ -53,6 +53,7 @@ rm(list = ls())
 pacman::p_load(glmnet)
 
 p_extra = 350 #1000
+lambda_ridge = 1
 lambda_lasso = 1
 
 set.seed(1)
@@ -88,8 +89,8 @@ y_train = y[train_indices]
 # And we'll fit both models:
 
 b_ols = solve(t(X_train) %*% X_train) %*% t(X_train) %*% y_train
-b_ridge = solve(t(X_train) %*% X_train + lambda * diag(ncol(X_train))) %*% t(X_train) %*% y_train
-b_lasso = glmnet(X_train, y_train, lambda = lambda, alpha = 1)$beta
+b_ridge = solve(t(X_train) %*% X_train + lambda_ridge * diag(ncol(X_train))) %*% t(X_train) %*% y_train
+b_lasso = glmnet(X_train, y_train, lambda = lambda_lasso, alpha = 1)$beta
 num_coefficients_to_display = min(ncol(X), 30)
 data.frame(
   b_ols = head(b_ols, num_coefficients_to_display),

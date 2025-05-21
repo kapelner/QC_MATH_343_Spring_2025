@@ -111,8 +111,7 @@ anova(full_mod, red_mod)
 
 
 ##Negative Binomial regression
-pacman::p_load(MASS)
-full_mod = glm.nb(total ~ ., philippines_housing)
+full_mod = MASS::glm.nb(total ~ ., philippines_housing)
 summary(full_mod)
 #looks about the same as the Poisson regression in terms of variables' significances
 #what is theta +- std err?
